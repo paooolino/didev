@@ -1,0 +1,1475 @@
+//colors
+$color_main_bg: #f0f3f4
+$color_white_dirty: #fafafa
+$silver_light: #ededed
+$color_silver_less_light: #e1e1e1
+$color_silver_dark: #4f4f4f
+$color_silver_darker: #404040
+$color_silver_medium: #b4b4b4
+
+
+
+$color_yellow_sea_approx: #ffaf00
+$color_lightning_yellow_approx: #ffc320
+$white: #fff
+$color_mine_shaft_approx: #303030
+$color_storm_dust_approx: #666
+
+$color_silver_approx: #bcbcbc
+$color_shark_approx: #262626
+$color_chicago_approx: #5e5e5e
+$color_dove_gray_approx: #6f6f6f
+$color_nugget_approx: #c8972a
+
+$black_10: rgba(0, 0, 0, 0.1)
+
+$color_azure_approx: #3955a1
+$color_dodger_blue_approx: #10aaf2
+$color_tia_maria_approx: #d03916
+
+$black: #000
+
+//fonts
+$font_open: "Open Sans", sans-serif
+$font_4: "open sans"
+$font_georgia: "Georgia"
+
+//image-url
+//urls
+$image_url_nav_top: "../images/front/bg-nav-top.png"
+$image_url_nav_top_active: "../images/front/bg-nav-main-active.png"
+$image_white: "../images/front/bg-white.png"
+$image_black: "../images/front/bg-black.png"
+$image_gradient: "../images/front/gradient.jpg"
+$image_location_showcase: "../images/front/bg-location-showcase.gif"
+$image_infos: "../images/front/bg-infos.jpg"
+
+//@extend-elements
+//original selectors
+//h1, h2, h3, h4, h5, h6
+@mixin extend_1()
+  color: $color_silver_dark
+  font-family: $font_open
+  font-weight: 300
+
+
+//original selectors
+//.bticons a, .bticons p
+@mixin extend_2()
+  display: block
+  color: $color_silver_dark
+  margin: 0
+
+
+//original selectors
+//.list.article.dark .summary, .list.article.yellow .summary
+@mixin extend_3()
+  border-bottom: none
+  color: $white
+  text-align: center
+  padding: 0.5rem 0.9375rem
+  margin-bottom: 0
+
+
+//original selectors
+//blockquote.right, blockquote.left, .adsBanner.right, .adsBanner.right
+@mixin extend_4()
+  margin: 0
+  float: none
+  width: 100%
+  margin-bottom: 0.9375rem
+
+
+//original selectors
+//.box_calendar .calendar-header a, .box_calendar .calendar-header .empty
+@mixin extend_5()
+  display: inline-block
+  width: 10%
+  padding-left: .5em
+
+
+//original selectors
+//.box_calendar table th, .box_calendar table td
+@mixin extend_6()
+  margin: 0
+  padding: .4em .2em
+  text-align: center
+  font-size: .9em
+
+@mixin bradius($value: .5em )
+  -webkit-border-radius: ($value)
+  -moz-border-radius: ($value)
+  border-radius: ($value)
+
+body 
+  background: $color_main_bg
+  color: $color_silver_dark
+  font-family: $font_open
+  font-weight: 300
+
+h1 
+  @include extend_1
+
+h2 
+  @include extend_1
+
+h3 
+  @include extend_1
+
+h4 
+  @include extend_1
+
+h5 
+  @include extend_1
+
+h6 
+  @include extend_1
+
+p 
+  font-size: 0.9rem
+  line-height: 1.4rem
+  font-weight: 300
+  text-align: justify
+
+a 
+  color: $color_yellow_sea_approx
+  &:hover 
+    color: $color_yellow_sea_approx
+
+  &.bt 
+    &:hover 
+      background: $color_lightning_yellow_approx
+      color: $color_mine_shaft_approx
+
+    &.gray:hover 
+      background: $silver_light
+
+    &.white:hover 
+      background: $silver_light
+
+
+
+strong 
+  font-weight: 400
+
+button 
+  background: $color_yellow_sea_approx
+  text-transform: uppercase
+  &:hover 
+    background: $color_lightning_yellow_approx
+
+
+.button 
+  background: $color_yellow_sea_approx
+  text-transform: uppercase
+  &:hover 
+    background: $color_lightning_yellow_approx
+
+
+.has-tip 
+  font-weight: 300 !important
+
+.mainsummary 
+  text-transform: uppercase
+  font-size: 1.6rem
+  color: $color_yellow_sea_approx
+  margin: 0
+  padding: 0
+
+.summary 
+  text-transform: uppercase
+  display: block
+  font-size: 1.1rem
+  margin: 0
+  padding: 0
+
+.subsummary 
+  text-transform: uppercase
+  display: block
+  font-size: 1.4rem
+  font-weight: 400
+  margin: 0
+  padding: 0 0 0.9375rem 0
+
+.minisummary 
+  font-weight: 400
+  display: block
+  font-size: 1rem
+  margin: 0
+  padding: 0
+
+hgroup 
+  margin: 0 0 10px 0
+  padding: 0
+
+blockquote 
+  background: $color_main_bg
+  border-left: 5px solid $color_yellow_sea_approx
+  padding: 0.9375rem 1.4rem
+  text-align: justify
+  &.right 
+    width: 50%
+    margin: 0 0 0 0.9375rem
+
+  &.left 
+    width: 50%
+    margin: 0 0.9375rem 0 0
+
+.cookiesNotice.alert-box
+  padding: 6px 0 4px 0
+  margin: 0
+  .button
+    margin: 0
+
+.adsBanner 
+  margin-bottom: 0.9375rem
+  text-align: center
+  &.right 
+    margin: 0 0 0 0.9375rem
+
+  &.left 
+    margin: 0 0.9375rem 0 0
+
+
+.boxed 
+  background: $white
+  border-bottom: 2px solid $color_silver_less_light
+  padding: 0.4rem 0.9375rem
+  margin: 0
+
+.rounded 
+  //vendor-prefix found
+  //-webkit-border-radius: 3px
+  //vendor-prefix found
+  //-moz-border-radius: 3px
+  //If you use compass, instead of the line below you could use +border-radius($radius, $vertical-radius)
+  border-radius: 3px
+
+.bigrounded 
+  //vendor-prefix found
+  //-webkit-border-radius: 300px
+  //vendor-prefix found
+  //-moz-border-radius: 300px
+  //If you use compass, instead of the line below you could use +border-radius($radius, $vertical-radius)
+  border-radius: 300px
+
+.spaceB 
+  margin-bottom: 0.9375rem !important
+
+.spaceT 
+  margin-top: 0.9375rem !important
+
+.bt 
+  text-transform: uppercase
+  background: $color_yellow_sea_approx
+  color: $color_mine_shaft_approx
+  display: inline-block
+  margin: 1px 2px 1px 0
+  padding: 5px 15px
+  &.gray 
+    background: $color_silver_less_light
+
+  &.white 
+    background: $white
+
+
+.color 
+  color: $color_yellow_sea_approx
+
+.cnt 
+  text-align: center
+
+.aright 
+  float: right
+  margin: 0 0 0.5rem 0.9375rem
+
+.aleft 
+  float: left
+  margin: 0 0.9375rem 0.5rem 0
+
+.show 
+  display: block
+
+.hide 
+  display: none
+
+.row 
+  max-width: none
+
+#logo 
+  margin-left: 10px
+  float: left
+
+.menu-icon 
+  background: $color_yellow_sea_approx
+
+.adv 
+  text-align: center
+  img 
+    margin-bottom: 15px
+
+
+.advlist 
+  padding: 0.9375rem 0.9375rem 0 0.9375rem
+  img 
+    margin: 0
+
+
+#sidebar 
+  position: absolute
+  width: 235px
+  background: $color_silver_darker
+
+#main 
+  background: $color_main_bg
+  color: $color_storm_dust_approx
+
+#header 
+  background: $color_white_dirty
+  border-bottom: 1px solid $color_main_bg
+  padding: 44px 0 10px 0
+  .navTop 
+    background: url($image_url_nav_top) no-repeat bottom left
+    color: $color_silver_approx
+    padding-left: 73px !important
+    position: absolute
+    top: 0
+    right: 0
+    li 
+      text-transform: uppercase
+      font-size: 0.8em
+      border-right: 1px solid $color_silver_darker
+      margin: 0
+      a 
+        color: $color_silver_approx
+        padding: 3px 10px
+        &:hover 
+          color: $white
+
+
+
+
+
+.content 
+  padding-top: 0.9375rem
+
+.select-tenant 
+  padding-bottom: .5em
+  .button-tenant 
+    background: transparent
+    padding: 0
+    display: block
+    width: 100%
+    overflow: hidden
+    font-size: .8em
+
+  .choice 
+    display: block
+    padding: .3em .5em
+    background-color: $color_silver_dark
+    color: $white
+
+  .actual 
+    display: block
+    padding: .3em .5em
+    background: $color_yellow_sea_approx
+
+  .choiceTenants 
+    border-color: $color_silver_dark
+    &.f-dropdown::before 
+      border-color: transparent transparent $color_mine_shaft_approx transparent
+
+    li a 
+      background: $color_mine_shaft_approx
+
+
+
+.mainMenu 
+  text-transform: uppercase
+  margin-bottom: 0.9375rem
+  ul 
+    margin: 0
+    padding: 0
+    list-style: none
+    li 
+      border-bottom: 1px solid $color_silver_dark
+      margin: 0
+      padding: 0
+      list-style: none
+      font-size: 0.9rem
+      a 
+        color: $color_silver_approx
+        display: block
+        padding: 5px 5px 5px 15px
+        i 
+          min-width: 20px
+
+        &:hover 
+          background: $color_mine_shaft_approx
+
+
+      &.active 
+        a 
+          background: $color_yellow_sea_approx url($image_url_nav_top_active) no-repeat right center
+          color: $color_mine_shaft_approx
+
+        li 
+          a 
+            color: $color_silver_approx
+            background: $color_silver_darker
+            &:hover 
+              background: $color_mine_shaft_approx
+
+
+          &.active a 
+            background: $color_mine_shaft_approx
+            color: $white
+
+
+
+      li 
+        border: none
+        line-height: 1.2rem
+        a 
+          text-transform: none
+          font-size: 0.8rem
+          padding: 5px 5px 5px 40px
+
+
+      &.dropdown a span 
+        position: absolute
+        right: 10px
+
+
+
+
+.bticons 
+  background: $white
+  padding: 0.4rem 0.6rem
+  border-bottom: 2px solid $color_silver_less_light
+  position: relative
+  text-transform: uppercase
+  a 
+    @include extend_2
+    &:hover 
+      color: $color_yellow_sea_approx
+
+
+  p 
+    @include extend_2
+
+  span 
+    display: block
+    position: absolute
+    background: $color_yellow_sea_approx
+    color: $color_shark_approx
+    right: 20px
+    top: 5px
+    font-size: 0.6rem
+    padding: 1px 3px
+    min-width: 16px
+    line-height: 1rem
+    text-align: center
+
+  &.icalendar i 
+    position: absolute
+    right: 10px
+    top: 10px
+    color: $color_silver_medium
+
+
+.mainbanner 
+  .caption
+    position: absolute
+    bottom: 0.9375rem
+    left: 0.9375rem
+    margin-right: 0.9375rem
+    a 
+      text-transform: uppercase
+      background: url($image_white) repeat 0 0
+      display: inline-block
+      padding: 0.4rem 0.9375rem
+      color: $color_silver_dark
+      &:hover 
+        color: $color_yellow_sea_approx
+    p 
+      background: url($image_black) repeat 0 0
+      color: $white
+      display: inline-block
+      margin: 0
+      padding: 0.4rem 0.9375rem
+  &.slick-slider 
+    margin-bottom: 0.9375rem !important
+  .slick-prev 
+    left: 10px
+  .slick-next 
+    right: 10px
+
+
+.pgallery 
+  overflow: hidden
+  clear: both
+  a 
+    display: block
+    float: left
+    margin: 5px
+
+
+.component 
+  background: $white
+  margin-top: 0.9375rem
+  border-bottom: 2px solid $color_silver_less_light
+  .desc 
+    padding: 0.3rem 0.9375rem 0.9375rem 0.9375rem
+    text-align: center
+    .info 
+      display: block
+      color: $color_silver_medium
+      font-size: 0.86rem
+      a 
+        display: inline
+        text-transform: none
+        line-height: normal
+
+
+    a 
+      display: block
+      font-size: 0.95rem
+      line-height: 1.3rem
+      text-transform: uppercase
+      i 
+        float: right
+        padding-left: 5px
+
+      &:hover 
+        color: $color_yellow_sea_approx
+
+
+
+  .row 
+    img 
+      float: left
+
+    .desc 
+      text-align: left
+      padding: 0.4rem 0.9375rem
+
+
+
+.pShowroomEve 
+  .dt-start 
+    display: none
+
+  .dt-end 
+    display: none
+
+  .p-location 
+    display: none
+
+
+.event_preview 
+  .dt-start 
+    display: none
+
+  .dt-end 
+    display: none
+
+
+.abstract 
+  margin: 0 0 0.9375rem 0 !important
+  .desc 
+    padding: 0 0.9375rem
+    span 
+      display: block
+      color: $color_silver_medium
+      font-size: 0.86rem
+
+    a 
+      display: block
+      font-size: 0.95rem
+      line-height: 1.3rem
+      text-transform: uppercase
+
+    p 
+      font-size: 0.85rem !important
+      margin: 0 !important
+      line-height: 1.3rem !important
+
+
+
+.breadcrumbs 
+  background: $color_white_dirty
+  border: none
+  padding: 0.5rem
+  margin-top: 0.5rem
+  i 
+    margin-right: 5px
+    color: $color_silver_medium
+
+  > 
+    * a 
+      color: $color_storm_dust_approx
+      line-height: 1.5rem
+      &:hover 
+        color: $color_yellow_sea_approx
+        text-decoration: none
+
+
+    .current a 
+      color: $color_storm_dust_approx
+
+
+
+#headevent 
+  .summary 
+    margin-top: 3px
+    span 
+      text-transform: none
+      color: $color_silver_medium
+
+
+  .mainsummary 
+    color: $color_mine_shaft_approx
+    margin-top: -3px
+
+  .address 
+    margin-top: -3px
+    display: block
+
+
+.formSearch 
+  margin-top: 0.9375rem !important
+  input 
+    font-family: $font_4
+    font-weight: 300
+    font-size: 0.8rem
+    background: $color_silver_darker
+    color: $white
+    border: 1px solid $color_chicago_approx
+    border-right: none
+    //vendor-prefix found
+    //-webkit-border-radius: 300px 0 0 300px
+    //vendor-prefix found
+    //-moz-border-radius: 300px 0 0 300px
+    //If you use compass, instead of the line below you could use +border-radius($radius, $vertical-radius)
+    border-radius: 300px 0 0 300px
+    &:focus 
+      background: $color_silver_darker !important
+      color: $white !important
+
+
+  button 
+    background: $color_silver_darker
+    color: $white
+    border: 1px solid $color_chicago_approx !important
+    //vendor-prefix found
+    //-webkit-border-radius: 0 300px 300px 0
+    //vendor-prefix found
+    //-moz-border-radius: 0 300px 300px 0
+    //If you use compass, instead of the line below you could use +border-radius($radius, $vertical-radius)
+    border-radius: 0 300px 300px 0
+    &:hover 
+      color: $color_yellow_sea_approx !important
+      background: $color_silver_darker !important
+
+
+
+footer 
+  background: $color_mine_shaft_approx
+  color: $color_silver_medium
+  padding: 0.9375rem
+  h3 
+    font-size: 1rem
+    color: $white
+
+  p 
+    font-size: 0.76rem
+    margin: 0
+
+
+#masonry 
+  margin-top: 0.95rem
+
+.masonrybox 
+  margin-bottom: 0.95rem
+
+.grid-sizer 
+  width: 25%
+
+.list 
+  background: $white
+  border-bottom: 2px solid $color_silver_less_light
+  .summary 
+    padding: 0.9375rem
+    font-weight: 400
+    text-align: center
+
+  .description 
+    text-align: center
+    padding: 0 0.9375rem
+
+  ul 
+    list-style: none
+    margin: 0
+    padding: 0
+    li 
+      border-top: 1px solid $color_main_bg
+      margin: 0
+      padding: 0
+      a 
+        display: block
+        padding: 0.5rem 0.9375rem
+        font-size: 0.9rem
+        &:hover 
+          background: $color_white_dirty
+
+        span 
+          font-size: 0.8rem
+          color: $color_dove_gray_approx
+
+
+
+
+  &.dark 
+    background: $color_silver_darker
+    color: $color_silver_less_light
+    border-bottom: 2px solid $color_yellow_sea_approx
+    .summary 
+      color: $white
+
+    ul li 
+      border-top: 1px solid $color_silver_dark
+      a 
+        &:hover 
+          background: $color_silver_dark
+
+        span 
+          color: $color_silver_less_light
+
+
+
+
+  &.yellow 
+    background: $color_yellow_sea_approx
+    color: $white
+    border-bottom: 2px solid $color_nugget_approx
+    text-align: center
+    padding-bottom: 0.9375rem
+    .summary 
+      color: $white
+
+    a 
+      color: $white
+
+    i.fa 
+      font-size: 2.6rem
+
+
+  &.article 
+    .summary 
+      position: relative
+      border-bottom: 1px solid $color_main_bg
+      color: $color_silver_darker
+      display: block
+      text-align: left
+      padding: 0.5rem 0.9375rem
+      margin-bottom: 0.5rem
+      span 
+        position: absolute
+        right: 0.9375rem
+        top: 0.5rem
+
+
+    .description 
+      text-align: justify
+      padding: 0.3rem 0.9375rem
+
+    &.dark 
+      .summary 
+        @include extend_3
+
+      .description 
+        text-align: center
+
+
+    &.yellow 
+      .summary 
+        @include extend_3
+
+      .description 
+        text-align: center
+
+      p 
+        text-align: center
+
+
+    a:hover.summary 
+      background: $color_white_dirty
+
+
+  .tagcloud 
+    padding: 0 0 0.9375rem 0
+    text-align: center
+    .tagA 
+      color: $color_silver_less_light
+      font-size: 0.8rem
+
+    .tagB 
+      color: $color_yellow_sea_approx
+      font-size: 1rem
+
+    .tagC 
+      color: $white
+      font-size: 1.35rem
+
+
+
+#filter 
+  margin-bottom: 0.9375rem
+  background: $white
+  .top-bar 
+    background: $white
+    text-transform: uppercase
+    .name p 
+      line-height: 45px
+      font-size: 1rem
+      span 
+        margin-right: 10px
+        color: $white
+        font-weight: 400
+        background: $color_yellow_sea_approx
+        display: inline-block
+        padding: 0 10px
+
+
+    &.expanded .title-area 
+      background: $white
+
+
+  .top-bar-section 
+    ul li 
+      background: $white
+      a 
+        color: $color_silver_dark
+
+      > 
+        a 
+          font-family: $font_open
+          &:hover 
+            color: $color_yellow_sea_approx
+            background: $color_main_bg
+
+
+        span 
+          padding: 8px 15px
+          background: $silver_light
+          display: block
+          line-height: 21px
+          font-size: 0.9rem
+
+
+      li > a 
+        border-bottom: 1px solid $silver_light
+        line-height: auto
+        padding: 5px 15px
+
+
+    li:not(.has-form) a:not(.button) 
+      background: $color_white_dirty
+      text-transform: uppercase
+      font-weight: 300
+
+    .dropdown li a 
+      line-height: normal !important
+
+
+  .paginate_alpha 
+    background: url($image_gradient) repeat-x 0 0
+    margin: 0
+    padding: 0.5rem 0.9rem
+    list-style: none
+    font-size: 0.9rem
+    li 
+      margin: 0
+      padding: 0 3px
+      list-style: none
+      display: inline-block
+      .active
+        padding: 0 5px
+        background: $color_yellow_sea_approx
+        color: $white
+
+
+
+.item 
+  margin-bottom: 0.9375rem !important
+  .desc 
+    padding: 0.9375rem 1.35rem
+    a 
+      display: block
+      font-weight: 400
+
+    span 
+      display: block
+      font-size: 0.9rem
+
+    p 
+      margin: 0
+      padding-top: 0.6rem
+
+
+  &.platinum 
+    background: $color_silver_darker
+    color: $white
+    .desc span 
+      color: $color_silver_approx
+
+
+  &.gold 
+    background: $white
+
+  &.silver 
+    border-bottom: 1px solid $silver_light
+    .thumb img 
+      padding: 1rem
+
+
+  .thumb img 
+    padding: 0.9rem 0 0.9rem 0.9rem
+
+
+#heading 
+  .slick-slider 
+    margin-bottom: 0
+
+  .slideshow 
+    position: relative
+    background: url($image_location_showcase) repeat 0 0
+    height: auto !important
+    height: 140px
+    min-height: 120px
+  #logos
+    position: absolute
+    left: 0.9375rem
+    bottom: 0.9375rem
+    border: 1px solid $white
+    z-index: 1000
+
+
+  .infos 
+    &.vcard 
+      font-size: 0.85rem
+      position: relative
+      background: $color_mine_shaft_approx url($image_infos) repeat-x 0 0
+      color: $white
+
+    #logos 
+      position: absolute
+      left: 0.9375rem
+      bottom: 0.9375rem
+      border: 1px solid $white
+
+    h1 
+      color: $white
+      text-transform: uppercase
+      font-size: 1.8rem
+      padding: 0.65rem 0.9375rem
+      margin: 0
+
+    div 
+      border-top: 1px solid $color_silver_dark
+      padding: 0.65rem 0.9375rem
+
+    .bt 
+      padding: 4px 10px
+
+    .geo 
+      display: none
+
+#social_tab
+  & > div
+    display: inline-block
+    margin-right: 1em
+  & > .google, & > .twitter
+    margin-top: .2em
+  
+
+#wrapper 
+  background: $white
+
+#wrap_content 
+  margin: 0.9375rem
+  font-size: 1rem
+  .innerwrap 
+    background: $color_white_dirty
+
+  p 
+    font-size: 1rem
+    line-height: 1.5rem
+
+  .sheet 
+    padding: 0 1.3rem 0 1.1rem
+    &#desc 
+      padding-top: 1rem
+
+    .toggle 
+      border-bottom: 1px solid $color_silver_less_light
+      font-size: 1.5rem
+      padding: 0 0.3rem 0.35rem 0
+      margin: 0 0 0.5rem 0
+      cursor: pointer
+      color: $color_silver_darker
+      text-transform: uppercase
+      i 
+        float: right
+        font-size: 1rem
+        line-height: 2.3rem
+
+
+
+  #wrapper 
+    //vendor-prefix found
+    //-moz-box-shadow: 1px 0px 0px rgba(0,0,0,0.1)
+    //vendor-prefix found
+    //-webkit-box-shadow: 1px 0px 0px rgba(0,0,0,0.1)
+    //If you use compass, instead of the line below you could use +box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 1px 0 0 $black_10
+
+  form 
+    background: $color_white_dirty
+    border: 1px solid $color_silver_less_light
+    padding: 0.9375rem 0 0 0
+
+  .contentToggle 
+    padding-bottom: 15px
+
+  #boxsubnav #subnav ul 
+    margin: 0
+    padding: 0
+    list-style: none
+    li 
+      margin: 0
+      padding: 0
+      list-style: none
+      a 
+        font-size: 0.9rem
+        text-transform: uppercase
+        padding: 0.4rem 0.7rem
+        color: $color_silver_dark
+        display: block
+        border-bottom: 1px solid $color_silver_less_light
+        i 
+          color: $color_silver_approx
+          min-width: 20px
+
+        &.active 
+          background: $white
+          i 
+            color: $color_silver_dark
+
+
+
+
+
+
+.geoMapWrap 
+  background: $color_silver_less_light
+
+.button-group 
+  .button 
+    font-family: $font_open
+    font-weight: 300
+    padding: 0.6rem 0.7rem
+    &.fb 
+      background: $color_azure_approx
+
+    &.tw 
+      background: $color_dodger_blue_approx
+
+    &.gp 
+      background: $color_tia_maria_approx
+
+
+  i 
+    margin-right: 10px
+
+
+.searchResults 
+  margin: 0
+  list-style: none
+  li 
+    border-bottom: 1px dotted $color_silver_less_light
+    padding: 5px 0
+
+
+.dropcap 
+  float: left
+  color: $color_yellow_sea_approx
+  font-size: 78px
+  line-height: 60px
+  padding: 7px 8px 0 0
+  font-family: $font_georgia
+
+.attachment 
+  display: block
+  i 
+    color: $color_silver_darker
+
+
+#totop 
+  display: none
+  position: fixed
+  width: 40px
+  height: 40px
+  line-height: 36px
+  right: 0.9375rem
+  bottom: 0.9375rem
+  background: $color_yellow_sea_approx
+  text-align: center
+  cursor: pointer
+
+#dp_swf_engine 
+  display: none
+
+// Small screens @media only screen 
+
+@media only screen and(max-width: 40em) 
+  blockquote 
+    &.right 
+      @include extend_4
+
+    &.left 
+      @include extend_4
+
+
+  .headbox 
+    .breadcrumbs 
+      margin-top: 0
+
+    .column 
+      padding: 0 !important
+
+    .columns 
+      padding: 0 !important
+
+
+  #heading 
+    .slideshow #logos 
+      width: 20%
+      height: auto
+
+    .infos .bt 
+      display: block
+      text-align: center
+      font-size: 1.2rem
+      padding: 8px 15px
+
+
+  #wrap_content 
+    margin: 0
+    .sheet .toggle 
+      font-size: 1.1rem
+      i 
+        line-height: 1.5rem
+
+
+
+  .button-group 
+    li 
+      display: block !important
+
+    .button 
+      display: block !important
+      text-align: center
+      font-size: 1rem
+      padding: 8px
+
+
+  .adsBanner.right 
+    @include extend_4
+    @include extend_4
+
+  .mainbanner .caption 
+    bottom: 0.6rem
+    left: 0.6rem
+    margin-right: 0.6rem
+    a 
+      font-size: 0.8rem
+      padding: 0.3rem 0.5rem
+      line-height: 1.1rem
+
+
+  .component .row .desc 
+    padding: 0.4rem 0.9375rem 0.6rem 0.9375rem
+
+  .abstract .desc 
+    padding: 0.6rem 0 !important
+
+  .image_detail.aright 
+    float: none !important
+    margin: 0 0 0.9rem 0 !important
+    display: block !important
+
+  .intro .thumbcat 
+    float: right
+    padding: 0 0 0 0.5rem
+
+
+// mobile and medium styles
+
+@media only screen and (max-width: 64em) 
+
+  #heading #logos
+    margin-left: 10px
+    top: 70px
+    width: 20%
+    height: auto
+
+
+// Medium screens @media only screen and(min-width: 40.063em) 
+
+@media only screen and(min-width: 40.063em) and(max-width: 64em) 
+  #main 
+    margin-left: 235px
+
+  #heading #logos 
+    top: 70px
+    width: 20%
+    height: auto
+
+
+// Large screens @media only screen and(min-width: 64.063em) 
+
+@media only screen and(min-width: 64.063em) and(max-width: 90em) 
+  #main 
+    margin-left: 235px
+
+  .item 
+    &.platinum 
+      .desc 
+        padding: 0.9375rem 1.35rem 0.9375rem 0
+
+      .thumb img 
+        padding: 0 1.5rem 0 0
+
+
+    &.gold 
+      .desc 
+        padding: 0.9375rem 1.35rem 0.9375rem 0
+
+      .thumb img 
+        padding: 0 1.5rem 0 0
+
+
+
+  footer 
+    padding-left: 250px
+
+  #heading .infos 
+    padding: 0.7rem 0
+    h1 
+      position: absolute
+      left: 188px
+      bottom: 86px
+      padding: 0
+      font-size: 2.8rem
+      //If you use compass, instead of the line below you could use +text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+      text-shadow: 3px 3px 3px $color_silver_darker !important
+      filter: dropshadow(color=$color_silver_darker, offx=3, offy=3) !important
+
+    div 
+      padding: 0.2rem 0.9375rem 0 188px
+      border: none
+
+
+
+// XLarge screens @media only screen and(min-width: 90.063em) 
+
+@media only screen and(min-width: 90.063em) and(max-width: 120em) 
+  .off-canvas-wrap 
+    width: 1600px
+
+  #main 
+    margin-left: 235px
+
+  .item 
+    &.platinum 
+      .desc 
+        padding: 0.9375rem 1.35rem 0.9375rem 0
+
+      .thumb img 
+        padding: 0 1.5rem 0 0
+
+
+    &.gold 
+      .desc 
+        padding: 0.9375rem 1.35rem 0.9375rem 0
+
+      .thumb img 
+        padding: 0 1.5rem 0 0
+
+
+
+  footer 
+    padding-left: 250px
+
+  #heading .infos 
+    padding: 0.7rem 0
+    h1 
+      position: absolute
+      left: 188px
+      bottom: 86px
+      padding: 0
+      font-size: 2.8rem
+      //If you use compass, instead of the line below you could use +text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+      text-shadow: 3px 3px 3px $color_silver_darker !important
+      filter: dropshadow(color=$color_silver_darker, offx=3, offy=3) !important
+
+    div 
+      padding: 0.2rem 0.9375rem 0 188px
+      border: none
+
+
+
+// XXLarge screens @media only screen and(min-width: 120.063em) 
+
+@media only screen and(min-width: 120.063em) and(max-width: 220em) 
+  .off-canvas-wrap 
+    width: 1600px
+
+  #main 
+    margin-left: 235px
+
+  .item 
+    &.platinum .thumb img 
+      padding: 0.9375rem 1.35rem 0.9375rem 0
+      padding: 0 1.5rem 0 0
+
+    &.gold .thumb img 
+      padding: 0.9375rem 1.35rem 0.9375rem 0
+      padding: 0 1.5rem 0 0
+
+
+  footer 
+    padding-left: 250px
+
+  #heading .infos 
+    padding: 0.7rem 0
+    h1 
+      position: absolute
+      left: 188px
+      bottom: 86px
+      padding: 0
+      font-size: 2.8rem
+      //If you use compass, instead of the line below you could use +text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+      text-shadow: 3px 3px 3px $color_silver_darker !important
+      filter: dropshadow(color=$color_silver_darker, offx=3, offy=3) !important
+
+    div 
+      padding: 0.2rem 0.9375rem 0 188px
+      border: none
+
+
+
+.box_calendar 
+  background-color: $white
+  font-size: .9em
+  .calendar-header 
+    a
+      @include extend_5
+      &:last-child 
+        text-align: right
+
+
+    .empty 
+      @include extend_5
+
+    span 
+      display: inline-block
+      width: 78%
+      text-align: center
+
+
+  table
+    width: 100%
+    border-collapse: collapse
+    border: none
+    th 
+      @include extend_6
+
+    td 
+      @include extend_6
+
+    .day 
+      &.today
+        a, span
+          padding: .22em 0
+          border: .2em solid $color_yellow_sea_approx
+
+
+      a, span
+        @include bradius
+        display: block
+        padding: .3em 0
+      a
+        background-color: $color_silver_less_light
+        color: $black
+        &:hover
+          background-color: $color_yellow_sea_approx
+
+      &.prev-month 
+        color: $color_silver_less_light
+
+      &.next-month 
+        color: $color_silver_less_light
+
+
+
+
+.small_logo a 
+  display: block
+  padding-left: 18px
+
+.tab-bar .menu-icon 
+  text-indent: 0
+  text-align: center
+  color: $color_silver_dark
+
+.featured .component .desc a 
+  color: $color_storm_dust_approx
+
+.notehead .thumbcat 
+  padding: 0.45rem 0 0 0.9rem
+  float: right
+  height: 57px
+
+.intro .thumbcat 
+  padding: 0.45rem 0.9rem 0 0
+  float: left
+  height: 81px
+
+ul.pagination 
+  margin-top: 0.9375rem
+  li.current 
+    a 
+      background: $color_yellow_sea_approx
+
+    button 
+      background: $color_yellow_sea_approx
+
+
+
+.caption.booking 
+  border-bottom: 1px solid $color_silver_less_light
+  border-top: 1px solid $color_silver_less_light
+  margin: 1rem 0 0
+  font-weight: 400
+  padding: 0.4rem 0
+  span 
+    text-transform: uppercase
+
+
+#share .button-group 
+  margin-top: 1rem
+#google-badge
+  width: 100%

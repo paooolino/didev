@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Discos login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<style>
+form a:hover,input[type=submit]:hover{-webkit-transition:all .5s ease-in-out;-moz-transition:all .5s ease-in-out;-o-transition:all .5s ease-in-out}.contact-form,.footer,h1{text-align:center}.footer a,form a{text-decoration:none}@font-face{font-family:Oswald-Regular;src:url(../fonts/Oswald-Regular.ttf) format('truetype')}body{background:url(../images/bg.png)}h1{color:#ffaf00;font-size:50px;margin-top:80px;font-family:impact}.contact-form{width:30%;margin:70px auto}.signin input[type=text],.signin input[type=password]{width:86%;margin-bottom:30px;font-size:14px;padding:15px 10px 15px 45px;border:none;font-family:arial;color:#FFF;outline:0}.signin input[type=text]{background:url(../images/1.png) no-repeat #3a4147;border-radius:4px}.signin input[type=password]{background:url(../images/2.png) no-repeat #3a4147;border-radius:4px}form a,form p{font-family:Oswald-Regular}.signin input[type=submit]{width:100%;padding:10px;font-size:18px;font-family:Oswald-Regular;margin-bottom:5px;border:none;border-radius:5px;color:#000;cursor:pointer;outline:0}input[type=submit]:hover{color:#FFF;background-color:#f88eb6;transition:all .5s ease-in-out}form p{color:#FFF;margin-left:15px;margin-top:30px}form a{color:#FFF}form a:hover{color:#ffaf00;transition:all .5s ease-in-out}.footer a,.footer p{font-family:Oswald-Regular;color:#FFF}.footer{margin-top:100px}.footer a:hover{color:#ffaf00;text-decoration:underline;-webkit-transition:all .5s ease-in-out;-moz-transition:all .5s ease-in-out;-o-transition:all .5s ease-in-out;transition:all .5s ease-in-out}@media (max-width:1920px){h1{margin-top:100px}.contact-form{width:30%;margin:120px auto}.signin input[type=text],.signin input[type=password]{width:90.5%}.footer{margin-top:150px}}@media (max-width:1680px){.signin input[type=text],.signin input[type=password]{width:89%}}@media (max-width:1600px){.signin input[type=text],.signin input[type=password]{width:88.5%}}@media (max-width:1440px){.signin input[type=submit]{width:101.5%}}@media (max-width:1366px){h1{margin-top:70px}.contact-form{margin:90px auto}.signin input[type=submit]{width:102%}}@media (max-width:1280px){h1{margin-top:70px}.contact-form{margin:80px auto}.signin input[type=submit]{width:103%}}@media (max-width:1200px){h1{margin-top:70px}.contact-form{margin:80px auto;width:35%}.signin input[type=text],.signin input[type=password]{width:86.5%}.signin input[type=submit]{width:100%}}@media (max-width:1080px){.signin input[type=text],.signin input[type=password]{width:85%}}@media (max-width:1050px){.signin input[type=submit]{width:100.5%}}@media (max-width:1024px){h1{margin-top:100px}.contact-form{width:40%;margin:100px auto}.signin input[type=text],.signin input[type=password]{width:86%}.signin input[type=submit]{width:99.5%}.footer{margin-top:125px}}@media (max-width:966px){.contact-form{margin:80px auto}.signin input[type=submit]{width:101%}.footer{margin-top:0}}@media (max-width:900px){.signin input[type=submit]{width:101.5%}}@media (max-width:853px){h1{margin-top:70px}.contact-form{margin:70px auto}.signin input[type=submit]{width:103%}}@media (max-width:800px){.signin input[type=submit]{width:103.5%}.footer{margin-top:100px}}@media (max-width:768px){h1{margin-top:100px}.contact-form{width:55%;margin:110px auto}.signin input[type=submit]{width:99%}.footer{margin-top:100px}}@media (max-width:736px){h1{margin-top:50px}.contact-form{width:60%;margin:80px auto}.signin input[type=text]{width:86%}.footer{margin-top:50px}.footer p{font-size:13px}}@media (max-width:667px){h1{margin-top:50px}.contact-form{width:60%;margin:50px auto}.signin input[type=text],.signin input[type=password]{width:85%}.footer{margin-top:75px}.footer p{font-size:12px}}@media (max-width:603px){.signin input[type=submit]{width:100.5%}}@media (max-width:600px){.contact-form{width:70%;margin:50px auto}.signin input[type=text],.signin input[type=password]{width:86%}.signin input[type=submit]{width:99.5%}}@media (max-width:568px){h1{font-size:45px;margin-top:50px}.contact-form{width:60%;margin:50px auto}.signin input[type=text],.signin input[type=password]{width:83%}.footer{margin-top:50px}.footer p{font-size:12px}}@media (max-width:533px){.signin input[type=submit]{width:101%}}@media (max-width:480px){.signin input[type=submit]{width:103.5%}}@media (max-width:414px){h1{font-size:45px;margin-top:80px}.contact-form{width:85%;margin:100px auto}.signin input[type=submit]{width:99.5%}.footer p{font-size:13px}}@media (max-width:384px){.contact-form{width:85%;margin:80px auto}.signin input[type=submit]{width:100.5%}.footer p{font-size:12px}}@media (max-width:375px){h1{font-size:40px;margin-top:60px}.contact-form{width:90%;margin-top:60px}.signin input[type=submit]{width:100%}.footer{margin-top:100px}.footer p{font-size:12px}}@media (max-width:320px){h1{font-size:35px;margin-top:40px}.contact-form{width:90%;margin:50px 5px}.signin input[type=text],.signin input[type=password]{width:86.5%}.signin input[type=submit]{width:107%;padding:8px}.footer{margin-top:50px}.footer p{font-size:12px}}@media (max-width:240px){h1{font-size:24px}.contact-form{width:80%;margin:50px 5px}.signin input[type=text],.signin input[type=password]{width:86%}.signin input[type=submit]{padding:5px;width:119%}form p{font-size:12px;margin-left:24px}.footer p{font-size:11px}}
+body{background-color:#333;}
+</style>
+</head>
+<body>
+<body>
+<div class="container">
+  <h1>Login</h1>
+
+  <div class="contact-form">
+    <div class="signin">
+      <form method="POST" action="<?php echo $Link->Get("ADMIN_LOGIN"); ?>">
+        <input type="text" class="user" name="username" placeholder="Username" />
+        <input type="password" class="pass" name="password" placeholder="Password" />
+        <input type="submit" value="LOGIN" />
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

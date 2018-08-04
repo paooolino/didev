@@ -1,0 +1,67 @@
+query lista locali
+
+      SELECT
+        location_visibilities.level as level,
+        locations.*
+      FROM
+        location_visibilities
+      LEFT JOIN 
+        typo_btw_sites
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
+        AND typo_btw_sites.seo_url = ?
+        AND locations.active = 1
+      ORDER BY
+        location_visibilities.level DESC
+        
+        
+query zone per lista locali
+
+      SELECT
+        distinct(zones.id),
+        zones.*
+      FROM
+        location_visibilities
+      LEFT JOIN 
+        typo_btw_sites
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      RIGHT JOIN 
+        zone_btw_locations
+        ON zone_btw_locations.location_id = locations.id
+		LEFT JOIN
+		  zones
+		  ON zone_btw_locations.zone_id = zones.id
+      WHERE
+        location_visibilities.site_id = 1
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
+        AND typo_btw_sites.seo_url = 'aperitivi-bar-happy-hours-brescia'
+        AND locations.active = 1
+      ORDER BY
+        location_visibilities.level DESC
+        
+
+
+
+ok - link del menu principale (verificare costruzione link)
+	come stabilire se l'url deve essere con "sezione/" o no? (sitemap 0/1)
+
+ok - pagina section
+
+- pagina eventi
+- calendario eventi
+
+- database online
+- gestione immagini cdn
+- backoffice
+- multisite
+

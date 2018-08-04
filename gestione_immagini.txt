@@ -1,0 +1,36 @@
+le immagini su cdn hanno la seguente url
+
+//cdn.discotecheitalia.it/uploads/$tablename/images/$dir1/$dir2/$dir3/original/$imagename
+
+dove
+$dir1, $dir2, $dir3 è un id di 9 cifre corrispondente all'id della tabella in oggetto, con l'aggiunta di n zeri davanti come riempitivo
+
+Le immagini in locale avranno la seguente url
+/uploads/$tablename/original/$imagename
+/uploads/$tablename/cut/$imagename
+/uploads/$tablename/cut/$imagename.info
+/uploads/$tablename/W_H/$imagename
+
+
+La richiesta di un'immagine avviene passando tablename, id, W e H, imagename.
+
+Alla richiesta dell'immagine:
+- esiste la thumb in locale? (localURL)
+SI: ritorna la localUrl_thumb
+NO: genera la thumb locale
+  - esiste l'originale?
+  SI: genera la thumb dall'originale e ritorna la localUrl_thumb
+  NO: cerca su cdn
+    - esiste l'originale su cdn?
+    SI: scarica l'originale, genera la thumb, ritorna la localurl_thumb
+    NO: ritorna NULL
+
+--------
+home.php
+eventi.php
+evento.php
+categoria_locali.php
+categoria_locali-zona.php
+locale.php
+festivita.php
+sezione.php

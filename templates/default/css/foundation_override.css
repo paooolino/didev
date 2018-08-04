@@ -1,0 +1,18 @@
+.vcard {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.vcard li {
+}
+.vcard .fn {
+  font-weight: normal;
+  font-size: 1;
+}
+
+.vevent .summary {
+  font-weight: normal;
+}
+.vevent abbr {
+}

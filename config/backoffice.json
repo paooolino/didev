@@ -1,0 +1,1438 @@
+{
+  "holidays": {
+    "field_id": "id"
+  },
+  "reports": {
+    "field_id": "id"
+  },
+  "typos": {
+    "field_id": "id"
+  },
+  "administrators": {
+    "field_id": "id",
+    "featured": ["id", "name","email", "role"],
+    "orderBy": "email",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome"
+      },
+      {
+        "name": "email",
+        "label": "Email"
+      },
+      {
+        "name": "encrypted_password",
+        "label": "Password",
+        "type": "password"
+      },
+      {
+        "name": "role",
+        "label": "Ruolo",
+        "type": "select",
+        "options": {
+          "0": "SuperAdmin",
+          "1": "Admin"
+        }
+      }
+    ]
+  },
+  "home_slides": {
+    "field_id" : "id",
+    "featured": ["id", "image_file_name", "title", "position", "active"],
+    "orderBy": "position",
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "name": "title",
+        "label": "titolo"
+      },
+      {
+        "name": "image_file_name",
+        "type": "image",
+        "label": "immagine"
+      },
+      {
+        "name": "description",
+        "label": "testo principale"
+      },
+      {
+        "name": "url",
+        "label": "url collegamento"
+      },
+      {
+        "name": "nofollow",
+        "label": "nofollow tag",
+        "type": "checkbox"
+      },
+      {
+        "name": "active",
+        "label": "visibile",
+        "type": "checkbox"
+      },
+      {
+        "name": "expire",
+        "label": "scadenza",
+        "type": "date"
+      },
+      {
+        "name": "position",
+        "label": "posizione"
+      }
+    ]
+  },
+  "holiday_btw_sites": {
+    "field_id": "id",
+    "featured": ["id", "title", "active"],
+    "orderBy": "position",
+    "sitefield": "site_id",
+    "activeCondition": "active = 1",
+    "joinpart": "LEFT JOIN holidays ON holiday_btw_sites.holiday_id = holidays.id",
+    "foreigntable": "holidays",
+    "foreignkey": "holiday_id",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "type": "openbox",
+        "label": "dati comuni per tutti i siti"
+      },
+        {
+          "name": "logic_title",
+          "label": "Titolo di riferimento",
+          "join": {
+            "foreign_key": "holiday_id",
+            "extern_table": "holidays",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "ended_day",
+          "label": "Giorno termine festività",
+          "join": {
+            "foreign_key": "holiday_id",
+            "extern_table": "holidays",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "ended_month",
+          "label": "Mese termine festività",
+          "join": {
+            "foreign_key": "holiday_id",
+            "extern_table": "holidays",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "image_file_name",
+          "label": "Icona CSS",
+          "type": "image",
+          "join": {
+            "foreign_key": "holiday_id",
+            "extern_table": "holidays",
+            "extern_id": "id"
+          }
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "description2",
+        "label": "Testo secondario",
+        "type": "textarea"
+      },
+      {
+        "name": "active",
+        "type": "checkbox",
+        "label": "attivo"
+      }
+    ]
+  },
+  "report_btw_sites": {
+    "joinpart": "LEFT JOIN reports ON reports.id = report_btw_sites.report_id", 
+    "foreigntable": "reports",
+    "foreignkey": "report_id",
+    "field_id": "id",
+    "orderBy": "report_btw_sites.id",
+    "featured": ["id", "nickname", "name", "active"],
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "active",
+        "type": "checkbox",
+        "label": "visibile"
+      },
+      {
+        "type": "openbox",
+        "label": "dati comuni per tutti i siti"
+      },
+        {
+          "name": "nickname",
+          "label": "nickname",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "name",
+          "label": "nome",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "surname",
+          "label": "cognome",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "phone1",
+          "label": "telefono 1",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "phone2",
+          "label": "telefono 2",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "email1",
+          "label": "e-mail 1",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "email2",
+          "label": "e-mail 2",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "url",
+          "label": "web",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "image_file_name",
+          "label": "Foto del PR",
+          "type": "image",
+          "join": {
+            "foreign_key": "report_id",
+            "extern_table": "reports",
+            "extern_id": "id"
+          }
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      }
+    ]
+  },  
+  "navigators": {
+    "field_id": "id",
+    "orderBy": "position",
+    "featured": ["id", "located", "title", "url"],
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "name": "located",
+        "label": "Posizionamento",
+        "type": "select",
+        "options": {
+          "0": "menu in alto",
+          "1": "menu footer",
+          "2": "menu laterale sinistra"
+        }
+      },
+      {
+        "name": "navigatorable_id",
+        "label": "Pagina di destinazione",
+        "type": "select",
+        "query": "SELECT * FROM sections WHERE site_id = ? ORDER BY title",
+        "select_key": "id",
+        "select_value": "title"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "title_tag",
+        "label": "Tag title"
+      },
+      {
+        "name": "font_icon",
+        "label": "font icona<br><i>Inserire il nome senza i prefissi 'fa' e 'fa-'</i>"
+      }
+    ]
+  },    
+  "location_visibilities": {
+    "field_id": "id",
+    "featured": ["title", "type", "level", "typotitle", "zonetitle", "expire_at"],
+    "fields": [
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "type",
+        "label": "Tipo relazione",
+        "type": "relation"
+      },
+      {
+        "name": "level",
+        "type": "subscription",
+        "label": "Livello"
+      },
+      {
+        "name": "typotitle",
+        "label": "Tipologia"
+      },
+      {
+        "name": "zonetitle",
+        "label": "Zona"
+      },
+      {
+        "name": "expire_at",
+        "type": "date_readonly",
+        "label": "Scadenza"
+      }
+    ]
+  },  
+  "home_boxes": {
+    "field_id": "id",
+    "featured": ["id", "image_file_name", "name", "behaviour"],
+    "orderBy": "disposition",
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "name": "behaviour",
+        "label": "tipo di box",
+        "type": "select",
+        "options": {
+          "0": "personalizzato",
+          "1": "locations ultime inserite",
+          "2": "locations in evidenza",
+          "3": "banner grande (XXXxXXX)",
+          "4": "testo home promo",
+          "5": "Google Plus"
+        }
+      },
+      {
+        "name": "image_file_name",
+        "type": "image",
+        "label": "file immagine"
+      },
+      {
+        "name": "name",
+        "label": "nome di riferimento"
+      },
+      {
+        "name": "active",
+        "label": "visibile",
+        "type": "checkbox"
+      }
+    ]
+  },  
+  "zones": {
+    "field_id": "id",
+    "featured": ["id", "seo_title", "town"],
+    "orderBy": "seo_title",
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "town",
+        "type": "checkbox",
+        "label": "Città/Comune"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      }
+    ]
+  },
+  "sections": {
+    "field_id": "id",
+    "sitefield": "site_id",
+    "featured": ["id", "title"],
+    "orderBy": "title",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "title",
+        "label": "titolo principale"
+      },
+      {
+        "name": "description",
+        "label": "testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "sitemap",
+        "label": "includi nella sitemap",
+        "type": "checkbox"
+      },
+      {
+        "name": "priority",
+        "label": "priority nella sitemap",
+        "type": "text"
+      }
+    ]
+  },
+  "locations": {
+    "field_id": "id",
+    "featured": ["id", "typo_id", "title", "address_city", "on_home"],
+    "orderBy": "title",
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },    
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "sub_title",
+        "label": "Sottotitolo"
+      },
+      {
+        "name": "description",
+        "label": "testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "review",
+        "label": "recensione",
+        "type": "textarea"
+      },
+      {
+        "name": "prices",
+        "label": "prezzi",
+        "type": "textarea"
+      },
+      {
+        "name": "info",
+        "label": "info e prenotazioni",
+        "type": "textarea"
+      },
+      {
+        "name": "food",
+        "label": "menu",
+        "type": "textarea"
+      },
+      {
+        "name": "document_file_name",
+        "label": "menu allegato",
+        "type": "file"
+      },
+      {
+        "name": "video",
+        "label": "video",
+        "type": "simpletextarea"
+      },
+      {
+        "type": "openbox",
+        "label": ""
+      },
+        {
+          "name": "typo_id",
+          "label": "tipologia predefinita",
+          "type": "select",
+          "query": "SELECT * FROM typo_btw_sites WHERE site_id = ?",
+          "select_key": "id", 
+          "select_value": "title" 
+        },
+        {
+          "name": "typo_ids[]",
+          "label": "tipologie",
+          "type": "manytomany",
+          "query": "SELECT * FROM typo_btw_sites WHERE site_id = ?",
+          "queryvalues": "SELECT typo_id FROM typo_btw_locations WHERE location_id = ?",
+          "select_key": "id",
+          "select_value": "title"
+        },
+        {
+          "name": "music_ids[]",
+          "label": "generi musicali",
+          "type": "manytomany",
+          "query": "SELECT * FROM music_btw_sites WHERE site_id = ?",
+          "queryvalues": "SELECT music_id FROM music_btw_locations WHERE location_id = ?",
+          "select_key": "id",
+          "select_value": "title"
+        },
+        {
+          "name": "report_ids[]",
+          "label": "public relators",
+          "type": "manytomany",
+          "query": "SELECT CONCAT(reports.name, ' ', reports.surname, ' - ', reports.nickname) AS concat_name, report_btw_sites.* FROM report_btw_sites LEFT JOIN reports ON reports.id = report_id WHERE site_id = ?",
+          "queryvalues": "SELECT report_id FROM report_btw_locations WHERE location_id = ?",
+          "select_key": "id",
+          "select_value": "concat_name"
+        },
+        {
+          "name": "zones_ids[]",
+          "label": "zone",
+          "type": "manytomany",
+          "query": "SELECT * FROM zones WHERE site_id = ?",
+          "queryvalues": "SELECT zone_id FROM zone_btw_locations WHERE location_id = ?",
+          "select_key": "id",
+          "select_value": "title"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "active",
+        "label": "Visibile",
+        "type": "checkbox"
+      },
+      {
+        "type": "openbox",
+        "label": "Indirizzo geografico"
+      },
+        {
+          "name": "address_way",
+          "label": "via, piazza, viale, ecc.."
+        },
+        {
+          "name": "address_number",
+          "label": "numero civico"
+        },
+        {
+          "name": "address_city",
+          "label": "città"
+        },
+        {
+          "name": "address_zip",
+          "label": "codice postale"
+        },
+        {
+          "name": "address_province",
+          "label": "provincia"
+        },
+        {
+          "name": "nation_id",
+          "label": "nazione",
+          "type": "select",
+          "query": "SELECT * FROM nations",
+          "select_key": "id",
+          "select_value": "name"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "type": "openbox",
+        "label": "contatti"
+      },
+        {
+          "name": "phone",
+          "label": "tel. fisso"
+        },
+        {
+          "name": "mobile",
+          "label": "tel. cellulare"
+        },
+        {
+          "name": "fax",
+          "label": "fax"
+        },
+        {
+          "name": "email",
+          "label": "email"
+        },
+        {
+          "name": "url",
+          "label": "URL link collegamento"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "type": "openbox",
+        "label": "giorni di apertura"
+      },  
+        {
+          "name": "opening_1",
+          "label": "Lunedì",
+          "type": "checkbox"
+        },
+        {
+          "name": "opening_2",
+          "label": "Martedì",
+          "type": "checkbox"
+        },
+        {
+          "name": "opening_3",
+          "label": "Mercoledì",
+          "type": "checkbox"
+        },
+        {
+          "name": "opening_4",
+          "label": "Giovedì",
+          "type": "checkbox"
+        },
+        {
+          "name": "opening_5",
+          "label": "Venerdì",
+          "type": "checkbox"
+        },
+        {
+          "name": "opening_6",
+          "label": "Sabato",
+          "type": "checkbox"
+        },
+        {
+          "name": "opening_0",
+          "label": "Domenica",
+          "type": "checkbox"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "on_list",
+        "label": "elenco \"metti in lista\"",
+        "type": "checkbox"
+      },
+      {
+        "name": "on_home",
+        "label": "visibile in home page in \"locali in evidenza\"",
+        "type": "checkbox"
+      },
+      {
+        "name": "ads",
+        "label": "banner pubblicitari",
+        "type": "checkbox"
+      },
+      {
+        "name": "logo_file_name",
+        "label": "file logo (verrà ridimensionato a 207px di larghezza fissi)",
+        "type": "image"
+      }
+    ]
+  },
+  "banners": {
+    "field_id" : "id",
+    "featured": ["id", "title", "located", "image_file_name", "expire"],
+    "orderBy": "position",
+    "sitefield": "site_id",
+    "fields": [
+      {
+        "name": "title",
+        "label": "Titolo"
+      },      
+      {
+        "name": "url",
+        "label": "Url collegamento"
+      },
+      {
+        "name": "nofollow",
+        "type": "checkbox",
+        "label": "Nofollow tag"
+      },
+      {
+        "name": "located",
+        "label": "Posizionamento",
+        "type": "select",
+        "options": {
+          "0": "orizzontale in alto (728 x 90 px)",
+          "1": "mini a sinistra (205 x 130 px)",
+          "2": "piccolo in testata (230 x 98 px)",
+          "3": "landscape a destra (430 x 687 px)",
+          "4": "box home (660 x 374 px)"
+        }
+      },
+      {
+        "name": "home",
+        "type": "checkbox",
+        "label": "Solo in home"
+      },
+      {
+        "name": "expire",
+        "label": "Scadenza",
+        "type": "date"
+      },
+      {
+        "name": "image_file_name",
+        "type": "image",
+        "label": "file immagine"
+      }
+    ]
+  },
+  "homes": {
+    "field_id" : "id",
+    "featured": ["id", "title", "updated_at"],
+    "sitefield": "site_id",
+    "fields": {
+    }
+  },
+  "cat_btw_sites": {
+    "field_id" : "id",
+    "featured": ["id", "title"],
+    "sitefield": "site_id",
+    "joinpart": "LEFT JOIN cats ON cat_btw_sites.cat_id = cats.id",
+    "foreigntable": "cats",
+    "foreignkey": "cat_id",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "type": "openbox",
+        "label": "dati comuni per tutti i siti"
+      },
+        {
+          "name": "logic_title",
+          "label": "Titolo di riferimento",
+          "join": {
+            "foreign_key": "cat_id",
+            "extern_table": "cats",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "image_file_name",
+          "label": "Icona CSS",
+          "type": "image",
+          "join": {
+            "foreign_key": "cat_id",
+            "extern_table": "cats",
+            "extern_id": "id"
+          }
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      }
+    ]
+  },
+  "events": {
+    "field_id" : "id",
+    "featured": ["id", "title", "special", "on_home", "time_to", "active"],
+    "orderBy": "time_to DESC",
+    "sitefield": "site_id",
+    "wherepart": "AND recurrent_id IS NULL",
+    "activeCondition": "time_to > NOW()",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "title_date",
+        "label": "Title date"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "video",
+        "label": "Video",
+        "type": "simpletextarea"
+      },
+      {
+        "name": "cat_ids",
+        "type": "multiselect",
+        "label": "Categorie",
+        "extern_table": "cat_btw_sites",
+        "extern_field": "title",
+        "extern_id": "id"
+      },
+      {
+        "name": "location_ids",
+        "type": "multiselect",
+        "label": "Locali",
+        "extern_table": "locations",
+        "extern_field": "title",
+        "extern_id": "id"
+      },
+      {
+        "name": "holiday_ids",
+        "type": "multiselect",
+        "label": "Festività",
+        "extern_table": "holiday_btw_sites",
+        "extern_field": "title",
+        "extern_id": "id"
+      },
+      {
+        "name": "time_from",
+        "label": "Inizio evento",
+        "type": "datetime"
+      },
+      {
+        "name": "time_to",
+        "label": "Termine evento",
+        "type": "datetime"
+      },
+      {
+        "name": "on_home",
+        "label": "Metti in homepage nelle news a scorrimento",
+        "type": "checkbox"
+      },
+      {
+        "name": "special",
+        "label": "Evento speciale home (610x342)",
+        "type": "checkbox"
+      },
+      {
+        "name": "active",
+        "label": "Visibile",
+        "type": "checkbox"
+      },
+      {
+        "type": "openbox",
+        "label": "Indirizzo geografico"
+      },
+        {
+          "name": "address_way",
+          "label": "Via, piazza, viale, ecc.."
+        },
+        {
+          "name": "address_number",
+          "label": "numero civico"
+        },
+        {
+          "name": "address_city",
+          "label": "città"
+        },
+        {
+          "name": "address_zip",
+          "label": "codice postale"
+        }, 
+        {
+          "name": "address_province",
+          "label": "provincia"
+        },
+        {
+          "name": "nation_id",
+          "label": "nazione",
+          "type": "select",
+          "query": "SELECT * FROM nations",
+          "select_key": "id",
+          "select_value": "name"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "image_file_name",
+        "label": "File immagine",
+        "type": "image"
+      },
+      {
+        "name": "document_file_name",
+        "label": "Documento allegato",
+        "type": "file"
+      }
+    ]
+  },
+  "recurrents": {
+    "field_id" : "id",
+    "featured": ["id", "title", "special", "on_home", "recurrence_from", "recurrence_to", "active"],
+    "orderBy": "recurrence_to DESC",
+    "sitefield": "site_id",
+    "activeCondition": "recurrence_to > NOW()",
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "title_date",
+        "label": "Title date"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "cat_ids",
+        "type": "multiselect",
+        "label": "Categorie",
+        "extern_table": "cat_btw_sites",
+        "extern_field": "title",
+        "extern_id": "id"
+      },
+      {
+        "name": "location_ids",
+        "type": "multiselect",
+        "label": "Locali",
+        "extern_table": "locations",
+        "extern_field": "title",
+        "extern_id": "id"
+      },
+      {
+        "name": "holiday_ids",
+        "type": "multiselect",
+        "label": "Festività",
+        "extern_table": "holiday_btw_sites",
+        "extern_field": "title",
+        "extern_id": "id"
+      },
+      {
+        "name": "time_from",
+        "label": "Inizio evento",
+        "type": "time"
+      },
+      {
+        "name": "time_duration",
+        "label": "Durata evento",
+        "type": "select",
+        "options": {
+          "1": "circa un'ora",
+          "2": "2 ore",
+          "3": "3 ore",
+          "4": "4 ore",
+          "5": "5 ore",
+          "6": "6 ore",
+          "7": "7 ore",
+          "8": "8 ore",
+          "9": "9 ore",
+          "10": "10 ore",
+          "11": "11 ore",
+          "12": "12 ore",
+          "24": "1 giorno",
+          "48": "2 giorni",
+          "72": "3 giorni",
+          "96": "4 giorni",
+          "120": "5 giorni",
+          "144": "6 giorni",
+          "168": "7 giorni"
+        }
+      },
+      {
+        "name": "recurrence_from",
+        "label": "data inizio ripetitività",
+        "type": "date"
+      },
+      {
+        "name": "recurrence_to",
+        "label": "data fine ripetitività",
+        "type": "date"
+      },
+      {
+        "type": "openbox",
+        "label": "ripetitività giorni"
+      },
+        {
+          "label": "Lunedì",
+          "type": "checkbox",
+          "name": "repeat_day_1"
+        },
+        {
+          "label": "Martedì",
+          "type": "checkbox",
+          "name": "repeat_day_2"
+        },
+        {
+          "label": "Mercoledì",
+          "type": "checkbox",
+          "name": "repeat_day_3"
+        },
+        {
+          "label": "Giovedì",
+          "type": "checkbox",
+          "name": "repeat_day_4"
+        },
+        {
+          "label": "Venerdì",
+          "type": "checkbox",
+          "name": "repeat_day_5"
+        },
+        {
+          "label": "Sabato",
+          "type": "checkbox",
+          "name": "repeat_day_6"
+        },
+        {
+          "label": "Domenica",
+          "type": "checkbox",
+          "name": "repeat_day_7"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "type": "openbox",
+        "label": "ripetitività settimane"
+      },
+        {
+          "label": "1. del mese",
+          "type": "checkbox",
+          "name": "repeat_week_1"
+        },
+        {
+          "label": "2. del mese",
+          "type": "checkbox",
+          "name": "repeat_week_2"
+        },
+        {
+          "label": "3. del mese",
+          "type": "checkbox",
+          "name": "repeat_week_3"
+        },
+        {
+          "label": "4. del mese",
+          "type": "checkbox",
+          "name": "repeat_week_4"
+        },
+        {
+          "label": "ultimo del mese",
+          "type": "checkbox",
+          "name": "repeat_week_last"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "on_home",
+        "label": "Metti in homepage nelle news a scorrimento",
+        "type": "checkbox"
+      },
+      {
+        "name": "special",
+        "label": "Evento speciale home (610x342)",
+        "type": "checkbox"
+      },
+      {
+        "name": "active",
+        "label": "Visibile",
+        "type": "checkbox"
+      },
+      {
+        "type": "openbox",
+        "label": "Indirizzo geografico"
+      },
+        {
+          "name": "address_way",
+          "label": "Via, piazza, viale, ecc.."
+        },
+        {
+          "name": "address_number",
+          "label": "numero civico"
+        },
+        {
+          "name": "address_city",
+          "label": "città"
+        },
+        {
+          "name": "address_zip",
+          "label": "codice postale"
+        }, 
+        {
+          "name": "address_province",
+          "label": "provincia"
+        },
+        {
+          "name": "nation_id",
+          "label": "nazione",
+          "type": "select",
+          "query": "SELECT * FROM nations",
+          "select_key": "id",
+          "select_value": "name"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "type": "openbox",
+        "label": "contatti"
+      },
+        {
+          "name": "phone",
+          "label": "tel. fisso"
+        },
+        {
+          "name": "mobile",
+          "label": "tel. cellulare"
+        },
+        {
+          "name": "fax",
+          "label": "fax"
+        },
+        {
+          "name": "email",
+          "label": "email"
+        },
+        {
+          "name": "url",
+          "label": "URL link collegamento"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "image_file_name",
+        "label": "File immagine",
+        "type": "image"
+      },
+      {
+        "name": "document_file_name",
+        "label": "Documento allegato",
+        "type": "file"
+      }
+    ]
+  },
+  "typo_btw_sites": {
+    "field_id": "id",
+    "featured": ["id", "title", "menu", "active"],
+    "orderBy": "position",
+    "sitefield": "site_id",
+    "activeCondition": "active = 1",
+    "joinpart": "LEFT JOIN typos ON typo_btw_sites.typo_id = typos.id",
+    "foreigntable": "typos",
+    "foreignkey": "typo_id",
+    "listalocali": {
+      "slugfield": "seo_url",
+      "extern_table": "location_visibilities",
+      "field_id": "id"
+    },
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+        {
+          "name": "seo_url",
+          "label": "Url SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "seo_subtitle",
+        "label": "Sottotitolo SEO"
+      },
+      {
+        "name": "title",
+        "label": "Titolo"
+      },
+      {
+        "name": "title_singular",
+        "label": "Titolo singolare"
+      },
+      {
+        "type": "openbox",
+        "label": "dati comuni per tutti i siti"
+      },
+        {
+          "name": "logic_title",
+          "label": "Titolo di riferimento",
+          "join": {
+            "foreign_key": "typo_id",
+            "extern_table": "typos",
+            "extern_id": "id"
+          }
+        },
+        {
+          "name": "image_file_name",
+          "label": "Icona CSS",
+          "type": "image",
+          "join": {
+            "foreign_key": "typo_id",
+            "extern_table": "typos",
+            "extern_id": "id"
+          }
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "menu",
+        "type": "checkbox",
+        "label": "Nascondi la voce nel menu 'tipologie locali'"
+      },
+      {
+        "name": "active",
+        "type": "checkbox",
+        "label": "Visibile"
+      }
+    ]
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "new_form_onlist": {
+    "err": "Il seguente modulo non puo essere inviato a causa di alcuni campi mancanti o incorretti, completa correttamente tutti i dati mancanti o incorretti e poi ritenta l'invio",
+    "fields": {
+      "name": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "inserisci il tuo nome"
+      },
+      "surname": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "inserisci il tuo cognome"
+      },
+      "location": {
+        "validator": ["required"],
+        "err": "devi scegliere il locale"
+      },
+      "day": {
+        "validator": ["required"],
+        "maxlength": 10,
+        "err": "inserisci il giorno in cui vuoi prenotare (formato gg/mm/aaaa)"
+      },
+      "reservation": {
+        "validator": ["required"],
+        "err": "devi scegliere il tipo di prenotazione"
+      },
+      "recontact": {
+        "validator": ["required"],
+        "err": "devi specificare come vuoi essere ricontattato"
+      },
+      "phone": {
+        "validator": ["required", "tel"],
+        "err": "inserisci un numero di telefono valido"
+      },
+      "email": {
+        "validator": ["required", "email"],
+        "maxlength": 200,
+        "err": "inserisci un indirizzo email valido"
+      },
+      "info": {
+        "validator": ["required"],
+        "err": "devi specificare i dettagli della tua richiesta"
+      },
+      "privacy": {
+        "validator": ["required"],
+        "err": "devi confermare l'informativa sulla privacy per inviare il messaggio"
+      }
+    }
+  },
+  "new_form_contact": {
+    "err": "Il seguente modulo non puo essere inviato a causa di alcuni campi mancanti o incorretti, completa correttamente tutti i dati mancanti o incorretti e poi ritenta l'invio",
+    "fields": {
+      "name": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "inserisci il tuo nome"
+      },
+      "surname": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "inserisci il tuo cognome"
+      }, 
+      "phone": {
+        "validator": ["required", "tel"],
+        "maxlength": 50,
+        "err": "inserisci un numero di telefono valido"
+      },
+      "email": {
+        "validator": ["required", "email"],
+        "maxlength": 200,
+        "err": "inserisci un indirizzo email valido"
+      },    
+      "info": {
+        "validator": ["required"],
+        "err": "devi specificare il motivo del tuo contatto"
+      },
+      "privacy": {
+        "validator": ["required"],
+        "err": "devi confermare l'informativa sulla privacy per inviare il messaggio"
+      }
+    }
+  },
+  "new_form_location_suggest": {
+    "err": "Il seguente modulo non puo essere inviato a causa di alcuni campi mancanti o incorretti, completa correttamente tutti i dati mancanti o incorretti e poi ritenta l'invio",
+    "fields": {
+      "name": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "inserisci il tuo nome"
+      },
+      "surname": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "inserisci il tuo cognome"
+      }, 
+      "phone": {
+        "validator": ["required", "tel"],
+        "maxlength": 50,
+        "err": "inserisci un numero di telefono valido"
+      },
+      "email": {
+        "validator": ["required", "email"],
+        "maxlength": 200,
+        "err": "inserisci un indirizzo email valido"
+      },
+      "typo": {
+        "validator": ["required"],
+        "err": "inserisci la tipologia di locale"
+      },
+      "denomination": {
+        "validator": ["required"],
+        "maxlength": 100,
+        "err": "devi inserire il nome del locale"
+      },
+      "address_way": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "devi inserire la via, piazza o altro"
+      },
+      "address_number": {
+        "validator": ["required"],
+        "maxlength": 6,
+        "err": "devi inserire il numero civico"
+      },
+      "address_zip": {
+        "validator": ["required"],
+        "maxlength": 10,
+        "err": "devi inserire il codice postale"
+      },
+      "address_city": {
+        "validator": ["required"],
+        "maxlength": 50,
+        "err": "devi inserire la città"
+      },
+      "address_province": {
+        "validator": ["required"],
+        "maxlength": 2,
+        "err": "devi inserire la provincia"
+      },
+      "info": {
+        "validator": ["required"],
+        "err": "devi specificare la descrizione del locale"
+      },
+      "privacy": {
+        "validator": ["required"],
+        "err": "devi confermare l'informativa sulla privacy per inviare il messaggio"
+      }
+    }
+  }
+}
