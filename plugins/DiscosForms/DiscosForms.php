@@ -4,12 +4,16 @@ namespace WebEngine\Plugin;
 class DiscosForms {
   private $_machine;
   
-  const IAM_USER = "";
-  const SMTP_USER = "";
-  const SMTP_PASS = "";
+  private $IAM_USER;
+  private $SMTP_USER;
+  private $SMTP_PASS;
   
   public function __construct($machine) {
     $this->_machine = $machine;
+    
+    $this->_IAM_USER = getenv("AWS_IAM_USER");
+    $this->_SMTP_USER = getenv("AWS_SMTP_USER");
+    $this->_SMTP_PASS = getenv("AWS_SMTP_PASSWORD");
   }
   
   private function dataToHtml($data) {
@@ -29,8 +33,8 @@ class DiscosForms {
       $mail->isSMTP();                                      
       $mail->setFrom('info@discotecheitalia.it', 'Discoteche Italia');
       $mail->addAddress('paooolino@gmail.com');       
-      $mail->Username = self::SMTP_USER;                 // SMTP username
-      $mail->Password = self::SMTP_PASS;                         // SMTP password
+      $mail->Username = $this->_SMTP_USER;                 // SMTP username
+      $mail->Password = $this->_SMTP_PASS;                         // SMTP password
       $mail->Host = 'email-smtp.us-east-1.amazonaws.com';
       
       // The subject line of the email
