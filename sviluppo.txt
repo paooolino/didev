@@ -1,3 +1,39 @@
+Server HEROKU
+AWS_S3_BUCKET/S3_BUCKER: storage.discotecheitalia.it
+CDN_BASE_URL/STORAGE_BASE_URL: http://cdn.discotecheitalia.it
+
+discos-production.herokuapp.com >>> 
+  us-east-1-a.route.herokuapp.com 54.152.236.194
+  
+www.discotechebrescia.it 
+  us-east-1-a.route.herokuapp.com 52.206.106.171
+
+discotechebrescia.it
+  52.216.160.210
+  
+
+S3 BUCKET:
+discotechebrescia.it
+  empty
+  redirect all request to www.discotechebrescia.it
+  endpoint:http://discotechebrescia.it.s3-website-us-east-1.amazonaws.com
+storage.discotecheitalia.it 
+  contiene le immagini e gli altri assets
+  le immagini vengono create tutte al primo upload ed eliminate all'eliminazione del record
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 query lista locali
 
       SELECT
