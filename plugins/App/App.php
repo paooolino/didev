@@ -316,7 +316,7 @@ class App {
     
     // calcola il primo e l'ultimo giorno del mese
     $first = new \DateTimeImmutable('first day of ' . $monthName . " " . $anno);
-    $last = new \DateTimeImmutable('last day of this month' . $monthName . " " . $anno);
+    $last = new \DateTimeImmutable('last day of this month ' . $monthName . " " . $anno);
     
     // calculate next and prev links
     $nextmese = $mese + 1;

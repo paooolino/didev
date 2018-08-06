@@ -9,8 +9,7 @@
                 <div class="show-for-large-up">
                   <div id="events_calendar">
                     <header class="calendar-header">
-                      <?php echo $calendar["prev_link"]; ?>
-                      <span><?php echo $calendar["current_month"]; ?> <?php echo $calendar["current_year"]; ?></span>
+                      <?php echo $calendar["prev_link"]; ?><span><?php echo $calendar["current_month"]; ?> <?php echo $calendar["current_year"]; ?></span>
                       <?php echo $calendar["next_link"]; ?>
                     </header>
                     <table>
@@ -22,7 +21,7 @@
                           <tr>
                             <?php foreach ($cr as $cd) { ?>
                               <td class="day <?php echo $cd["dayTimeReference"]; ?> <?php echo $cd["whichmonth"]; ?>-month wday-<?php echo $cd["weekdaynumber"]; ?> has-events">
-                                <?php if (!$cd["hasevents"]) { ?>
+                                <?php if (!$cd["hasevents"] || $cd["whichmonth"] == "prev" || $cd["whichmonth"] == "next" || $cd["dayTimeReference"] == "past") { ?>
                                   <?php echo $cd["daynumber"]; ?>
                                 <?php } else { ?>
                                   <a title="Eventi a Brescia <?php echo $cd["daynumber"]; ?> <?php echo $cd["monthName"]; ?>" href="<?php echo $cd["url"]; ?>">
