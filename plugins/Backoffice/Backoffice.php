@@ -65,7 +65,7 @@ class Backoffice {
   }
   
   public function upload($FILE, $table, $id) {
-    $Upload = $this->_machine->plugin("Upload");
+    $Upload = $this->_machine->plugin("UploadS3");
     $Upload->add_date_to_uploadpath = false;
     
     // build the upload path and upload

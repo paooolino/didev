@@ -10,7 +10,7 @@ ini_set("display_errors", 1);
   
   // Plugins
 	$Link = $machine->addPlugin("Link");
-	$Upload = $machine->addPlugin("Upload");
+	$UploadS3 = $machine->addPlugin("UploadS3");
 	$DB = $machine->addPlugin("DB");
 	$DiscosForms = $machine->addPlugin("DiscosForms");
   
@@ -24,44 +24,17 @@ ini_set("display_errors", 1);
   $Backoffice = $machine->addPlugin("Backoffice");
   $Backoffice->loadConfig("config/backoffice.json");
   
-  // Setup server connection (local/production)
-  if (true) {
-    //strpos($_SERVER["HTTP_HOST"], "localhost") !== FALSE
-    //|| strpos($_SERVER["HTTP_HOST"], "127.0.0.1") !== FALSE
-  //) {
-    //$conn = $machine->plugin("DB")->setupMySql("localhost", "root", "", "discotecheitalia");
-    $conn = $machine->plugin("DB")->setupMySql("web.marte.vhosting-it.com", "brows_didev", "Xocp7@92", "browserg_didev");
-    
-    // production database per debug in locale della parte front-end
-    //$dbopts = parse_url("mysql://d072c7231f4046:c6b8151e@us-mm-auto-dca-01.cleardb.com/heroku_ebd47c437fc7e77");
-    /*$conn = $DB->setupMySql(
-      // host
-      $dbopts["host"],
-      // username
-      $dbopts["user"],
-      // password
-      $dbopts["pass"],
-      // db name
-      ltrim($dbopts["path"],'/')
-    );*/
-  } else {
-    $dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
-    $conn = $DB->setupMySql(
-      // host
-      $dbopts["host"],
-      // username
-      $dbopts["user"],
-      // password
-      $dbopts["pass"],
-      // db name
-      ltrim($dbopts["path"],'/')
-    );
-    
-    //$machine->plugin("App")->setupMySql("us-cdbr-iron-east-05.cleardb.net", "b8c687af90f0d3", "8a9736f9", "heroku_fe4025b10f6b406");
-    //if (!is_object($conn)) {
-    //  $conn = $DB->setupMySql("web.marte.vhosting-it.com", "brows_didev", "Xocp7@92", "browserg_didev");
-    //}
-  }
+  $dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
+  $conn = $DB->setupMySql(
+    // host
+    $dbopts["host"],
+    // username
+    $dbopts["user"],
+    // password
+    $dbopts["pass"],
+    // db name
+    ltrim($dbopts["path"],'/')
+  );
   
   if (!is_object($conn)) { die("db connection error"); };
   
