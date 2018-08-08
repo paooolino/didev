@@ -153,21 +153,23 @@ class App {
   
   public function img($table, $id, $w, $h, $filename, $section="images") {
     $r = $this->_machine->getRequest();
+    $UploadS3 = $this->_machine->plugin("UploadS3");
     
     // ritorna la thumb se esiste.
     $thumb_url = "uploads/$table/$w" . "_" . "$h/$filename";
-    if (file_exists("./" . $thumb_url)) {
-      return "//" . $r["SERVER"]["HTTP_HOST"] . $this->_machine->basepath . "/" . $thumb_url; 
+    if ($UploadS3->file_exists_in_bucket($thumb_url)) {
+      return $UploadS3->get($thumb_url); 
     }
     
     // se non esiste, cerca l'originale e genera la thumb.
     $original_url = "uploads/$table/original/$filename";
-    if (file_exists("./" . $original_url)) {
+    if ($UploadS3->file_exists_in_bucket($original_url)) {
       $this->generateLocalThumb($table, $filename, $w, $h);
-      return "//" . $r["SERVER"]["HTTP_HOST"] . $this->_machine->basepath . "/" . $thumb_url;  
+      return $UploadS3->get($thumb_url); 
     }
     
     // se non esiste, cerca su cdn.
+    /*
     $idstr = str_pad($id, 9, "0", STR_PAD_LEFT);
     $dir1 = substr($idstr, 0, 3);
     $dir2 = substr($idstr, 3, 3);
@@ -178,6 +180,7 @@ class App {
       $this->generateLocalThumb($table, $filename, $w, $h);
       return "//" . $r["SERVER"]["HTTP_HOST"] . $this->_machine->basepath . "/" . $thumb_url;      
     }
+    */
   }
   
   public function creaRitaglio($table, $filename, $w, $h, $x, $y) {
@@ -211,6 +214,8 @@ class App {
   }
   
   private function generateLocalThumb($table, $filename, $dest_w, $dest_h) {
+    $UploadS3 = $this->_machine->plugin("UploadS3");
+    
     // se esiste il cut file lo usa
     //  altrimenti usa l'originale
     $cut_url = "uploads/$table/cut/$filename";
@@ -218,11 +223,10 @@ class App {
     $thumb_url = "uploads/$table/$dest_w" . "_" . "$dest_h/$filename";
     
     $source = $original_url;
-    if (file_exists("./" . $cut_url)) {
+    if ($UploadS3->file_exists_in_bucket($cut_url)) {
       $source = $cut_url;
     }
-    
-    $image = $this->_imageManager->make($source);
+    $image = $this->_imageManager->make($UploadS3->get($source));
     $w = $image->width();
     $h = $image->height();
     if ($dest_h == "H" && is_int($dest_w)) {
@@ -232,11 +236,12 @@ class App {
       $dest_w = ($w * $dest_h) / $h;
     }
     $image->fit(intval($dest_w), intval($dest_h));
+    $UploadS3->put($thumb_url, $image);
     
-    $arr = explode("/", $thumb_url);
-    array_pop($arr);
-    @mkdir("./" . implode("/", $arr), 0777, true);
-    $image->save($thumb_url);
+    //$arr = explode("/", $thumb_url);
+    //array_pop($arr);
+    //@mkdir("./" . implode("/", $arr), 0777, true);
+    //$image->save($thumb_url);
   }
   
   private function downloadImageCDN($src_cdn) {

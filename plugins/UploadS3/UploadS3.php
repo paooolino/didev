@@ -58,6 +58,7 @@ class UploadS3 {
       ],
       'region'  => 'us-east-1'
     ]);
+    $this->s3->registerStreamWrapper();
   }
   
   public function setUploadPath($uploadpath) {
@@ -83,7 +84,17 @@ class UploadS3 {
     return false;
   }
   
-  private function file_exists_in_bucket($uploadpath) {
+  public function get($path) {
+    return "http://s3.amazonaws.com/" . $this->bucketName . "/" . $path;
+  }
+
+  public function put($path, $image) {
+    //var_dump($image->stream()->detach());die();
+    $this->s3->put($path, $image->stream()->detach(), 'public');
+    die("f");
+  }
+  
+  public function file_exists_in_bucket($uploadpath) {
     return $this->s3->doesObjectExist($this->bucketName, $uploadpath);
   }
   
@@ -105,9 +116,9 @@ class UploadS3 {
     if ($filearr["error"] == 0) {
       $d = $this->add_date_to_uploadpath ? date("d-m-Y") . "/" : "";
       $uploadpath = $this->_uploadpath . $d;
-      if (!$this->file_exists_in_bucket($uploadpath)) {
-        mkdir($uploadpath, 0777, true);
-      }
+      //if (!$this->file_exists_in_bucket($uploadpath)) {
+        //mkdir($uploadpath, 0777, true);
+      //}
       $uploadfile = $uploadpath . basename($filearr['name']);
       $file_info = pathinfo($uploadfile);
       
@@ -120,12 +131,13 @@ class UploadS3 {
       
       $uploader = new MultipartUploader($this->s3, $filearr["tmp_name"], [
         'bucket' => $this->bucketName,
-        'key'    => $uploadfile
+        'key'    => $uploadfile,
+        'ACL'    => 'public-read'
       ]);
       
       try {
         $result = $uploader->upload();
-        return ["result" => "OK", "filename" => $result['ObjectURL']];
+        return ["result" => "OK", "filename" => $result['Key']];
         //echo "Upload complete: {$result['ObjectURL']}" . PHP_EOL;
       } catch (MultipartUploadException $e) {
         //echo $e->getMessage() . PHP_EOL;
