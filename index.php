@@ -793,6 +793,7 @@ ini_set("display_errors", 1);
     $Link = $machine->plugin("Link");
     $Backoffice = $machine->plugin("Backoffice");
     $DB = $machine->plugin("DB");
+    $UploadS3 = $machine->plugin("UploadS3");
     $cities = $DB->getCities();
     $currentCity = $DB->getCurrentCity();
     
@@ -807,11 +808,11 @@ ini_set("display_errors", 1);
     $tableimage = $Backoffice->getTableForField($table, $field);
     $r = $machine->getRequest();
     $original_url = "uploads/$tableimage/original/" . $filename;
-    $imageUrl = "//" . $r["SERVER"]["HTTP_HOST"] . $machine->basepath . "/" . $original_url;  
+    $imageUrl = $UploadS3->get($original_url);  
     
     $crop_info = false;
     $cut_url = "uploads/$tableimage/cut/$filename.info";
-    if (file_exists("./" . $cut_url)) {
+    if ($UploadS3->file_exists_in_bucket($cut_url)) {
       $i = json_decode(file_get_contents("./" . $cut_url), true);
       $x1 = $i["x"];
       $y1 = $i["y"];
@@ -850,6 +851,7 @@ ini_set("display_errors", 1);
     } else {    
     $Backoffice = $machine->plugin("Backoffice");
     $Link = $machine->plugin("Link");
+    $UploadS3 = $machine->plugin("UploadS3");
 
     $result = $Backoffice->getRecordData([
       "table" => $table,
@@ -858,6 +860,8 @@ ini_set("display_errors", 1);
     ]);
     $filename = $result[0][$field];
     
+    // da qui (usare listobjects col prefisso per listare le dir in $table e cercare poi nelle varie w,h)
+    // https://stackoverflow.com/questions/18683206/list-objects-in-a-specific-folder-on-amazon-s3
     // cerca in tutte le cartelle /uploads/$table/<w>_<h>/$filename
     //  ed elimina le thumb
     $tableimage = $Backoffice->getTableForField($table, $field);

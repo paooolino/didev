@@ -33,6 +33,7 @@ class UploadS3 {
   private $_engine;
   private $_uploadpath;
 	private $bucketName;
+  private $bucketOld;
 	private $IAM_KEY;
 	private $IAM_SECRET;
   private $s3;
@@ -44,6 +45,7 @@ class UploadS3 {
     $this->add_date_to_uploadpath = true;
     
     $this->bucketName = getenv('S3_BUCKET_NAME');
+    $this->bucketOld = getenv('S3_BUCKET_OLD');
     $this->IAM_KEY = getenv('S3_IAM_KEY');
     $this->IAM_SECRET = getenv('S3_IAM_SECRET');
     $this->s3 = new S3Client([
@@ -94,6 +96,19 @@ class UploadS3 {
   
   public function file_exists_in_bucket($uploadpath) {
     return $this->s3->doesObjectExist($this->bucketName, $uploadpath);
+  }
+  
+  public function file_exists_in_old_bucket($uploadpath) {
+    return $this->s3->doesObjectExist($this->bucketOld, $uploadpath);
+  }
+  
+  public function copy($source, $destination) {
+    $this->s3->copyObject([
+      'Bucket'     => $this->bucketName,
+      'ACL'        => 'public-read',
+      'Key'        => $destination,
+      'CopySource' => urlencode($this->bucketOld .  "/" . $source),
+    ]);
   }
   
   /**

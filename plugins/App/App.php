@@ -173,12 +173,20 @@ class App {
     $dir1 = substr($idstr, 0, 3);
     $dir2 = substr($idstr, 3, 3);
     $dir3 = substr($idstr, 6, 3);
-    $cdn_url = "//cdn.discotecheitalia.it/uploads/$table/$section/$dir1/$dir2/$dir3/original/" . $filename;
-    if ($this->file_exists_remote("http:" . $cdn_url)) {
+    //$cdn_url = "//cdn.discotecheitalia.it/uploads/$table/$section/$dir1/$dir2/$dir3/original/" . $filename;
+    $cdn_url = "uploads/$table/$section/$dir1/$dir2/$dir3/original/" . $filename;
+    //if ($this->file_exists_remote("http:" . $cdn_url)) {
+    if ($UploadS3->file_exists_in_old_bucket($cdn_url)) {
+      // prima...
       //$this->downloadCdnImage("http:" . $cdn_url, $original_url);
+      
+      // poi...
       // fare download da cdn direttamente nel bucket
-      $file = file_get_contents("http:" . $cdn_url);
-      $UploadS3->put($original_url, $file);
+      //$file = file_get_contents("http:" . $cdn_url);
+      //$UploadS3->put($original_url, $file);
+      
+      // ottimizzato...
+      $UploadS3->copy($cdn_url, $original_url);
       
       $this->generateLocalThumb($table, $filename, $w, $h);
       return $UploadS3->get($thumb_url);     
