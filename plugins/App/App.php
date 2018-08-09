@@ -169,18 +169,20 @@ class App {
     }
     
     // se non esiste, cerca su cdn.
-    /*
     $idstr = str_pad($id, 9, "0", STR_PAD_LEFT);
     $dir1 = substr($idstr, 0, 3);
     $dir2 = substr($idstr, 3, 3);
     $dir3 = substr($idstr, 6, 3);
     $cdn_url = "//cdn.discotecheitalia.it/uploads/$table/$section/$dir1/$dir2/$dir3/original/" . $filename;
     if ($this->file_exists_remote("http:" . $cdn_url)) {
-      $this->downloadCdnImage("http:" . $cdn_url, $original_url);
+      //$this->downloadCdnImage("http:" . $cdn_url, $original_url);
+      // fare download da cdn direttamente nel bucket
+      $file = file_get_contents("http:" . $cdn_url);
+      $UploadS3->put($original_url, $file);
+      
       $this->generateLocalThumb($table, $filename, $w, $h);
-      return "//" . $r["SERVER"]["HTTP_HOST"] . $this->_machine->basepath . "/" . $thumb_url;      
+      return $UploadS3->get($thumb_url);     
     }
-    */
   }
   
   public function creaRitaglio($table, $filename, $w, $h, $x, $y) {
@@ -236,7 +238,7 @@ class App {
       $dest_w = ($w * $dest_h) / $h;
     }
     $image->fit(intval($dest_w), intval($dest_h));
-    $UploadS3->put($thumb_url, $image);
+    $UploadS3->put($thumb_url, $image->stream());
     
     //$arr = explode("/", $thumb_url);
     //array_pop($arr);

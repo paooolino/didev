@@ -46,7 +46,6 @@ class UploadS3 {
     $this->bucketName = getenv('S3_BUCKET_NAME');
     $this->IAM_KEY = getenv('S3_IAM_KEY');
     $this->IAM_SECRET = getenv('S3_IAM_SECRET');
-    
     $this->s3 = new S3Client([
       'credentials' => [
         'key' => $this->IAM_KEY,
@@ -58,7 +57,6 @@ class UploadS3 {
       ],
       'region'  => 'us-east-1'
     ]);
-    $this->s3->registerStreamWrapper();
   }
   
   public function setUploadPath($uploadpath) {
@@ -90,8 +88,8 @@ class UploadS3 {
 
   public function put($path, $image) {
     //var_dump($image->stream()->detach());die();
-    $this->s3->put($path, $image->stream()->detach(), 'public');
-    die("f");
+    $result = $this->s3->upload($this->bucketName, $path, $image, 'public-read');
+    return $result;
   }
   
   public function file_exists_in_bucket($uploadpath) {
