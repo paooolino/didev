@@ -24,12 +24,12 @@ class DiscosForms {
     return $html;
   }
   
-  public function send($data) {
+  public function send($title, $data) {
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
     try {
       //Server settings
       
-      $mail->SMTPDebug = 2;                                 
+      //$mail->SMTPDebug = 2;                                 
       $mail->isSMTP();                                      
       $mail->setFrom('info@discotecheitalia.it', 'Discoteche Italia');
       $mail->addAddress('paooolino@gmail.com');       
@@ -38,14 +38,15 @@ class DiscosForms {
       $mail->Host = 'email-smtp.us-east-1.amazonaws.com';
       
       // The subject line of the email
-      $mail->Subject = 'Amazon SES test (SMTP interface accessed using PHP)';
+      $mail->Subject = '[richiesta inviata dal sito] ' . $title;
 
       // The HTML-formatted body of the email
-      $mail->Body = '<h1>Email Test</h1>
-          <p>This email was sent through the 
-          <a href="https://aws.amazon.com/ses">Amazon SES</a> SMTP
-          interface using the <a href="https://github.com/PHPMailer/PHPMailer">
-          PHPMailer</a> class.</p>';
+      $html = '';
+      $html .= '<h1>' . $title . '</h1>';
+      foreach ($data as $k => $v) {
+        $html .= '<p><i>' . $k . '</i> <b> ' . $v . '</b></p>';
+      }
+      $mail->Body = $html;
       
       $mail->SMTPAuth = true;     
 
@@ -54,8 +55,7 @@ class DiscosForms {
       
       $mail->isHTML(true);     
       
-      $mail->AltBody = "Email Test\r\nThis email was sent through the 
-          Amazon SES SMTP interface using the PHPMailer class.";
+      $mail->AltBody = strip_tags($html);
       //Recipients
       
       //$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
@@ -75,6 +75,5 @@ class DiscosForms {
     } catch (Exception $e) {
       echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
     }
-    die();
   }
 }

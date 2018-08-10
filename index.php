@@ -92,6 +92,7 @@ ini_set("display_errors", 1);
   $Link->setRoute("FORM_LOCATION_SUGGEST", "/form/inserisci-locale");
   $Link->setRoute("FORM_CONTACT", "/form/contatti");
   $Link->setRoute("FORM_PARTY", "/form/organizzare-feste");
+  $Link->setRoute("SEND_OK", "/form/send-ok");
    
   /**
    *  Home page
@@ -527,24 +528,55 @@ ini_set("display_errors", 1);
       ])
     ];
   }); 
+  
+  $machine->addPage($Link->getRoute("SEND_OK"), function($machine) {
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $topBanner = $DB->getRandomTopBanner();
+    return [
+      "template" => "send_ok.php",
+      "data" => array_merge($App->getCommonData(), [
+        "seoTitle" => "Richiesta inviata",
+        "h3" => "Richiesta inviata",
+        "bodyclass" => "sections section",
+        "calendar" => $App->getCalendar()
+      ])
+    ];
+  }); 
 
   /**
    *  Forms
    */
   $machine->addAction($Link->getRoute("FORM_ONLIST"), "POST", function($machine) {
-    $machine->plugin("DiscosForms")->send($_POST["form_onlist"]);
+    $machine->plugin("DiscosForms")->send(
+      "Mettiti in lista",
+      $_POST["form_onlist"]
+    );
+    $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
   
   $machine->addAction($Link->getRoute("FORM_LOCATION_SUGGEST"), "POST", function($machine) {
-    $machine->plugin("DiscosForms")->send($_POST["form_location_suggest"]);
+    $machine->plugin("DiscosForms")->send(
+      "Inserisci locale",
+      $_POST["form_location_suggest"]
+    );
+    $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
   
   $machine->addAction($Link->getRoute("FORM_CONTACT"), "POST", function($machine) {
-    $machine->plugin("DiscosForms")->send($_POST["form_contact"]);
+    $machine->plugin("DiscosForms")->send(
+      "Contatti",
+      $_POST["form_contact"]
+    );
+    $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
   
   $machine->addAction($Link->getRoute("FORM_PARTY"), "POST", function($machine) {
-    $machine->plugin("DiscosForms")->send($_POST["form_party"]);
+    $machine->plugin("DiscosForms")->send(
+      "Organizza festa",
+      $_POST["form_party"]
+    );
+    $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
   
   /**
