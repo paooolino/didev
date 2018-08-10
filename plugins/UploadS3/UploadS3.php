@@ -88,6 +88,14 @@ class UploadS3 {
     return "http://s3.amazonaws.com/" . $this->bucketName . "/" . $path;
   }
 
+  public function getObject($key) {
+    $result = $this->s3->getObject([
+      'Bucket' => $this->bucketName,
+      'Key'    => $key
+    ]);
+    return $result["Body"]->__toString();
+  }
+  
   public function put($path, $image) {
     //var_dump($image->stream()->detach());die();
     $result = $this->s3->upload($this->bucketName, $path, $image, 'public-read');
@@ -100,6 +108,31 @@ class UploadS3 {
   
   public function file_exists_in_old_bucket($uploadpath) {
     return $this->s3->doesObjectExist($this->bucketOld, $uploadpath);
+  }
+  
+  public function deleteObject($key) {
+    if ($this->file_exists_in_bucket($key)) {
+      $result = $this->s3->deleteObject([
+        'Bucket' => $this->bucketName,
+        'Key' => $key
+      ]);
+    }
+  }
+  
+  public function clearThumbs($table, $filename) {
+    $result = $this->s3->listObjects([
+      'Bucket' => $this->bucketName,
+      'Prefix' => $this->_uploadpath . $table . "/",
+      'Delimiter' => $filename
+    ]);
+    foreach ($result['CommonPrefixes'] as $item) {
+      if (stripos($item['Prefix'], $this->_uploadpath . $table . "/original") === false) {
+        $result = $this->s3->deleteObject([
+          'Bucket' => $this->bucketName,
+          'Key' => $item["Prefix"]
+        ]);
+      }
+    }
   }
   
   public function copy($source, $destination) {

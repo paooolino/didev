@@ -194,24 +194,32 @@ class App {
   }
   
   public function creaRitaglio($table, $filename, $w, $h, $x, $y) {
+    $UploadS3 = $this->_machine->plugin("UploadS3");
     $original_url = "uploads/$table/original/$filename";
     $cut_url = "uploads/$table/cut/$filename";
     if (($w == 0 || $w == "") && ($h == 0 || $h == "")) {
-      @unlink($cut_url);
-      @unlink($cut_url . ".info");
+      $UploadS3->deleteObject($cut_url);
+      $UploadS3->deleteObject($cut_url . ".info");
     } else {
-      $img = $this->_imageManager->make($original_url);
+      $img = $this->_imageManager->make($UploadS3->get($original_url));
       $img->crop($w, $h, $x, $y);
-      $arr_local = explode("/", $cut_url);
-      array_pop($arr_local);
-      @mkdir("./" . implode("/", $arr_local), 0777, true);
-      $img->save($cut_url);
-      file_put_contents($cut_url . ".info", json_encode([
+      $UploadS3->put($cut_url, $img->stream());
+      $UploadS3->put($cut_url . ".info", json_encode([
         "w" => $w,
         "h" => $h,
         "x" => $x,
         "y" => $y
       ]));
+      //$arr_local = explode("/", $cut_url);
+      //array_pop($arr_local);
+      //@mkdir("./" . implode("/", $arr_local), 0777, true);
+      //$img->save($cut_url);
+      /*file_put_contents($cut_url . ".info", json_encode([
+        "w" => $w,
+        "h" => $h,
+        "x" => $x,
+        "y" => $y
+      ]));*/
     }
   }
   

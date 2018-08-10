@@ -813,7 +813,7 @@ ini_set("display_errors", 1);
     $crop_info = false;
     $cut_url = "uploads/$tableimage/cut/$filename.info";
     if ($UploadS3->file_exists_in_bucket($cut_url)) {
-      $i = json_decode(file_get_contents("./" . $cut_url), true);
+      $i = json_decode($UploadS3->getObject($cut_url), true);
       $x1 = $i["x"];
       $y1 = $i["y"];
       $x2 = $i["x"] + $i["w"];
@@ -864,16 +864,17 @@ ini_set("display_errors", 1);
     // https://stackoverflow.com/questions/18683206/list-objects-in-a-specific-folder-on-amazon-s3
     // cerca in tutte le cartelle /uploads/$table/<w>_<h>/$filename
     //  ed elimina le thumb
+    $UploadS3->clearThumbs($table, $filename);
     $tableimage = $Backoffice->getTableForField($table, $field);
-    $to_delete = glob("uploads/$tableimage/*_*/$filename");
-    foreach ($to_delete as $f) {
-      unlink($f);
-    }
-    
+    //$to_delete = glob("uploads/$tableimage/*_*/$filename");
+    //foreach ($to_delete as $f) {
+    //  unlink($f);
+    //}
+
     // crea il ritaglio salvando il file e creando il file .info
     // (n.b. se cW, cH sono 0 o vuote, elimina il ritaglio esistente)
     $App->creaRitaglio($tableimage, $filename, $_POST["cW"], $_POST["cH"], $_POST["cX1"], $_POST["cY1"]);
-    
+
     // redirect
     $machine->redirect($Link->Get(["ADMIN_TABLE", $table]));
     }
