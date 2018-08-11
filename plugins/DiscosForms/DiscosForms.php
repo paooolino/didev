@@ -51,8 +51,8 @@ class DiscosForms {
           $v = "<br>" . implode("<br>", $v);
         } else {
           $v = nl2br($v);
-          if ($v == "0" && $v == "newsletter") { $v = "No"; }
-          if ($v == "1" && $v == "newsletter") { $v = "Sì"; }
+          if ($v == "0" && $k == "newsletter") { $v = "No"; }
+          if ($v == "1" && $k == "newsletter") { $v = "Sì"; }
         }
         $html .= '<p><i>' . $this->fieldmapping[$k] . '</i> <b>' . $v . '</b></p>';
       }
@@ -84,9 +84,7 @@ class DiscosForms {
       $html = '';
       $html .= '<h1>' . $title . '</h1>';
       $html .= $this->dataToHtml($data);
-      foreach ($data as $k => $v) {
-        $html .= '<p><i>' . $k . '</i> <b> ' . nl2br($v) . '</b></p>';
-      }
+
       $mail->Body = $html;
       
       $mail->SMTPAuth = true;     
