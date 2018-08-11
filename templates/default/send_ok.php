@@ -19,8 +19,10 @@
           Grazie per averci contattato
         </h1>
         <div class="description">
-          La richiesta è stata inviata correttamente.<br>
-          Il nostro staff risponderà al più presto.
+          <p></p>
+          <p>Richiesta contatto inviata con successo!<br>
+          Un nostro operatore ti ricontatterà al più presto.</p>
+          <p><a href="{{Link|Get|HOME}}">Torna alla home page</a></p>
         </div>
       </article>
     </section>
