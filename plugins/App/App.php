@@ -336,6 +336,7 @@ class App {
     // get the textual representation of the given month
     $dtMonth = \DateTime::createFromFormat('!m', $mese);
     $monthName = $dtMonth->format('F');
+    $monthNameLocale = strftime("%B", $dtMonth->getTimestamp());
     
     // calcola il primo e l'ultimo giorno del mese
     $first = new \DateTimeImmutable('first day of ' . $monthName . " " . $anno);
@@ -380,7 +381,7 @@ class App {
       "tot_events_today" => count($eventInfos["today"]),
       "tot_events_weekend" => count($eventInfos["next_weekend"]),
       "current_year" => $anno,
-      "current_month" => $monthName,
+      "current_month" => $monthNameLocale,
       "dayRows" => $dayRows,
       "prev_link" => $first <= new \DateTime("today midnight") ? '<span class="empty"></span>' : '<a href="' . $prev_link . '">&lt;</a>',
       "next_link" => '<a href="' . $next_link . '">&gt;</a>'

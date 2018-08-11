@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+setlocale(LC_TIME, 'ita', 'it_IT');
 
   require("vendor/autoload.php");
   
@@ -300,15 +301,15 @@ ini_set("display_errors", 1);
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
-        "seoTitle" => "Eventi Brescia " . $day->format("l d F Y"),
-        "title" => "Eventi Brescia - " . $day->format("l d F Y") . ".",
-        "h2" => "Scopri tutti gli eventi in programma a Brescia per " . $day->format("l d F Y"),
+        "seoTitle" => "Eventi Brescia " . strftime("%A %e %B %Y", $day->getTimestamp()),
+        "title" => "Eventi Brescia - " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "h2" => "Scopri tutti gli eventi in programma a Brescia per " . strftime("%A %e %B %Y", $day->getTimestamp()),
         "seoDescription" => "",
         "n_pages" => ceil($n_events / 15),
         "pag" => 1,
         "n_events" => $n_events,
         "events" => $events,
-        "h3" => "Eventi " . $day->format("l d F Y"),
+        "h3" => "Eventi " . strftime("%A %e %B %Y", $day->getTimestamp()),
         "calendar" => $App->getCalendar(),
         "disableEventlistHeader" => true
       ])
