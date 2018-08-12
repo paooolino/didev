@@ -107,9 +107,9 @@ setlocale(LC_TIME, "ita", "it_IT");
     $DB = $machine->plugin("DB");
     $homeContent = $DB->getHomeContent();
     
-    $specialEvents = []; //$App->getEvents(null, false, 6, true);
+    $specialEvents = $DB->getEventsFromDB("AND events.special = 1", "LIMIT 0,8");
     $hevents_big = array_slice($specialEvents, 0, 4);
-    $hevents_small = array_slice($specialEvents, 4, 2);
+    $hevents_small = array_slice($specialEvents, 4, 4);
     $currentCity = $DB->getCurrentCity();  
     
     $banner_dx = $DB->getBannerLandscape();

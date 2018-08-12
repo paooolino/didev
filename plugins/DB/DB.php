@@ -500,7 +500,7 @@ class DB {
     return $items;
   }
   
-  public function getEventsFromDB() {
+  public function getEventsFromDB($wherecond="", $limitcond="") {
     $query = "
       SELECT * FROM (SELECT 
         events.*,
@@ -518,6 +518,7 @@ class DB {
         ON events.recurrent_id = recurrents.id
       WHERE
         events.site_id = ?
+        $wherecond
         AND time_to > NOW()
       ORDER BY
         time_from ASC) AS A
@@ -526,6 +527,8 @@ class DB {
         A.seo_url
       ORDER BY 
         time_from ASC
+      
+      $limitcond
     ";
     $events = $this->_getData($query, [$this->_site]);
     

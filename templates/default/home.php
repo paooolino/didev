@@ -66,11 +66,11 @@
         </div>
         <div class="row big">
           <?php foreach ($hevents_big as $hevent) {
-            $imgurl = $App->getImg("events", $hevent["id"], 311, 175, $hevent["image_file_name"]);
+            $imgurl = $App->img("events", $hevent["id"], 311, 175, $hevent["image_file_name"]);
             ?>
             <div class="columns h-event vevent small-12 medium-6 large-3">
               <div class="component">
-                <a data-galabel="Eventi_speciali_HP" data-gavalue="<?php echo $hevent["title"]; ?>" href="<?php echo $hevent["url"]; ?>" title="<?php echo $hevent["title"]; ?>">
+                <a data-galabel="Eventi_speciali_HP" data-gavalue="<?php echo $hevent["title"]; ?>" href="{{Link|Get|EVENTO|<?php echo $hevent["seo_url"]; ?>}}" title="<?php echo $hevent["title"]; ?>">
                   <img 
                     alt="<?php echo $hevent["title"]; ?>" 
                     data-interchange="
@@ -87,9 +87,9 @@
                 <div class="desc">
                   <span><?php echo $hevent["title_date"]; ?></span>
                   <a title="<?php echo $hevent["title"]; ?>" class="p-name summary" data-gavalue="<?php echo $hevent["title"]; ?>" data-galabel="Eventi_speciali_HP" href="<?php echo $hevent["url"]; ?>"><?php echo $hevent["title"]; ?></a>
-                  <time class="dt-start dtstart" datetime="<?php echo $hevent["startdate"]; ?>" title="<?php echo $hevent["startdate"]; ?>"><?php echo $hevent["startdate"]; ?></time>
-                  <time class="dt-end dtend" datetime="<?php echo $hevent["enddate"]; ?>" title="<?php echo $hevent["enddate"]; ?>"><?php echo $hevent["enddate"]; ?></time>
-                  <span class="location p-location" title="<?php echo $hevent["location"]; ?>"><?php echo $hevent["location"]; ?></span>
+                  <time class="dt-start dtstart" datetime="<?php echo $hevent["time_from"]; ?>" title="<?php echo $hevent["time_from"]; ?>"><?php echo $hevent["time_from"]; ?></time>
+                  <time class="dt-end dtend" datetime="<?php echo $hevent["time_to"]; ?>" title="<?php echo $hevent["time_to"]; ?>"><?php echo $hevent["time_to"]; ?></time>
+                  <span class="location p-location" title="<?php echo $hevent["locations_title"]; ?>"><?php echo $hevent["locations_title"]; ?></span>
                 </div>
               </div>
             </div>
@@ -97,13 +97,13 @@
         </div>
         <div class="row small">
           <?php foreach ($hevents_small as $hevent) {
-            $imgurl = $App->getImg("events", $hevent["id"], 217, 124, $hevent["image_file_name"]);
+            $imgurl = $App->img("events", $hevent["id"], 217, 124, $hevent["image_file_name"]);
             ?>
             <div class="columns h-event vevent small-12 medium-6 large-6">
               <div class="component">
                 <div class="row collapse">
                   <div class="hide-for-small medium-3 large-4 columns">
-                    <a data-galabel="Eventi_speciali_HP" data-gavalue="<?php echo $hevent["title"]; ?>" href="<?php echo $hevent["url"]; ?>" title="<?php echo $hevent["title"]; ?>">
+                    <a data-galabel="Eventi_speciali_HP" data-gavalue="<?php echo $hevent["title"]; ?>" href="{{Link|Get|EVENTO|<?php echo $hevent["seo_url"]; ?>}}" title="<?php echo $hevent["title"]; ?>">
                       <img 
                         alt="<?php echo $hevent["title"]; ?>" 
                         data-interchange="
@@ -122,9 +122,9 @@
                     <div class="desc">
                       <span><?php echo $hevent["title_date"]; ?></span>
                       <a title="<?php echo $hevent["title"]; ?>" class="p-name summary" data-gavalue="<?php echo $hevent["title"]; ?>" data-galabel="Eventi_speciali_HP" href="<?php echo $hevent["url"]; ?>"><?php echo $hevent["title"]; ?></a>
-                      <time class="dt-start dtstart" datetime="<?php echo $hevent["startdate"]; ?>" title="<?php echo $hevent["startdate"]; ?>"><?php echo $hevent["startdate"]; ?></time>
-                      <time class="dt-end dtend" datetime="<?php echo $hevent["enddate"]; ?>" title="<?php echo $hevent["enddate"]; ?>"><?php echo $hevent["enddate"]; ?></time>
-                      <span class="location p-location" title="<?php echo $hevent["location"]; ?>"><?php echo $hevent["location"]; ?></span>
+                      <time class="dt-start dtstart" datetime="<?php echo $hevent["time_from"]; ?>" title="<?php echo $hevent["time_from"]; ?>"><?php echo $hevent["time_from"]; ?></time>
+                      <time class="dt-end dtend" datetime="<?php echo $hevent["time_to"]; ?>" title="<?php echo $hevent["time_to"]; ?>"><?php echo $hevent["time_to"]; ?></time>
+                      <span class="location p-location" title="<?php echo $hevent["locations_title"]; ?>"><?php echo $hevent["locations_title"]; ?></span>
                     </div>
                   </div>
                 </div>
