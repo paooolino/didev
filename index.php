@@ -1,9 +1,9 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-$result = setlocale(LC_ALL, "ita", "IT_it");
+$result = setlocale(LC_ALL, 0);
 var_dump($result);
-echo strftime("%B", time());
+echo "::." . strftime("%B", time());
 die();
 
   require("vendor/autoload.php");
