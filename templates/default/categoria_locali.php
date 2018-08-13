@@ -14,7 +14,11 @@
       </li>
     </nav>
     <article class="boxed spaceB notehead">
-      <img alt="<?php echo $cat["title"]; ?>" title="<?php echo $cat["title"]; ?>" class="thumbcat" src="http://cdn.discotecheitalia.it/uploads/typos/images/000/000/003/original/f6250c807077a427d84e07793d270f9b-happyhouraperitivo.gif">
+      <img alt="<?php echo $cat["title"]; ?>" title="<?php echo $cat["title"]; ?>" class="thumbcat" 
+        <?php
+        $imgurl = $App->img("typos", $cat["id"], "W", 57, $cat["image_file_name"]);
+        ?>
+        src="<?php echo $imgurl; ?>">
       <hgroup>
         <h1 class="mainsummary"><?php echo $cat["title"]; ?></h1>
         <h2 class="summary"><?php echo $cat["seo_subtitle"]; ?></h2>

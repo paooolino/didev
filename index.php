@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-setlocale(LC_TIME, "ita", "it_IT");
+setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
 //var_dump($result);
 //echo "::." . strftime("%B", time());

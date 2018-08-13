@@ -164,8 +164,10 @@
                       ?>
                       <div class="list article yellow">
                         <div class="description">
+                          <?php if ($box["title"] != "") { ?>
                           <p><span class="summary"><?php echo $box["title"]; ?></span></p>
-                          <p><?php echo $box["description"]; ?></p>
+                          <?php } ?>
+                          <?php echo $box["description"]; ?>
                         </div>
                       </div>
                       <?php
