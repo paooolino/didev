@@ -581,6 +581,41 @@ class DB {
           "image" => $row["image_file_name"] != "" ? $this->_machine->plugin("App")->img("home_boxes", $row["id"], 311, 190, $row["image_file_name"]) : ""
         ];
       }
+      if ($row["behaviour"] == 1) { // locations ultime inserite
+        $boxes[] = [
+          "title" => "Ultimi locali inseriti",
+          "link" => "",
+          "description" => '',
+          "size" => 1,
+          "type" => "list",
+          "image" => "",
+          "children" => $this->getLocaliUltimiInseriti()
+        ];
+      }
+      if ($row["behaviour"] == 2) { // locations in evidenza
+        $boxes[] = [
+          "title" => "Locali in evidenza a Brescia",
+          "link" => "",
+          "description" => 'I locali della provincia che nelle ultime 24h hanno scalato più posizioni in popolarità',
+          "size" => 1,
+          "type" => "list dark",
+          "image" => "",
+          "children" => $this->getLocaliInEvidenzaHome()
+        ];
+      }      
+      if ($row["behaviour"] == 4) { // testo home promo
+        $boxes[] = [
+          "type" => "boxed",
+          "size" => 2
+        ];
+      }
+      if ($row["behaviour"] == 5) { // Google Plus
+        $boxes[] = [
+          "type" => "google-badge",
+          "size" => 1
+        ];
+      }
+      
     }
     
     return $boxes;
@@ -643,6 +678,47 @@ class DB {
       $slug
     ]);
     return $result[0]["counter"];
+  }
+  
+  public function getLocaliInEvidenzaHome() {
+    $query = '
+      SELECT 
+        locations.seo_title as titlelink,
+        locations.seo_url as url,
+        locations.title as label,
+        typo_btw_sites.title as category
+      FROM locations
+      LEFT JOIN typo_btw_sites ON locations.typo_id = typo_btw_sites.id
+      WHERE 
+        locations.site_id = ?
+        AND locations.active = 1
+		  AND locations.on_home = 1
+    ';
+    $result = $this->_getData($query, [
+      $this->_site
+    ]);
+    return $result;    
+  }
+  
+  public function getLocaliUltimiInseriti() {
+    $query = '
+      SELECT 
+        locations.seo_title as titlelink,
+        locations.seo_url as url,
+        locations.title as label,
+        typo_btw_sites.title as category
+      FROM locations
+      LEFT JOIN typo_btw_sites ON locations.typo_id = typo_btw_sites.id
+      WHERE 
+        locations.site_id = ?
+        AND locations.active = 1
+      ORDER BY locations.created_at DESC
+		  LIMIT 0, 5
+    ';
+    $result = $this->_getData($query, [
+      $this->_site
+    ]);
+    return $result;    
   }
   
   public function getListCategoriaLocali($slug, $all=false, $pag=1) {

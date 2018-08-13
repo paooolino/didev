@@ -201,22 +201,64 @@
                       <?php
                       break;
                     case "list dark":
+                    case "list":
                       ?>
-                      <div class="list dark">
+                      <div class="<?php echo $box["type"]; ?>">
                         <span class="summary"><?php echo $box["title"]; ?></span>
                         <p class="description"><?php echo $box["description"]; ?></p> 
                         <ul>
                           <?php foreach ($box["children"] as $boxitem) { ?>
-                            <a title="<?php echo $boxitem["titlelink"]; ?>" href="<?php echo $boxitem["url"]; ?>"><?php echo $boxitem["label"]; ?>
-                            <span> (<?php echo $boxitem["category"]; ?>)</span>
+                            <li>
+                              <a title="<?php echo $boxitem["titlelink"]; ?>" href="<?php echo $boxitem["url"]; ?>"><?php echo $boxitem["label"]; ?>
+                                <span> (<?php echo $boxitem["category"]; ?>)</span>
+                              </a>
+                            </li>
                           <?php } ?>
                         </ul>
+                      </div>
                       <?php
                       break;
                     case "list article dark":
                       ?>
                       <div class="list article dark">
                         <div class="description"><?php echo $box["description"]; ?></div>
+                      </div>
+                      <?php
+                      break;
+                    case "boxed":
+                      ?>
+                      <div class="boxed">
+                        <h2 class="minisummary">
+                        Discoteche, locali, ristoranti, eventi e molto altro su Discotechebrescia.it
+                        </h2>
+                        <div class="description">
+                        <p style="text-align: justify;">
+                          Su discotechebrescia.it potete trovare le schede dettagliate dei migliori bar dove bere un <em>aperitivo </em>e fare <em>happy hour</em>, i ristoranti dove saziarvi e <em>cenare con musica</em> (dalle pizzerie ai <a href="{{Link|Get|CATEGORIA|ristoranti-e-locali-etnici-a-brescia}}" onclick="_gaq.push(['_trackEvent', 'Box_home', 'click', 'Ristoranti etnici']);" title="Ristoranti etnici e ristoranti Giapponesi a Brescia">ristoranti etnici e giapponesi</a> ), i pub, le birrerie e i più gettonati locali notturni , le discoteche di Brescia e le <strong> <a href="{{Link|Get|CATEGORIA|discoteche-lago-di-garda}}" onclick="_gaq.push(['_trackEvent', 'Box_home', 'click', 'Discoteche lago di garda']);" title="Discoteche lago di garda">discoteche del lago di Garda</a></strong> come la&nbsp;discoteca <strong> <a href="{{Link|Get|CATEGORIA|coco-beach-lonato-discoteca}}" onclick="_gaq.push(['_trackEvent', 'Box_home', 'click', 'Coco Beach']);" title="Discoteca coco beach lonato">Coco Beach</a></strong> dove scatenarvi sulla pista da ballo e far mattino sia a Brescia che sul <em>lago di Garda</em>.<br>
+                          <br>
+                          Inoltre, per facilitare il vostro divertimento, in ogni scheda troverete i contatti o il form per mettervi in lista nelle migliori <strong>discoteche</strong> e <strong>locali</strong>! Vi ricordiamo anche che lo staff di DiscotecheBrescia.it è sempre a vostra completa disposizione per organizzare le vostre feste e le vostre serate a Brescia e sul <em>lago di Garda</em>.<br>
+                          <br>
+                          Scopri la nuova sezione <a href="{{Link|Get|FESTIVITA}}" onclick="_gaq.push(['_trackEvent', 'Box_home', 'click', 'Festivita']);" title="Calendario eventi festività Brescia">calendario eventi festività</a>.</p>
+
+                        </div>
+                      </div>
+                      <?php
+                      break;
+                    case "google-badge":
+                      ?>
+                      <div id="google-badge">
+                      <div class="g-page" data-href="http://plus.google.com/+discotechebrescia" data-width="200"></div>
+                      <script type="text/javascript">
+                      window.___gcfg = {lang: 'it'};
+                          document.getElementsByClassName('g-page')[0].setAttribute('data-width', document.getElementById('google-badge').clientWidth);
+                            (function () {
+                              var po = document.createElement('script');
+                              po.type = 'text/javascript';
+                              po.async = true;
+                              po.src = 'https://apis.google.com/js/platform.js';
+                              var s = document.getElementsByTagName('script')[0];
+                              s.parentNode.insertBefore(po, s);
+                          })();
+                      </script>
                       </div>
                       <?php
                       break;
