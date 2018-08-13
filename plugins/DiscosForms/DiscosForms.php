@@ -68,10 +68,17 @@ class DiscosForms {
       //$mail->SMTPDebug = 2;                                 
       $mail->isSMTP();                                      
       $mail->setFrom('info@discotecheitalia.it', 'Discoteche Italia');
-      $mail->addAddress($this->_MAIL_TO);
-      if ($this->_MAIL_BCC != "") {
-        $mail->AddBCC($this->_MAIL_BCC);
+      
+      $addresses = explode(',', $this->_MAIL_TO);
+      foreach ($addresses as $address) {
+        $email->AddAddress($address);
       }
+
+      $addresses = explode(',', $this->_MAIL_BCC);
+      foreach ($addresses as $address) {
+        $email->AddBCC($address);
+      }
+
       $mail->Username = $this->_SMTP_USER;                 // SMTP username
       $mail->Password = $this->_SMTP_PASS;                         // SMTP password
       $mail->Host = 'email-smtp.us-east-1.amazonaws.com';
