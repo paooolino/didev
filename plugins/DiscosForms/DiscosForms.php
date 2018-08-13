@@ -71,12 +71,16 @@ class DiscosForms {
       
       $addresses = explode(',', $this->_MAIL_TO);
       foreach ($addresses as $address) {
-        $mail->AddAddress($address);
+        if ($address != "") {
+          $mail->AddAddress($address);
+        }
       }
 
       $addresses = explode(',', $this->_MAIL_BCC);
       foreach ($addresses as $address) {
-        $mail->AddBCC($address);
+        if ($address != "") {
+          $mail->AddBCC($address);
+        }
       }
 
       $mail->Username = $this->_SMTP_USER;                 // SMTP username
