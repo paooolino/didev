@@ -589,7 +589,10 @@ class DB {
           "size" => 1,
           "type" => "list",
           "image" => "",
-          "children" => $this->getLocaliUltimiInseriti()
+          "children" => array_map(function($item) {
+            $item["url"] = $this->_machine->plugin("Link")->Get(["LOCALE", $item["url"]]);
+            return $item;
+          }, $this->getLocaliUltimiInseriti())
         ];
       }
       if ($row["behaviour"] == 2) { // locations in evidenza
