@@ -1,53 +1,130 @@
 var gulp = require("gulp");
-//var concat = require("gulp-concat");
-//var modernizr = require("gulp-modernizr");
-//var uglify = require('gulp-uglify');
-//var pump = require('pump');
-var sass = require('gulp-sass');
-var merge = require('merge-stream');
+var concat = require("gulp-concat");
+var uglify = require('gulp-uglify');
+var pump = require('pump');
+var cleanCSS = require('gulp-clean-css');
+var awspublish = require('gulp-awspublish');
+var rename = require('gulp-rename');
 
-gulp.task('css', function() {
-  return gulp.src('./css/front_custom.sass')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./css'));  
-});
-
-var vendorjs_sources = [
-  './node_modules/jquery/dist/jquery.js',
-  './node_modules/foundation-sites/js/foundation.min.js',
-  './node_modules/foundation-datepicker/js/foundation-datepicker.min.js',
-  './node_modules/slick-carousel/slick/slick.min.js',
-  './node_modules/masonry-layout/dist/masonry.pkgd.min.js',
-  './node_modules/imagesloaded/imagesloaded.pkgd.min.js',
-  './node_modules/modernizr/modernizr.js',
-  './node_modules/Jcrop/js/jquery.Jcrop.min.js',
-  './node_modules/jqueryui/jquery-ui.min.js',
-  './node_modules/jquery-validation/dist/jquery.validate.min.js'
-];
-var vendorcss_sources = [
-  './node_modules/foundation-sites/css/normalize.css',
-  './node_modules/foundation-sites/css/foundation.css',
-  './node_modules/foundation-datepicker/css/foundation-datepicker.min.css',
-  './node_modules/slick-carousel/slick/slick.css',
-  './node_modules/Jcrop/css/jquery.Jcrop.min.css',
-  './node_modules/slick-carousel/slick/slick-theme.css'
+var publisher = awspublish.create({
+  region: 'us-east-1',
+  params: {
+    Bucket: 'storage2.discotecheitalia.it'
+  },
+  credentials: {
+    accessKeyId: process.env.aws_access_key_id,
+    secretAccessKey: process.env.aws_secret_access_key
+  }
+}); 
+  
+var css_sources = [
+  './vendor/css/normalize.css',
+  './vendor/css/foundation.css',
+  './vendor/css/foundation-datepicker.min.css',
+  './vendor/css/slick.css',
+  './vendor/css/slick-theme.css',
+  './css/foundation_override.css',
+  './css/front-custom.css'
 ];
 
-gulp.task('vendorjs', function() {
-  return gulp.src(vendorjs_sources)
-    .pipe(gulp.dest('./vendor/js'));
+var js_sources_header = [
+  './vendor/js/jquery.js',
+  './vendor/js/jquery-ui.min.js',
+  './vendor/js/foundation.min.js',
+  './vendor/js/foundation-datepicker.min.js',
+  './vendor/js/slick.min.js',
+  './vendor/js/masonry.pkgd.min.js',
+  './vendor/js/imagesloaded.pkgd.min.js',
+  './vendor/js/jquery.validate.min.js'
+];
+
+var js_sources_footer = [
+  './js/front_custom.js',
+  './js/modules/ajaxLoadItems.js',
+  './js/modules/formvalidators.js'
+];
+
+gulp.task('css', function(cb) {
+  pump([
+    gulp.src(css_sources),
+    concat('all.css'),
+    cleanCSS(),
+    gulp.dest('./assets/css/')
+  ], cb);
 });
 
-gulp.task('vendorcss', function() {
-  return gulp.src(vendorcss_sources)
-    .pipe(gulp.dest('./vendor/css'));
+gulp.task('js_header', function(cb) {
+  pump([
+    gulp.src(js_sources_header),
+    concat('header.js'),
+    uglify(),
+    gulp.dest('./assets/js/')
+  ], cb);
 });
 
-gulp.task('ckeditor', function() {
-  return gulp.src('./node_modules/ckeditor/**')
-    .pipe(gulp.dest('./vendor/ckeditor'));
+gulp.task('js_footer', function(cb) {
+  pump([
+    gulp.src(js_sources_footer),
+    concat('footer.js'),
+    uglify(),
+    gulp.dest('./assets/js/')
+  ], cb);
 });
 
-gulp.task('vendor', ['vendorjs', 'ckeditor', 'vendorcss']);
+gulp.task('publish_css', function(cb) { 
+  
+  pump([
+    gulp.src([
+      './css/**/*'
+    ]),
+    rename(function(path) {
+      path.dirname = 'css/' + path.dirname;
+    }),
+    publisher.publish(),
+    awspublish.reporter()
+  ], cb);
+});  
 
-gulp.task('default', ['css', 'vendor']);
+gulp.task('publish_js', function(cb) { 
+  pump([
+    gulp.src([
+      './js/**/*'
+    ]),
+    rename(function(path) {
+      path.dirname = 'js/' + path.dirname;
+    }),
+    publisher.publish(),
+    awspublish.reporter()
+  ], cb);
+});
+
+gulp.task('publish_vendor', function(cb) {   
+  pump([
+    gulp.src([
+      './vendor/**/*'
+    ]),
+    rename(function(path) {
+      path.dirname = 'vendor/' + path.dirname;
+    }),
+    publisher.publish(),
+    awspublish.reporter()
+  ], cb);
+});
+
+gulp.task('publish_images', function(cb) { 
+  pump([
+    gulp.src([
+      './images/**/*'
+    ]),
+    rename(function(path) {
+      path.dirname = 'images/' + path.dirname;
+    }),
+    publisher.publish(),
+    awspublish.reporter()
+  ], cb);
+});
+
+//gulp.task('default', ['css', 'js_header', 'js_footer', 'publish']);
+gulp.task('default', ['publish_css', 'publish_js', 'publish_vendor', 'publish_images']);
+
+

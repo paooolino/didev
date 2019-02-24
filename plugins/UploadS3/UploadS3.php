@@ -38,8 +38,10 @@ class UploadS3 {
 	private $IAM_SECRET;
   private $s3;
   public $add_date_to_uploadpath;
+  public $UPLOADS_HOST;
   
   public function __construct($engine) {
+    $this->UPLOADS_HOST = getenv("UPLOADS_HOST");
     $this->_engine = $engine;
     $this->_uploadpath = "uploads/";
     $this->add_date_to_uploadpath = true;
@@ -85,7 +87,8 @@ class UploadS3 {
   }
   
   public function get($path) {
-    return "http://s3.amazonaws.com/" . $this->bucketName . "/" . $path;
+    //return "http://s3.amazonaws.com/" . $this->bucketName . "/" . $path;
+    return "//" . $this->UPLOADS_HOST . $path;
   }
 
   public function getObject($key) {

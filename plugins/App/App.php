@@ -6,11 +6,13 @@ use Intervention\Image\ImageManager;
 class App {
   public $AUTH_SALT;
   public $LOGGED_USER;
+  public $UPLOADS_HOST;
   private $_machine;
   private $_imageManager;
   private $DB;
   
   public function __construct($machine) {
+    $this->UPLOADS_HOST = getenv("UPLOADS_HOST");
     $this->AUTH_SALT = "1$(=>6zGa}S4NqW/R5|KZ6lDyzWuGg%x.(Yi-4@O Q<<FK=(2+N n!W}q+oN-@:/";
     $this->_machine = $machine;
     $this->_imageManager = new ImageManager(array('driver' => 'gd'));
@@ -244,18 +246,21 @@ class App {
     if ($UploadS3->file_exists_in_bucket($cut_url)) {
       $source = $cut_url;
     }
-    $image = $this->_imageManager->make($UploadS3->get($source));
-    $w = $image->width();
-    $h = $image->height();
-    if ($dest_h == "H" && is_int($dest_w)) {
-      $dest_h = ($h * $dest_w) / $w;
+    try {
+      $image = $this->_imageManager->make($UploadS3->get($source));
+      $w = $image->width();
+      $h = $image->height();
+      if ($dest_h == "H" && is_int($dest_w)) {
+        $dest_h = ($h * $dest_w) / $w;
+      }
+      if ($dest_w == "W" && is_int($dest_h)) {
+        $dest_w = ($w * $dest_h) / $h;
+      }
+      $image->fit(intval($dest_w), intval($dest_h));
+      $UploadS3->put($thumb_url, $image->stream());
+    } catch(\Intervention\Image\Exception\NotReadableException $err) {
+      // do not generate...
     }
-    if ($dest_w == "W" && is_int($dest_h)) {
-      $dest_w = ($w * $dest_h) / $h;
-    }
-    $image->fit(intval($dest_w), intval($dest_h));
-    $UploadS3->put($thumb_url, $image->stream());
-    
     //$arr = explode("/", $thumb_url);
     //array_pop($arr);
     //@mkdir("./" . implode("/", $arr), 0777, true);

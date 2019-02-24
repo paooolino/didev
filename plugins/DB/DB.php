@@ -600,7 +600,10 @@ class DB {
           "size" => 1,
           "type" => "list dark",
           "image" => "",
-          "children" => $this->getLocaliInEvidenzaHome()
+          "children" => array_map(function($item) {
+            $item["url"] = $this->_machine->plugin("Link")->Get(["LOCALE", $item["url"]]);
+            return $item;
+          }, $this->getLocaliInEvidenzaHome())
         ];
       }      
       if ($row["behaviour"] == 4) { // testo home promo
