@@ -270,8 +270,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("EVENTI_WEEKEND"), function($machine) {
     $App = $machine->plugin("App");
     $Link = $machine->plugin("Link");
+    $DB = $machine->plugin("DB");
     
-    $section = $App->getSection("eventi-weekend");
+    $section = $DB->getSection("eventi-weekend");
     $day = new \DateTime(date("Y") . "-" . date("m") . "-" . date("d"));
     $events = $App->getNextWeekendEvents();
     $n_events = count($events);
@@ -290,7 +291,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "events" => $events,
         "h3" => $section["seo_footer"],
         "calendar" => $App->getCalendar(),
-        "disableEventlistHeader" => true
+        "disableEventlistHeader" => true,
+        "disableEventsArchive" => true
       ])
     ];
   });
@@ -507,7 +509,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("FESTIVITA"), function($machine, $slug_festivita) {
     $App = $machine->plugin("App");
     return [
-      "template" => "festivita.php",
+      "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
       ])
     ];

@@ -160,12 +160,14 @@
       <p class="empty"></p>
     </div>
 
+    <?php if (!(isset($disableEventsArchive) && $disableEventsArchive == true)) { ?>
     <p class="archive_events">
       <a class="bt" href="/eventi-passati">
         <i class="fa fa-calendar"></i>
         vedi eventi passati
       </a>
     </p>
+    <?php } ?>
 
   </section>
   <aside class="show-for-large-up large-3 columns spaceT side_right">
