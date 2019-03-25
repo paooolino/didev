@@ -125,7 +125,7 @@ class DB {
   }
   
   public function getElencoFestivita() {
-    return $this->_getData("SELECT * FROM holiday_btw_sites LEFT JOIN holidays ON holidays.id = holiday_btw_sites.holiday_id WHERE site_id = ? ORDER BY position", [$this->_site]);
+    return $this->_getData("SELECT * FROM holiday_btw_sites LEFT JOIN holidays ON holidays.id = holiday_btw_sites.holiday_id WHERE site_id = ? AND active = 1 ORDER BY position", [$this->_site]);
   }
   
   public function getCities() {
