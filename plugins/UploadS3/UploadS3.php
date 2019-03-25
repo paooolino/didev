@@ -88,7 +88,7 @@ class UploadS3 {
   
   public function get($path) {
     //return "http://s3.amazonaws.com/" . $this->bucketName . "/" . $path;
-    return "//" . $this->UPLOADS_HOST . $path;
+    return "https://" . $this->UPLOADS_HOST . $path;
   }
 
   public function getObject($key) {
