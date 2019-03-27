@@ -534,9 +534,30 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   $machine->addPage($Link->getRoute("FESTIVITA"), function($machine, $slug_festivita) {
     $App = $machine->plugin("App");
+    $Link = $machine->plugin("Link");
+    $DB = $machine->plugin("DB");
+    
+    $festivita = $DB->getEvFestivita($slug_festivita);
+    $events = $DB->getEventsFromDBbyFestivita($festivita["holiday_id"]);
+    $n_events = count($events);
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
+        "bodyclass" => "events next_events",
+        "h2" => $festivita["seo_title"],
+        "seoTitle" => $festivita["title"],
+        "title" => $festivita["seo_title"],
+        "seoDescription" => $festivita["seo_description"],
+        "description" => $festivita["description"],
+        "n_events" => $n_events,
+        "n_pages" => ceil($n_events / 15),
+        "pag" => 1,
+        "events" => $events,
+        "h3" => $festivita["seo_footer"],
+        "calendar" => $App->getCalendar(),
+        "catevents" => $DB->getCatEvents(),
+        "disableEventlistHeader" => true,
+        "breadcrumbitems" => []
       ])
     ];
   }); 

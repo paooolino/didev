@@ -124,6 +124,12 @@ class DB {
     return $result[0];
   }
   
+  public function getEvFestivita($slug) {
+    $query = "SELECT * FROM holiday_btw_sites WHERE site_id = ? AND seo_url = ?";
+    $result = $this->_getData($query, [$this->_site, $slug]);
+    return $result[0];
+  }
+  
   public function getElencoFestivita() {
     return $this->_getData("SELECT * FROM holiday_btw_sites LEFT JOIN holidays ON holidays.id = holiday_btw_sites.holiday_id WHERE site_id = ? AND active = 1 ORDER BY position", [$this->_site]);
   }
@@ -993,6 +999,43 @@ class DB {
         time_to ASC
     ";
     $events = $this->_getData($query, [$this->_site, $cat_id]);
+    
+    return $events;
+  }
+  
+  public function getEventsFromDBbyFestivita($holiday_id) {
+    $query = "
+      SELECT 
+        events.*,
+        locations.title as locations_title,
+        locations.address_city as locations_address_city,
+        locations.address_province as locations_address_province,
+        locations.seo_url as locations_seo_url,
+        recurrents.image_file_name as recurrent_image    
+      FROM events
+      LEFT JOIN event_btw_locations 
+        ON events.id = event_btw_locations.event_id
+      LEFT JOIN locations
+        ON event_btw_locations.location_id = locations.id
+      LEFT JOIN recurrents
+        ON events.recurrent_id = recurrents.id
+        
+      LEFT JOIN holiday_btw_events
+        ON events.id = holiday_btw_events.event_id
+        
+      WHERE
+        events.site_id = ?
+        AND time_to > NOW()
+        AND locations.active = 1
+        
+        AND holiday_btw_events.holiday_id = ?
+        
+      GROUP BY
+        events.seo_url
+      ORDER BY
+        time_to ASC
+    ";
+    $events = $this->_getData($query, [$this->_site, $holiday_id]);
     
     return $events;
   }

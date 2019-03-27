@@ -25,7 +25,7 @@
           <hgroup>
             <h1 class="mainsummary">{{seoTitle}}</h1>
             <h2 class="summary">{{h2}}</h2>
-            <div class="description">{{seoDescription}}</div>
+            <div class="description">{{description}}</div>
           </hgroup>
         </article>
       </div>
