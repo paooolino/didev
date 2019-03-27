@@ -39,7 +39,8 @@
             <?php if (!isset($menuitem["children"])) { 
               $className = "";
               if ($menuitem["url"] != "") {
-                if (stristr($Link->Get($this->getCurrentPath()), $menuitem["url"]) !== false) {
+                //if (stristr($Link->Get($this->getCurrentPath()), $menuitem["url"]) !== false) {
+                if ($Link->Get($this->getCurrentPath()) == $menuitem["url"]) {
                   $className = "active";
                 }
               }
