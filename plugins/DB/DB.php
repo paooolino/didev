@@ -692,6 +692,32 @@ class DB {
     return $result[0]["counter"];
   }
   
+  public function countListCategoriaLocaliLettera($slug, $lettera) {
+    $query = '
+      SELECT count(*) as counter
+      FROM
+        location_visibilities
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      LEFT JOIN 
+        typo_btw_sites
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) 
+        AND typo_btw_sites.seo_url = ?
+        AND locations.active = 1
+        AND locations.title like \'' . $lettera . '%\'
+    ';
+    $result = $this->_getData($query, [
+      $this->_site,
+      $slug
+    ]);
+    return $result[0]["counter"];
+  }
+  
   public function getLocaliInEvidenzaHome() {
     $query = '
       SELECT 
@@ -773,6 +799,44 @@ class DB {
     return $result;
   }
   
+  public function getListCategoriaLocaliLettera($slug, $all=false, $lettera) {
+    $visibility_condition = "";
+    if (!$all) {
+      $visibility_condition = ' AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) ';
+    }
+    $query = '
+      SELECT
+        location_visibilities.id as main_id,
+        location_visibilities.level as level,
+        location_visibilities.expire_at as expire_at,
+        location_visibilities.location_id,
+        locations.*
+      FROM
+        location_visibilities
+      LEFT JOIN 
+        typo_btw_sites
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        ' . $visibility_condition . '
+        AND typo_btw_sites.seo_url = ?
+        AND locations.active = 1
+        AND locations.title like \'' . $lettera . '%\'
+      ORDER BY
+        location_visibilities.level DESC
+    ';
+
+    $result = $this->_getData($query, [
+      $this->_site,
+      $slug
+    ]);
+    return $result;
+  }
+  
   public function getListCategoriaLocaliZona($slug_categoria, $zona) {
     $query = '
       SELECT
@@ -831,6 +895,53 @@ class DB {
         AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
         AND typo_btw_sites.seo_url = ?
         AND locations.active = 1
+      ORDER BY
+        town
+    ';
+    $result = $this->_getData($query, [
+      $this->_site,
+      $slug_categoria
+    ]);
+    
+    $z1 = [];
+    $z2 = [];
+    foreach ($result as $z) {
+      if ($z["town"] == 0) {
+        array_push($z1, $z);
+      } else {
+        array_push($z2, $z);
+      }
+    }
+    return [$z1, $z2];
+  }
+  
+  public function getZonesListForCategoriaLocaliLettera($slug_categoria, $lettera)
+  {
+    $query = '
+      SELECT
+        distinct(zones.id),
+        zones.*
+      FROM
+        location_visibilities
+      LEFT JOIN 
+        typo_btw_sites
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      RIGHT JOIN 
+        zone_btw_locations
+        ON zone_btw_locations.location_id = locations.id
+		LEFT JOIN
+		  zones
+		  ON zone_btw_locations.zone_id = zones.id
+      WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
+        AND typo_btw_sites.seo_url = ?
+        AND locations.active = 1
+        AND locations.title like \'' . $lettera . '%\'
       ORDER BY
         town
     ';

@@ -431,18 +431,42 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       return;
     }
     $App = $machine->plugin("App");
-    $cat = $App->getCategoriaLocali($slug_categoria);
-    list($z1, $z2) = $App->getZonesListForCategoriaLocali($slug_categoria);
+    $DB = $machine->plugin("DB");
+    $cat = $DB->getCategoriaLocali($slug_categoria);
+    list($z1, $z2) = $DB->getZonesListForCategoriaLocali($slug_categoria);
     return [
       "template" => "categoria_locali.php",
       "data" => array_merge($App->getCommonData(), [
         "cat" => $cat,
-        "list" => $App->getListCategoriaLocali($slug_categoria, false, $pag),
-        "ntot" => $App->countListCategoriaLocali($slug_categoria),
+        "list" => $DB->getListCategoriaLocali($slug_categoria, false, $pag),
+        "ntot" => $DB->countListCategoriaLocali($slug_categoria),
         "z1" => $z1,
         "z2" => $z2,
         "slug_categoria" => $slug_categoria,
         "current_page" => $pag,
+        "bodyclass" => "locations typology_locations",
+        "seoTitle" => $cat["seo_title"],
+        "h3" => $cat["seo_footer"],
+        "calendar" => $App->getCalendar()
+      ])
+    ];
+  }); 
+  
+  $machine->addPage($Link->getRoute("CATEGORIA_LOCALI_LETTERA"), function($machine, $slug_categoria, $lettera) {
+    $Link = $machine->plugin("Link");
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $cat = $DB->getCategoriaLocali($slug_categoria);
+    list($z1, $z2) = $DB->getZonesListForCategoriaLocaliLettera($slug_categoria, $lettera);
+    return [
+      "template" => "categoria_locali.php",
+      "data" => array_merge($App->getCommonData(), [
+        "cat" => $cat,
+        "list" => $DB->getListCategoriaLocaliLettera($slug_categoria, false, $lettera),
+        "ntot" => $DB->countListCategoriaLocaliLettera($slug_categoria, $lettera),
+        "z1" => $z1,
+        "z2" => $z2,
+        "slug_categoria" => $slug_categoria,
         "bodyclass" => "locations typology_locations",
         "seoTitle" => $cat["seo_title"],
         "h3" => $cat["seo_footer"],

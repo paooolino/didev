@@ -112,7 +112,7 @@
             </li>
           <?php } else { ?>
             <li>
-              <a href="lettera/<?php echo $letter; ?>" rel="nofollow" title="che iniziano con la lettera A">
+              <a href="{{Link|Get|CATEGORIA_LOCALI_LETTERA|<?php echo $slug_categoria; ?>|<?php echo $letter; ?>}}" rel="nofollow" title="che iniziano con la lettera A">
                 <?php echo $letter; ?>
               </a>
             </li>
