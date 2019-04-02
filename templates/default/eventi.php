@@ -23,7 +23,7 @@
         </nav>
         <article class="boxed spaceB notehead">
           <hgroup>
-            <h1 class="mainsummary">{{seoTitle}}</h1>
+            <h1 class="mainsummary"><?php echo isset($mainSummary) ? $mainSummary : $seoTitle; ?></h1>
             <h2 class="summary">{{h2}}</h2>
             <div class="description">{{description}}</div>
           </hgroup>

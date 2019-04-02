@@ -56,6 +56,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   // Page definitions
   $Link->setRoute("HOME", "/");
   $Link->setRoute("EVENTI", "/eventi");
+  $Link->setRoute("EVENTI_PASSATI_ALL", "/eventi-passati");
   $Link->setRoute("EVENTI_PAGINA", "/eventi/{pag}");
   $Link->setRoute("EVENTI_DATA", "/eventi-periodo/{yy}/{mm}/{gg}");
   $Link->setRoute("EVENTI_STASERA", "/eventi-stasera");
@@ -234,6 +235,45 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "h3" => $section["seo_footer"],
         "calendar" => $App->getCalendar(),
         "disableEventlistHeader" => true
+      ])
+    ];
+  });
+  
+  $machine->addPage($Link->getRoute("EVENTI_PASSATI"), function($machine, $slug_locale) {
+    $App = $machine->plugin("App");
+    $Link = $machine->plugin("Link");
+    $DB = $machine->plugin("DB");
+    
+    $locale = $DB->getLocale($slug_locale);
+    $cat = $DB->getCatById($locale["typo_id"]);
+    $events = $DB->getEventsForLocalePast($locale["id"]);
+    $n_events = count($events);
+    
+    return [
+      "template" => "eventi.php",
+      "data" => array_merge($App->getCommonData(), [
+        "bodyclass" => "events next_events",
+        "h2" => $locale["title"],
+        "seoTitle" => "Archivio eventi " . $locale["title"] . ".",
+        "mainSummary" => "Archivio eventi passati",
+        "description" => "",
+        "title" => $locale["title"],
+        "seoDescription" => "Visualizza tutto l′archivio degli eventi e delle serate di: " . $cat["title"] . " " . $locale["title"] . ". In questa sezione puoi scoprire tutte le serate e gli eventi organizzati da " . $locale["title"] . ".",
+        "n_events" => $n_events,
+        "n_pages" => ceil($n_events / 15),
+        "pag" => 1,
+        "events" => $events,
+        "h3" => "Archivio eventi location",
+        "calendar" => $App->getCalendar(),
+        "catevents" => $DB->getCatEvents(),
+        "disableEventlistHeader" => true,
+        "breadcrumbitems" => [
+          [
+            "title" => "Archivio eventi e serate",
+            "link" => $Link->Get("EVENTI_PASSATI_ALL"),
+            "label" => "Archivio eventi e serate",
+          ]
+        ]
       ])
     ];
   });

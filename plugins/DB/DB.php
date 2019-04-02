@@ -995,6 +995,41 @@ class DB {
     return $result;
   }
   
+  public function getEventsForLocalePast($id_locale) {
+    $query = "
+      SELECT * FROM (SELECT 
+        events.*,
+        locations.title as locations_title,
+        locations.address_city as locations_address_city,
+        locations.address_province as locations_address_province,
+        locations.seo_url as locations_seo_url,
+        recurrents.image_file_name as recurrent_image    
+      FROM events
+      LEFT JOIN event_btw_locations 
+        ON events.id = event_btw_locations.event_id
+      LEFT JOIN locations
+        ON event_btw_locations.location_id = locations.id
+      LEFT JOIN recurrents
+        ON events.recurrent_id = recurrents.id
+      WHERE
+        events.site_id = ?
+        AND event_btw_locations.location_id = ?
+        AND time_to <= NOW()
+      ORDER BY
+        time_to DESC) AS A
+        
+      GROUP BY
+        A.seo_url
+      ORDER BY 
+        time_to DESC
+    ";
+    $result = $this->_getData($query, [
+      $this->_site,
+      $id_locale
+    ]);
+    return $result;
+  }
+  
   public function getLocale($slug_locale) {
     $result = $this->_getData("SELECT * FROM locations WHERE seo_url = ?", [$slug_locale]);
     return $result[0];

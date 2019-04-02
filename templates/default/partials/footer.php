@@ -27,7 +27,7 @@
 <!-- jquery ui -->
 <script src="{{templatePath}}vendor/js/jquery-ui.min.js"></script>
 <!-- modernizr -->
-<!--<script src="{{templatePath}}vendor/js/modernizr.js"></script>-->
+<script src="{{templatePath}}vendor/js/modernizr.js"></script>
 <!-- ckeditor -->
 <script src="{{templatePath}}vendor/ckeditor/ckeditor.js"></script>
 <!-- foundation -->
