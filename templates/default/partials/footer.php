@@ -42,6 +42,8 @@
 <script src="{{templatePath}}vendor/js/imagesloaded.pkgd.min.js"></script>
 <!-- jquery-validation.js -->
 <script src="{{templatePath}}vendor/js/jquery.validate.min.js"></script>
+<!-- fancybox -->
+<script src="{{templatePath}}vendor/fancybox/js/jquery.fancybox.pack.js"></script>
 <!-- custom code (previous site) -->
 <script src="{{templatePath}}js/front_custom.js"></script>
 
@@ -54,6 +56,7 @@ var AJAX_LOAD_ITEMS_ENDPOINT = '<?php echo $Link->Get("AJAX_LOAD_ITEMS"); ?>';
 <script src="{{templatePath}}js/modules/ajaxCalendar.js"></script>
 <script src="{{templatePath}}js/modules/ajaxLoadItems.js"></script>
 <script src="{{templatePath}}js/modules/formvalidators.js"></script>
+<script src="{{templatePath}}js/modules/fancybox.js"></script>
 
 </body>
 </html>

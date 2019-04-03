@@ -35,6 +35,8 @@
 <link rel="stylesheet" href="{{templatePath}}css/foundation_override.css">
 <link rel="stylesheet" href="{{templatePath}}css/front_custom.css">
 <link rel="stylesheet" href="{{templatePath}}css/backoffice_custom.css">
+<!-- fancybox -->
+<link rel="stylesheet" href="{{templatePath}}vendor/fancybox/css/jquery.fancybox.css" type="text/css" media="screen" />
 
 <link rel="alternate" type="application/rss+xml" title="News ed Eventi" href="/rss/prossimi-eventi.xml" />
 

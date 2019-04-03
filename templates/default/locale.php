@@ -272,7 +272,7 @@
           <p><?php echo $map[0]["address"]; ?></p>
           <div class="show-for-medium-up">
             <div class="geoMapWrap">
-              <div class="geoMap" data-points="[{&#x0022;lat&#x0022;:<?php echo $map[0]["lat"]; ?>,&#x0022;lng&#x0022;:<?php echo $map[0]["lng"]; ?>,&#x0022;marker_title&#x0022;:&#x0022;<?php echo $locale["title"]; ?>&#x0022;,&#x0022;infowindow&#x0022;:&#x0022;\u003cdiv class='infowindow' style='width: 300px;'\u003e\n  \u003ch4 class='summary'\u003e<?php echo $map[0]["title"]; ?>\u003c/h4\u003e\n  \u003cp\u003e<?php echo $map[0]["address"]; ?>\u003c/p\u003e\n  \u003cp\u003e\n    coordinate GPS:\n    \u003cb\u003e<?php echo $map[0]["lat"]; ?> <?php echo $map[0]["lng"]; ?>\u003c/b\u003e\n  \u003c/p\u003e\n\u003c/div\u003e\n&#x0022;}]" id="googleMap"></div>
+              <iframe width="100%" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo urlencode($map[0]["address"]); ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             </div>
           </div>
         </div>
