@@ -1035,6 +1035,49 @@ class DB {
     return $result[0];
   }
   
+  public function search($phrase) {
+    $locali = $this->_getData("
+      SELECT
+        *
+      FROM
+        locations
+      WHERE
+        locations.site_id = ?
+        AND (
+          seo_title LIKE ?
+          OR address_way LIKE ?
+          OR address_city LIKE ?
+        )
+    ", [
+      $this->_site,
+      '%' . $phrase . '%',
+      '%' . $phrase . '%',
+      '%' . $phrase . '%'
+    ]);
+    
+    $eventi = $this->_getData("
+      SELECT
+        *
+      FROM
+        events
+      WHERE
+        events.site_id = ?
+        AND (
+          seo_title LIKE ?
+          OR description LIKE ?
+        )
+    ", [
+      $this->_site,
+      '%' . $phrase . '%',
+      '%' . $phrase . '%'
+    ]);
+    
+    return [
+      "locali" => $locali,
+      "eventi" => $eventi
+    ];
+  }
+  
   public function getLocalePhotos($id_locale)
   {
     $query = "

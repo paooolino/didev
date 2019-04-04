@@ -55,6 +55,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   // Page definitions
   $Link->setRoute("HOME", "/");
+  
+  $Link->setRoute("SEARCH", "/cerca");
+  
   $Link->setRoute("EVENTI", "/eventi");
   $Link->setRoute("EVENTI_PASSATI_ALL", "/eventi-passati");
   $Link->setRoute("EVENTI_PAGINA", "/eventi/{pag}");
@@ -143,6 +146,23 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     ];
   });
 
+  $machine->addPage($Link->getRoute("SEARCH"), function($machine) {
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $homeContent = $DB->getHomeContent();
+    
+    $results = $DB->search($_GET["phrase"]);
+
+    return [
+      "template" => "cerca.php",
+      "data" => array_merge($App->getCommonData(), [
+        "calendar" => $App->getCalendar(),
+        "results" => $results,
+        "seoTitle" => $homeContent["seo_title"],
+      ])
+    ];
+  });  
+  
   /**
    *  Eventi
    */

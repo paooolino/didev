@@ -6,7 +6,7 @@
             <form class="simple_form row collapse postfix-round formSearch" novalidate="novalidate" action="{{Link|Get|SEARCH}}" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
               <div class="small-9 columns">
                 <div class="row string optional form_search_phrase">
-                  <input placeholder="Cerca nel sito" class="string optional" type="text" name="form_search[phrase]" />
+                  <input placeholder="Cerca nel sito" class="string optional" type="text" name="phrase" />
                 </div>
               </div>
               <div class="small-3 columns">
