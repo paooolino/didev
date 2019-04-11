@@ -7,16 +7,21 @@
 <meta charset="UTF-8" />
 <meta content="{{ogTitle}}" property="og:title" />
 <meta content="{{ogDescription}}" property="og:description" />
-<meta content="{{ogUrl}}" property="og:url" />
-<meta content="{{ogImage}}" property="og:image" />
-<meta content="{{ogImageUrl}}" property="og:image:url" />
+<meta content="<?php echo $App->getCurrentUrl(); ?>" property="og:url" />
+<meta content="<?php echo isset($ogImage) ? $ogImage : $App->defaultOgImage; ?>" property="og:image" />
+<meta content="<?php echo isset($ogImage) ? $ogImage : $App->defaultOgImage; ?>" property="og:image:url" />
 <meta content="{{ogSiteName}}" property="og:site_name" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="{{twitterSite}}" />
+<meta name="twitter:site" content="@DiscotecheBS" />
 <meta name="twitter:title" content="{{twitterTitle}}" />
 <meta name="twitter:description" content="{{twitterDescription}}" />
-<meta name="twitter:image" content="{{twitterImage}}" />
-
+<meta name="twitter:image" content="<?php echo isset($ogImage) ? $ogImage : $App->defaultOgImage; ?>" />
+<?php if (isset($canonical)) { ?>
+<link href="<?php echo $canonical; ?>" rel="canonical" />
+<?php } ?>
+<?php if (isset($next)) { ?>
+<link href="<?php echo $next; ?>" rel="next">
+<?php } ?>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
 <!-- foundation -->

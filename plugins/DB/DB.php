@@ -5,15 +5,21 @@ use \PDO;
 use \PDOException;
 
 class DB {
+  private $disable_cache = false;
   private $_conn;
   private $_site;
   private $_machine;
   private $_cache;
+  private $pool;
   
   public function __construct($machine) {
     $this->_machine = $machine;
     $this->_site = 1;
     $this->_cache = [];
+    $driver = new \Stash\Driver\FileSystem([
+      "path" => './cache/db/'
+    ]);
+    $this->pool = new \Stash\Pool($driver);
   }
   
   public function setupMySql($db_host, $db_user, $db_pass, $db_name) {
@@ -42,16 +48,26 @@ class DB {
   private function _getData($query, $data) {
     //$query = str_replace("\t", "", $query);
     //$query = str_replace("\r\n", " ", $query);
-    $cache_index = md5($query, json_encode($data));
+    $cache_index = md5($query . json_encode($data));
     if (isset($this->_cache[$cache_index])) {
       //file_put_contents("./logs/queries.log", "skipped - $query \r\n", FILE_APPEND);
       return $this->_cache[$cache_index];
     }
-    //$msc = microtime(true);
-    $result = $this->select($query, $data);
-    //$msc = microtime(true)-$msc;
-    //file_put_contents("./logs/queries.log", ($msc * 1000) . "ms - query $query \r\n", FILE_APPEND);
-    $this->_cache[$cache_index] = $result;
+    
+    $item = $this->pool->getItem($cache_index);
+    $result = $item->get();
+    
+    if($item->isMiss() || $this->disable_cache) {
+      $item->lock();
+      //$msc = microtime(true);
+      $result = $this->select($query, $data);
+      //$msc = microtime(true)-$msc;
+      //file_put_contents("./logs/queries.log", ($msc * 1000) . "ms - query $query \r\n", FILE_APPEND);
+      $this->pool->save($item->set($result));
+      
+      $this->_cache[$cache_index] = $result;
+    }
+    
     return $result;
   }
   

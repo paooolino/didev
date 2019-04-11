@@ -7,9 +7,11 @@ class App {
   public $AUTH_SALT;
   public $LOGGED_USER;
   public $UPLOADS_HOST;
+  public $generate_thumbs = false;
   private $_machine;
   private $_imageManager;
   private $DB;
+  public $defaultOgImage = "http://cdn.discotecheitalia.it/assets/front/logo-ogp-discoteche-brescia.png";
   
   public function __construct($machine) {
     $this->UPLOADS_HOST = getenv("UPLOADS_HOST");
@@ -159,6 +161,9 @@ class App {
     
     // ritorna la thumb se esiste.
     $thumb_url = "uploads/$table/$w" . "_" . "$h/$filename";
+    if (!$this->generate_thumbs)
+      return $UploadS3->get($thumb_url); 
+    
     if ($UploadS3->file_exists_in_bucket($thumb_url)) {
       return $UploadS3->get($thumb_url); 
     }

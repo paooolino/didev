@@ -3,3 +3,4 @@ node_modules
 uploads
 /docker/mysql/data/
 logs
+cache

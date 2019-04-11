@@ -29,7 +29,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Backoffice = $machine->addPlugin("Backoffice");
   $Backoffice->loadConfig("config/backoffice.json");
   
-  $dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
+  //$dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
+  $dbopts = parse_url(getenv('PRODUCTION_DATABASE_URL'));
   $conn = $DB->setupMySql(
     // host
     $dbopts["host"],
@@ -117,7 +118,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $currentCity = $DB->getCurrentCity();  
     
     $banner_dx = $DB->getBannerLandscape();
-    
+    $App->getCommonData();
+
     return [
       "template" => "home.php",
       "data" => array_merge($App->getCommonData(), [
@@ -153,12 +155,19 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
     $results = $DB->search($_GET["phrase"]);
 
+    $currentCity = $DB->getCurrentCity(); 
     return [
       "template" => "cerca.php",
       "data" => array_merge($App->getCommonData(), [
         "calendar" => $App->getCalendar(),
         "results" => $results,
-        "seoTitle" => $homeContent["seo_title"],
+        "seoTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia..",
+        "seoDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca..",
+        "seoKeywords" => "",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
       ])
     ];
   });  
@@ -453,7 +462,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     $cat = $DB->getCategoriaLocali($slug_categoria);
+
     list($z1, $z2) = $DB->getZonesListForCategoriaLocali($slug_categoria);
+    $currentCity = $DB->getCurrentCity();  
     return [
       "template" => "categoria_locali.php",
       "data" => array_merge($App->getCommonData(), [
@@ -467,7 +478,16 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "seoTitle" => $cat["seo_title"],
         "h3" => $cat["seo_footer"],
         "current_page" => 1,
-        "calendar" => $App->getCalendar()
+        "calendar" => $App->getCalendar(),
+        "seoDescription" => $cat["seo_description"],
+        "seoKeywords" => $cat["seo_keyword"],
+        "ogTitle" => $cat["title"],
+        "ogDescription" => $cat["seo_description"],
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "twitterTitle" => "",
+        "twitterDescription" => "",
+        "canonical" => $App->getCurrentUrl(),
+        "next" => $App->getCurrentUrl() . "/2",
       ])
     ];
   });   
@@ -566,14 +586,17 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $logo_img = $App->img("locations", $locale["id"], 157, 157, $locale["logo_file_name"], "logos");
      
     $showcase = $DB->getShowcase($locale["id"]);
+    $img = $App->img("location_showcases", $showcase[0]["id"], 1335, 516, $showcase[0]["image_fingerprint"] . "-" . $showcase[0]["image_file_name"]);
     
     $locale_events = $DB->getEventsForLocale($locale["id"]);
+    
+    $currentCity = $DB->getCurrentCity(); 
     
     return [
       "template" => "locale.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "locations location",
-        "seoTitle" => $locale["seo_title"],
+        "seoTitle" => $locale["seo_title"] . ".",
         "cat" => $cat,
         "locale" => $locale,
         "logo_img" => $logo_img,
@@ -581,7 +604,16 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "locale_events" => $locale_events,
         "photos" => $DB->getLocalePhotos($locale["id"]),
         "map" => $DB->getLocaleMap($locale["id"]),
-        "h3" => $locale["seo_footer"]
+        "h3" => $locale["seo_footer"],
+        "seoDescription" => $locale["seo_description"],
+        "seoKeywords" => $locale["seo_keyword"],
+        "ogTitle" => $locale["title"],
+        "ogDescription" => $locale["seo_description"],
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "twitterTitle" => $locale["seo_title"],
+        "twitterDescription" => $locale["seo_description"] 
+          . ' -- ' . $locale["address_city"] . ',  (' . $locale["address_province"] . ')',
+        "ogImage" => $img
       ])
     ];
   });   

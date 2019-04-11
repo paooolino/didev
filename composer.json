@@ -6,11 +6,18 @@
             "email": "paooolino@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "WebEngine\\": "src/"
+        }
+    },
     "require": {
         "ext-gd": "*",
         "ext-mbstring": "*",
-        "paooolino/webengine": "dev-master",
         "phpmailer/phpmailer": "^6.0",
-        "aws/aws-sdk-php": "^3.64"
+        "aws/aws-sdk-php": "^3.64",
+        "tedivm/stash": "^0.15.2",
+        "intervention/image": "^2.4",
+        "nikic/fast-route": "^1.3"
     }
 }
