@@ -28,7 +28,7 @@ namespace WebEngine;
  */
 class WebEngine
 {
-  private $disable_cache = true;
+  private $disable_cache = false;
   private $_SERVER;
   private $_GET;
   private $_POST;
@@ -407,9 +407,10 @@ class WebEngine
     $route_matchinfo = $this->_matchRoute($path, $method);   
 
     if ($route_matchinfo) {
-      $cache_index = md5($path.$method);
+      $cache_index = md5($this->plugin("DB")->getSite() . $path . $method);
       $item = $this->pool->getItem($cache_index);
       $cached_body = $item->get();
+
       if($item->isMiss() || $this->disable_cache) {
         $item->lock();
         $reflFunc = new \ReflectionFunction($route_matchinfo["callback"]);
@@ -438,6 +439,7 @@ class WebEngine
             if ($this->append_debug_infos) {
               $this->_response["body"] .= $this->_getDebugInfos();
             }
+            $item->expiresAt(new \DateTime("tomorrow"));
             $this->pool->save($item->set($this->_response["body"]));
           } else {
             // a route was found but nor a response was set or a 

@@ -11,11 +11,13 @@
 <meta content="<?php echo isset($ogImage) ? $ogImage : $App->defaultOgImage; ?>" property="og:image" />
 <meta content="<?php echo isset($ogImage) ? $ogImage : $App->defaultOgImage; ?>" property="og:image:url" />
 <meta content="{{ogSiteName}}" property="og:site_name" />
+<?php if (isset($twitterTitle)) { ?>
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@DiscotecheBS" />
 <meta name="twitter:title" content="{{twitterTitle}}" />
 <meta name="twitter:description" content="{{twitterDescription}}" />
 <meta name="twitter:image" content="<?php echo isset($ogImage) ? $ogImage : $App->defaultOgImage; ?>" />
+<?php } ?>
 <?php if (isset($canonical)) { ?>
 <link href="<?php echo $canonical; ?>" rel="canonical" />
 <?php } ?>

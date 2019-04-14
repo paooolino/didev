@@ -86,6 +86,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   $Link->setRoute("ADMIN", "/admin");
   $Link->setRoute("ADMIN_LOGIN", "/admin/login");
+  $Link->setRoute("ADMIN_GENERATE_THUMBNAILS", "/admin/generate-thumbnails");
   $Link->setRoute("ADMIN_TABLE", "/admin/{table}");
   $Link->setRoute("ADMIN_NEWTABLE", "/admin/new/{table}");
   $Link->setRoute("ADMIN_NEWTABLE_EXT", "/admin/new/{table}/ext");
@@ -181,17 +182,24 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     
     $section = $DB->getSection(str_replace("/", "", $Link->getRoute("EVENTI")));
-    $events = $DB->getEventsFromDB();
+    $events = $DB->getEventsFromDB("AND events.active = 1");
     $n_events = count($events);
+    $currentCity = $DB->getCurrentCity();  
     
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => $section["title"],
-        "seoTitle" => $section["seo_title"],
+        "seoTitle" => $section["seo_title"] . ".",
         "title" => $section["title"],
         "seoDescription" => $section["seo_description"],
+        "seoKeywords" => $section["seo_keyword"] . ".",
+        "description" => $section["seo_description"],
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
         "n_events" => $n_events,
         "n_pages" => ceil($n_events / 15),
         "pag" => 1,
@@ -438,7 +446,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $topBanner = $DB->getRandomTopBanner();
     $evento = $DB->getEvento($slug);
-
+    $currentCity = $DB->getCurrentCity();  
+    
     $logo_img = $App->img("locations", $evento["locations_id"], "W", 155, $evento["locations_logo_file_name"], "logos");
     
     return [
@@ -449,6 +458,16 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "logo_img" => $logo_img,
         "evento" => $evento,
         "h3" => $evento["seo_footer"],
+        "seoDescription" => $evento["seo_description"],
+        "seoKeywords" => $evento["seo_keyword"],
+        "ogTitle" => $evento["title"],
+        "ogDescription" => $evento["seo_description"],
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "canonical" => $App->getCurrentUrl(),
+        "twitterTitle" => $evento["seo_title"],
+        "twitterDescription" => $evento["seo_description"],
+        "ogImage" => $logo_img,
         "calendar" => $App->getCalendar()
       ])
     ];
@@ -601,6 +620,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "locale" => $locale,
         "logo_img" => $logo_img,
         "showcase" => $showcase,
+        "canonical" => $App->getCurrentUrl(),
         "locale_events" => $locale_events,
         "photos" => $DB->getLocalePhotos($locale["id"]),
         "map" => $DB->getLocaleMap($locale["id"]),
@@ -803,6 +823,97 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
    
+  $machine->addPage($Link->getRoute("ADMIN_GENERATE_THUMBNAILS"), function($machine) {
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    if (false) { //(!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {  
+      $images = [
+        "banners" => [
+          "sizes" => ["205,H", "311,H", "653_H", "728_90", "W,40"]
+        ],
+        "events" => [
+          "sizes" => ["217,124", "311,175", "315,177"]
+        ],
+        "holidays" => [
+          "sizes" => ["315,215"]
+        ],
+        "home_boxes" => [
+          "sizes" => ["311,190"]
+        ],
+        "home_slides" => [
+          "sizes" => ["994,590"]
+        ],
+        "location_showcases" => [
+          "sizes" => ["1335,516"]
+        ],
+        "locations" => [
+          "sizes" => ["157,157", "248,224", "W_155"]
+        ],
+        "photos" =>[
+          "sizes" => ["800_H", "84,56"]
+        ],
+        "recurrents" => [
+          "sizes" => []
+        ],
+        "reports" => [
+          "sizes" => []
+        ],
+        "typos" => [
+          "sizes" => ["W_57"]
+        ]
+      ];
+      
+      $banners = $DB->getBanners();
+      foreach ($banners as $banner) {
+        // ["205,H", "311,H", "653_H", "728_90", "W,40"]
+        $App->img("banners", $banner["id"], 205, "H", $banner["image_file_name"]);
+        $App->img("banners", $banner["id"], 311, "H", $banner["image_file_name"]);
+        $App->img("banners", $banner["id"], 653, "H", $banner["image_file_name"]);
+        $App->img("banners", $banner["id"], 728, 90, $banner["image_file_name"]);
+        $App->img("banners", $banner["id"], "W", 40, $banner["image_file_name"]);
+      }
+
+      $events = $DB->getEventsFromDB();
+      foreach ($events as $event) {
+        //"217,124", "311,175", "315,177"
+        $App->img("events", $event["id"], 217, 124, $event["image_file_name"]);
+        $App->img("events", $event["id"], 311, 175, $event["image_file_name"]);
+        $App->img("events", $event["id"], 315, 177, $event["image_file_name"]);
+      }
+      
+      $holidays = $DB->getElencoFestivita();
+      foreach ($holidays as $holiday) {
+        $App->img("holidays", $holiday["id"], 315, 215, $holiday["image_file_name"]);
+      }
+      
+      $hboxes = $DB->getHomeBoxes();
+      foreach ($hboxes as $box) {
+        $App->img("home_boxes", $box["id"], 311, 190, $box["image_file_name"]);
+      }      
+      
+      $homeslides = $DB->getHomeslides();
+      foreach ($homeslides as $slide) {
+        $imgurl = $App->img("home_slides", $slide["id"], 994, 590, $slide["image_file_name"]);
+      }
+      
+      $showcases = $DB->getShowcases();
+      foreach ($showcases as $showcase) {
+        $App->img("location_showcases", $showcase["id"], 1335, 516, $showcase["image_fingerprint"] . "-" . $showcase["image_file_name"]);
+      }
+
+      $locations = $DB->getAllLocations();
+      foreach ($locations as $location) {
+        $App->img("locations", $item["id"], 248, 224, $location["logo_file_name"], "logos");
+        // mancano 157x157, W_155
+      }
+      
+      // TO DO
+      // photos, typos
+    }
+  });
+  
   /**
    *  Backoffice: table list
    */
@@ -982,7 +1093,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       die();
     }
   });
-
+  
   /**
    *  Backoffice: record update
    */

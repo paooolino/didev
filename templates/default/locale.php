@@ -311,39 +311,55 @@
           <li class="description">
             <a href="#desc" title="Convento" class="active">
             <i class="fa fa-align-justify fa-fw"></i>
-              Convento
+              <?php echo $locale["title"]; ?>
             </a>
           </li>
+          <?php if ($locale["food"] != "") { ?>
+          <li class="food">
+            <a href="#food" title="Il ristorante">
+              <i class="fa fa-cutlery fa-fw"></i>
+              Il ristorante
+            </a>
+          </li>
+          <?php } ?>
           <li class="events">
             <a href="#events" title="Eventi" class="">
               <i class="fa fa-calendar fa-fw"></i>
               Eventi
             </a>
           </li>
+          <?php if ($locale["info"] != "") { ?>
           <li class="booking">
             <a href="#booking" title="Info e prenotazioni" class="">
               <i class="fa fa-phone fa-fw"></i>
               Info e prenotazioni
             </a>
           </li>
+          <?php } ?>
+          <?php if (count($photos) > 0) { ?>
           <li class="photos">
             <a href="#gallery" title="Photogallery" class="">
               <i class="fa fa-camera-retro fa-fw"></i>
               Photogallery
             </a>
           </li>
+          <?php } ?>
+          <?php if ($locale["video"] != "") { ?>
           <li class="video">
             <a href="#video" title="Video" class="">
               <i class="fa fa-video-camera fa-fw"></i>
               Video
             </a>
           </li>
+          <?php } ?>
+          <?php if (count($map) == 1) { ?>
           <li class="maps">
             <a href="#maps" title="Mappa" class="">
               <i class="fa fa-calendar fa-fw"></i>
               Mappa
             </a>
           </li>
+          <?php } ?>
         </ul>
       </div>
     </div>

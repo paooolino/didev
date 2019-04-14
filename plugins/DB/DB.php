@@ -48,7 +48,7 @@ class DB {
   private function _getData($query, $data) {
     //$query = str_replace("\t", "", $query);
     //$query = str_replace("\r\n", " ", $query);
-    $cache_index = md5($query . json_encode($data));
+    $cache_index = md5($this->_site . $query . json_encode($data));
     if (isset($this->_cache[$cache_index])) {
       //file_put_contents("./logs/queries.log", "skipped - $query \r\n", FILE_APPEND);
       return $this->_cache[$cache_index];
@@ -63,6 +63,7 @@ class DB {
       $result = $this->select($query, $data);
       //$msc = microtime(true)-$msc;
       //file_put_contents("./logs/queries.log", ($msc * 1000) . "ms - query $query \r\n", FILE_APPEND);
+      $item->expiresAt(new \DateTime("tomorrow"));
       $this->pool->save($item->set($result));
       
       $this->_cache[$cache_index] = $result;
@@ -122,6 +123,11 @@ class DB {
     ";
     $result = $this->_getData($query, [$this->_site]);
     return $result[0];
+  }
+
+  public function getBanners() {
+    $query = "SELECT * FROM banners WHERE site_id = ? AND expire > NOW()";
+    return $this->_getData($query, [$this->_site]);
   }
   
   public function getBannerLandscape() {
@@ -543,15 +549,16 @@ class DB {
         $wherecond
         AND time_to > NOW()
       ORDER BY
-        time_from ASC) AS A
+        events.time_to ASC) AS A
         
       GROUP BY
         A.seo_url
       ORDER BY 
-        time_from ASC
+        time_to ASC
       
       $limitcond
     ";
+    
     $events = $this->_getData($query, [$this->_site]);
     
     return $events;
@@ -559,6 +566,19 @@ class DB {
   
   public function getBannerForBoxHome() {
     $query = "SELECT * FROM banners WHERE site_id = ? AND located = 4 AND expire > NOW()";
+    return $this->_getData($query, [$this->_site]);
+  }
+  
+  public function getBoxesWithImages() {
+    $query = "
+      SELECT *
+      FROM home_boxes
+      WHERE 
+        site_id = ?
+        AND active = 1 
+        AND behaviour = 0
+        AND image_file_name <> ''
+    ";
     return $this->_getData($query, [$this->_site]);
   }
   
@@ -995,6 +1015,21 @@ class DB {
     return $result;
   }
   
+  public function getShowcases()
+  {
+    $query = '
+      SELECT *
+      FROM location_showcases
+      WHERE
+        site_id = ?
+      ORDER BY disposition
+    ';
+    $result = $this->_getData($query, [
+      $this->_site
+    ]);
+    return $result;
+  }
+  
   public function getEventsForLocale($id_locale) {
     $query = "
       SELECT * FROM event_btw_locations as L
@@ -1043,6 +1078,11 @@ class DB {
       $this->_site,
       $id_locale
     ]);
+    return $result;
+  }
+  
+  public function getAllLocations() {
+    $result = $this->_getData("SELECT * FROM locations WHERE site_id = ?", [$this->_site]);
     return $result;
   }
   

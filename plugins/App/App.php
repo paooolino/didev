@@ -449,7 +449,7 @@ class App {
     $today = new \DateTime("today midnight");
     
     // get all events
-    $events = $this->_machine->plugin("DB")->getEventsFromDB();
+    $events = $this->_machine->plugin("DB")->getEventsFromDB("AND events.active = 1");
     
     // retrieve dates with events
     $dates = [];
@@ -508,7 +508,7 @@ class App {
   
   // ritorna gli eventi definiti per almeno uno dei giorni compresi tra dt1 e dt2
   public function getEventsForRange($dt1, $dt2) {
-    $events = $this->_machine->plugin("DB")->getEventsFromDB();
+    $events = $this->_machine->plugin("DB")->getEventsFromDB("AND events.active = 1");
     $events = array_filter($events, function($ev) use ($dt1, $dt2) {
       $from = new \DateTime($ev["time_from"]);
       $to = new \DateTime($ev["time_to"]);
