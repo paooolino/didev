@@ -46,7 +46,11 @@
               }
               ?>
               <li data-path="<?php echo $Link->Get($this->getCurrentPath()); ?>" class="<?php echo $className; ?>">
-                <a href="<?php echo $menuitem["url"]; ?>" title="<?php echo $menuitem["title"]; ?>">
+                <a href="<?php echo str_replace(
+                    "http://www." . $DB->getCurrentCity()[0]["url"], 
+                    "//" . $_SERVER["HTTP_HOST"] . $this->basepath, 
+                    $menuitem["url"]
+                  ); ?>" title="<?php echo $menuitem["title"]; ?>">
                   <i class="fa <?php echo $menuitem["iconclass"]; ?>"></i>
                   <?php echo $menuitem["label"]; ?>
                 </a>

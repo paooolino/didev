@@ -54,6 +54,15 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   if (stripos($_SERVER["HTTP_HOST"], "discotecheriminiriccione.it") !== false) { $DB->setSite(7); }
   if (stripos($_SERVER["HTTP_HOST"], "discotechejesolo.it") !== false) { $DB->setSite(8); }
   
+  if (stripos($_SERVER["HTTP_HOST"], "didev.bs") !== false) { $DB->setSite(1); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.bg") !== false) { $DB->setSite(2); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.vr") !== false) { $DB->setSite(3); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.mi") !== false) { $DB->setSite(4); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.cr") !== false) { $DB->setSite(5); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.pc") !== false) { $DB->setSite(6); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.ri") !== false) { $DB->setSite(7); }
+  if (stripos($_SERVER["HTTP_HOST"], "didev.je") !== false) { $DB->setSite(8); }
+  
   // Page definitions
   $Link->setRoute("HOME", "/");
   

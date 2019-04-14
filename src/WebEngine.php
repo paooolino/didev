@@ -28,7 +28,7 @@ namespace WebEngine;
  */
 class WebEngine
 {
-  private $disable_cache = false;
+  private $disable_cache = true;
   private $_SERVER;
   private $_GET;
   private $_POST;

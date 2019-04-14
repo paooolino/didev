@@ -7,7 +7,7 @@ class App {
   public $AUTH_SALT;
   public $LOGGED_USER;
   public $UPLOADS_HOST;
-  public $generate_thumbs = false;
+  public $generate_thumbs = true;
   private $_machine;
   private $_imageManager;
   private $DB;

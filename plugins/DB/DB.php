@@ -5,7 +5,7 @@ use \PDO;
 use \PDOException;
 
 class DB {
-  private $disable_cache = false;
+  private $disable_cache = true;
   private $_conn;
   private $_site;
   private $_machine;
@@ -436,7 +436,7 @@ class DB {
     $result = $this->_getData($query, [$this->_site]);
     foreach ($result as $r) {
       $categories[] = [
-        "id" => $r["id"],
+        "id" => $r["typo_id"],
         "title" => $r["title"],
         "url" => $r["seo_url"],
         "label" => $r["title"]
@@ -828,6 +828,7 @@ class DB {
       LIMIT ' . $offset . ', ' . $items_per_page . '
     ';
 
+    echo $query;
     $result = $this->_getData($query, [
       $this->_site,
       $slug
