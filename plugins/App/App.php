@@ -11,7 +11,7 @@ class App {
   private $_machine;
   private $_imageManager;
   private $DB;
-  public $defaultOgImage = "http://cdn.discotecheitalia.it/assets/front/logo-ogp-discoteche-brescia.png";
+  public $defaultOgImage;
   
   public function __construct($machine) {
     $this->UPLOADS_HOST = getenv("UPLOADS_HOST");
@@ -20,6 +20,9 @@ class App {
     $this->_imageManager = new ImageManager(array('driver' => 'gd'));
     $this->DB = $this->_machine->plugin("DB");
     $this->LOGGED_USER = null;
+    
+    $this->defaultOgImage = "http://cdn.discotecheitalia.it/assets/front/logo-ogp-discoteche-" 
+      . strtolower($this->DB->getCurrentCity()[0]["name"]) . ".png";
   }
 
   public function getCurrentUrl() {
@@ -513,8 +516,18 @@ class App {
       $from = new \DateTime($ev["time_from"]);
       $to = new \DateTime($ev["time_to"]);
       $from->setTime(0,0);
-      $to->setTime(0,0);
-      if (($from <= $dt1 && $dt1 <= $to) || ($from <= $dt2 && $dt2 <= $to)) {
+      $to->setTime(23,59);
+      /*
+      echo "================================= \r\n";
+      echo "ev: " . ($ev["id"]) . "\r\n";
+      echo "from: " . $from->getTimestamp() . "\r\n";
+      echo "to: " . $to->getTimestamp() . "\r\n";
+      echo "dt1: " . $dt1->getTimestamp() . "\r\n";
+      */
+      //echo "from: " . $from->getTimestamp() . "\r\n";
+      // 20/4 <= 19/4 && 19/4 <= 20/4    ||  20/4 <= 21/4 && 21/4 <= 20/4 
+      //if (($from <= $dt1 && $dt1 <= $to) || ($from <= $dt2 && $dt2 <= $to)) {
+      if (($dt1 <= $from && $from <= $dt2) || ($dt1 <= $to && $to <= $dt2)) {   
         return true;
       }
       return false;

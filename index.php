@@ -22,13 +22,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 	$machine->addPlugin("Image");
 	$machine->addPlugin("Form");
   
-  // The App plugin
-  $App = $machine->addPlugin("App");
-  
-  // The Backoffice plugin
-  $Backoffice = $machine->addPlugin("Backoffice");
-  $Backoffice->loadConfig("config/backoffice.json");
-  
+  // DB plugin: BEFORE App
   //$dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
   $dbopts = parse_url(getenv('PRODUCTION_DATABASE_URL'));
   $conn = $DB->setupMySql(
@@ -41,9 +35,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     // db name
     ltrim($dbopts["path"],'/')
   );
-  
   if (!is_object($conn)) { die("db connection error"); };
-  
+
   // Set the site id
   if (stripos($_SERVER["HTTP_HOST"], "discotechebrescia.it") !== false) { $DB->setSite(1); }
   if (stripos($_SERVER["HTTP_HOST"], "discotechebergamo.it") !== false) { $DB->setSite(2); }
@@ -62,6 +55,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   if (stripos($_SERVER["HTTP_HOST"], "didev.pc") !== false) { $DB->setSite(6); }
   if (stripos($_SERVER["HTTP_HOST"], "didev.ri") !== false) { $DB->setSite(7); }
   if (stripos($_SERVER["HTTP_HOST"], "didev.je") !== false) { $DB->setSite(8); }
+  
+  // The App plugin
+  // AFTER DB
+  $App = $machine->addPlugin("App");
+  
+  // The Backoffice plugin
+  $Backoffice = $machine->addPlugin("Backoffice");
+  $Backoffice->loadConfig("config/backoffice.json");
   
   // Page definitions
   $Link->setRoute("HOME", "/");
@@ -128,7 +129,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $currentCity = $DB->getCurrentCity();  
     
     $banner_dx = $DB->getBannerLandscape();
-    $App->getCommonData();
 
     return [
       "template" => "home.php",
@@ -146,7 +146,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "twitterDescription" => $homeContent["seo_description"],
         "homeslides" => $DB->getHomeslides(),
         "calendar" => $App->getCalendar(),
-        "seoTitle" => $homeContent["seo_title"],
+        "seoTitle" => $homeContent["seo_title"] . ".",
         "hevents_big" => $hevents_big,
         "hevents_small" => $hevents_small,
         "h2" => "eventi di locali e discoteche di " . $currentCity[0]["name"] . " da non perdere",
@@ -362,27 +362,37 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $day = new \DateTime(date("Y") . "-" . date("m") . "-" . date("d"));
     $events = $App->getNextWeekendEvents();
     $n_events = count($events);
+    
+    $currentCity = $DB->getCurrentCity();
 
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => $section["title"],
-        "seoTitle" => $section["seo_title"],
+        "seoTitle" => $section["seo_title"] . ".",
         "title" => $section["title"],
-        "seoDescription" => $section["seo_description"],
+        "description" => $section["seo_description"],
+        "seoDescription" => $section["seo_description"] . ".",
+        "seoKeywords" => $section["seo_keyword"] . ".",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
         "n_events" => $n_events,
-        "n_pages" => ceil($n_events / 15),
+        "n_pages" => ceil($n_events / 50),
         "pag" => 1,
         "events" => $events,
         "h3" => $section["seo_footer"],
         "calendar" => $App->getCalendar(),
+        "canonical" => $App->getCurrentUrl(),
+        "next" => $App->getCurrentUrl() . "/2",
         "disableEventlistHeader" => true,
         "disableEventsArchive" => true
       ])
     ];
   });
-  
+    
   $machine->addPage($Link->getRoute("EVENTI_DATA"), function($machine, $anno, $mese, $giorno) {
     $App = $machine->plugin("App");
     
