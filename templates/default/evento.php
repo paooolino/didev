@@ -6,16 +6,16 @@
       <div class="small-12 columns">
         <nav aria-label="breadcrumbs" class="breadcrumbs breadcrumb" role="menubar">
           <li role="menuitem">
-            <a href="{{Link|Get|HOME}}" title="home discoteche, locali, ristoranti ed eventi a Brescia">
+            <a href="{{Link|Get|HOME}}" title="home discoteche, locali, ristoranti ed eventi a <?php echo $currentCity; ?>">
               <i class="fa fa-home"></i>
               home
             </a>
           </li>
           <li role="menuitem">
-            <a title="prossimi eventi a Brescia" href="{{Link|Get|EVENTI}}">eventi Brescia</a>
+            <a title="prossimi eventi a <?php echo $currentCity; ?>" href="{{Link|Get|EVENTI}}">eventi <?php echo $currentCity; ?></a>
           </li>
           <li role="menuitem">
-            <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
+            <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
           </li>
           <li class="current" role="menuitem">
             <a title="<?php echo $evento["title"]; ?>"><?php echo $evento["title"]; ?></a>
@@ -30,7 +30,7 @@
                 <?php echo $evento["title_date"]; ?>
                  
                 <span>presso</span>
-                <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
+                <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
               </span>
               <h1 class="mainsummary"><?php echo $evento["title"]; ?></h1>
               <span class="address">
@@ -49,12 +49,26 @@
             </div>
           </div>
           <article class="spaceT" id="desc">
-            <span class="image_detail aright">
-              <img alt="La Domenica Sera del Qi Clubbing" data-interchange="[http://cdn.discotecheitalia.it/uploads/events/images/000/000/663/preview_medium/eaf56f63069677637bf213e2e3b17108-discotecaqirovatodomenicanotte.jpg, (default)], [http://cdn.discotecheitalia.it/uploads/events/images/000/000/663/preview_small/eaf56f63069677637bf213e2e3b17108-discotecaqirovatodomenicanotte.jpg, (small)], [http://cdn.discotecheitalia.it/uploads/events/images/000/000/663/preview_medium/eaf56f63069677637bf213e2e3b17108-discotecaqirovatodomenicanotte.jpg, (medium)], [http://cdn.discotecheitalia.it/uploads/events/images/000/000/663/preview_large/eaf56f63069677637bf213e2e3b17108-discotecaqirovatodomenicanotte.jpg, (large)]" src="http://cdn.discotecheitalia.it/uploads/events/images/000/000/663/preview_large/eaf56f63069677637bf213e2e3b17108-discotecaqirovatodomenicanotte.jpg" title="La Domenica Sera del Qi Clubbing" data-uuid="interchange-ja7aft8y0">
-              <noscript>
-              &lt;img alt="La Domenica Sera del Qi Clubbing" src="http://cdn.discotecheitalia.it/uploads/events/images/000/000/663/preview_medium/eaf56f63069677637bf213e2e3b17108-discotecaqirovatodomenicanotte.jpg" title="La Domenica Sera del Qi Clubbing" /&gt;
-              </noscript>
-            </span>
+            <?php if ($event_image != "")  { ?>
+              <span class="image_detail aright">
+                <img 
+                  alt="<?php echo $evento["title"]; ?>" 
+                  data-interchange="
+                    [<?php echo $event_image ?>, (default)], 
+                    [<?php echo $event_image; ?>, (medium)], 
+                    [<?php echo $event_image; ?>, (large)]
+                  " 
+                  src="<?php echo $event_image; ?>" 
+                  title="<?php echo $evento["title"]; ?>"
+                >
+                <noscript>
+                  <img 
+                    alt="<?php echo $evento["title"]; ?>" 
+                    src="<?php echo $event_image; ?>" 
+                    title="<?php echo $evento["title"]; ?>" />
+                </noscript>
+              </span>
+            <?php } ?>
             <?php echo $evento["description"]; ?>
 
             <div class="caption booking">
@@ -114,8 +128,6 @@
   </div>
 
   <aside class="show-for-large-up large-3 columns spaceT side_right">
-    <?php include("partials/calendar.php"); ?>
-
     <div class="show-for-large-up spaceT">
       <aside class="adsBanner responsive visible-for-large-up">
         <ins class="adsbygoogle" data-ad-client="ca-pub-6371727345571989" data-ad-format="vertical" data-ad-slot="7697964545" data-adsbygoogle-status="done" style="height: 600px;"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe width="300" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:300px;height:600px;"></iframe></ins></ins></ins>

@@ -204,7 +204,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "title" => $section["title"],
         "seoDescription" => $section["seo_description"],
         "seoKeywords" => $section["seo_keyword"] . ".",
-        "description" => $section["seo_description"],
+        "description" => $section["description"],
         "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
         "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
         "ogUrl" => $App->getCurrentUrl(),
@@ -223,27 +223,37 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("EVENTI_CATEGORIA"), function($machine, $evcategoria) {
     $App = $machine->plugin("App");
     $Link = $machine->plugin("Link");
+    $DB = $machine->plugin("DB");
     
-    $sectionEv = $App->getSection(str_replace("/", "", $Link->getRoute("EVENTI")));
-    $evcat = $App->getEvCategory($evcategoria);
-    $events = $App->getEventsFromDBbyCategory($evcat["cat_id"]);
+    $sectionEv = $DB->getSection(str_replace("/", "", $Link->getRoute("EVENTI")));
+    $evcat = $DB->getEvCategory($evcategoria);
+    $events = $DB->getEventsFromDBbyCategory($evcat["cat_id"]);
     $n_events = count($events);
-
+    $currentCity = $DB->getCurrentCity();
+    
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => $evcat["seo_title"],
-        "seoTitle" => $evcat["title"],
+        "seoTitle" => $evcat["seo_title"] . ".",
         "title" => $evcat["title"],
-        "seoDescription" => $evcat["description"],
+        "mainSummary" => $evcat["title"],
+        "seoDescription" => $evcat["seo_description"],
+        "description" => $evcat["description"] . ".",
+        "seoKeywords" => $evcat["seo_keyword"] . ".",
         "n_events" => $n_events,
         "n_pages" => ceil($n_events / 15),
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "canonical" => $App->getCurrentUrl(),
         "pag" => 1,
         "events" => $events,
         "h3" => $evcat["seo_footer"],
         "calendar" => $App->getCalendar(),
-        "catevents" => $App->getCatEvents(),
+        "catevents" => $DB->getCatEvents(),
         "disableEventlistHeader" => true,
         "breadcrumbitems" => [
           [
@@ -266,6 +276,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $events = $App->getEventsForRange($day, $day);
     $n_events = count($events);
 
+    $currentCity = $DB->getCurrentCity();
+    
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
@@ -273,13 +285,20 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "h2" => $section["title"],
         "seoTitle" => $section["seo_title"],
         "title" => $section["title"],
-        "seoDescription" => $section["seo_description"],
+        "description" => $section["seo_description"],
+        "seoDescription" => $section["seo_description"] . ".",
+        "seoKeywords" => $section["seo_keyword"] . ".",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
         "n_events" => $n_events,
         "n_pages" => ceil($n_events / 15),
         "pag" => 1,
         "events" => $events,
         "h3" => $section["seo_footer"],
         "calendar" => $App->getCalendar(),
+        "canonical" => $App->getCurrentUrl(),
         "disableEventlistHeader" => true
       ])
     ];
@@ -384,7 +403,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "pag" => 1,
         "events" => $events,
         "h3" => $section["seo_footer"],
-        "calendar" => $App->getCalendar(),
         "canonical" => $App->getCurrentUrl(),
         "next" => $App->getCurrentUrl() . "/2",
         "disableEventlistHeader" => true,
@@ -395,22 +413,34 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
   $machine->addPage($Link->getRoute("EVENTI_DATA"), function($machine, $anno, $mese, $giorno) {
     $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
     
     $day = \DateTime::createFromFormat("Y-n-j", $anno . "-" . $mese . "-" . $giorno);
     $events = $App->getEventsForRange($day, $day);
     $n_events = count($events);
+    $currentCity = $DB->getCurrentCity();
+    $cityname = $currentCity[0]["name"];
+    
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
-        "seoTitle" => "Eventi Brescia " . strftime("%A %e %B %Y", $day->getTimestamp()),
-        "title" => "Eventi Brescia - " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
-        "h2" => "Scopri tutti gli eventi in programma a Brescia per " . strftime("%A %e %B %Y", $day->getTimestamp()),
-        "seoDescription" => "",
+        "seoTitle" => "Eventi $cityname - " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "title" => "Eventi",
+        "mainSUmmary" => "Eventi $cityname " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "h2" => "Scopri tutti gli eventi in programma a $cityname per " . strftime("%A %e %B %Y", $day->getTimestamp()),
+        "description" => "",
+        "seoDescription" => "Eventi a $cityname nei migliori locali e discoteche. Scopri gli eventi a $cityname e provincia di -  " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "seoKeywords" => "eventi $cityname, eventi discoteche, eventi discoteca, eventi provincia.",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
         "n_pages" => ceil($n_events / 15),
         "pag" => 1,
         "n_events" => $n_events,
         "events" => $events,
+        "canonical" => $App->getCurrentUrl(),
         "h3" => "Eventi " . strftime("%A %e %B %Y", $day->getTimestamp()),
         "calendar" => $App->getCalendar(),
         "disableEventlistHeader" => true
@@ -468,6 +498,20 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $currentCity = $DB->getCurrentCity();  
     
     $logo_img = $App->img("locations", $evento["locations_id"], "W", 155, $evento["locations_logo_file_name"], "logos");
+    $event_image = "";
+    if (is_null($evento["recurrent_id"]) && $evento["image_file_name"] != "") {
+      $event_image = $App->img(
+        "events", $evento["id"], 315, 177,
+        $evento["image_file_name"]
+      );
+    } else {
+      if ($evento["recurrent_image"] != "") {
+        $event_image = $App->img(
+          "recurrents", $evento["recurrent_id"], 315, 177,
+          $evento["recurrent_image"]
+        );
+      }
+    }
     
     return [
       "template" => "evento.php",
@@ -475,6 +519,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "bodyclass" => "events event",
         "seoTitle" => $evento["seo_title"],
         "logo_img" => $logo_img,
+        "event_image" => $event_image,
         "evento" => $evento,
         "h3" => $evento["seo_footer"],
         "seoDescription" => $evento["seo_description"],
@@ -483,11 +528,11 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "ogDescription" => $evento["seo_description"],
         "ogUrl" => $App->getCurrentUrl(),
         "ogSiteName" => $currentCity[0]["title_big"],
+        "currentCity" => $currentCity[0]["name"],
         "canonical" => $App->getCurrentUrl(),
         "twitterTitle" => $evento["seo_title"],
         "twitterDescription" => $evento["seo_description"],
-        "ogImage" => $logo_img,
-        "calendar" => $App->getCalendar()
+        "ogImage" => $logo_img
       ])
     ];
   });
@@ -522,6 +567,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "ogTitle" => $cat["title"],
         "ogDescription" => $cat["seo_description"],
         "ogSiteName" => $currentCity[0]["title_big"],
+        "currentCity" => $currentCity[0]["name"],
         "twitterTitle" => "",
         "twitterDescription" => "",
         "canonical" => $App->getCurrentUrl(),
@@ -668,16 +714,23 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
     $section = $DB->getSection(str_replace("/", "", $Link->getRoute("ELENCO_FESTIVITA")));
     $events = $DB->getElencoFestivita();
-    
+    $currentCity = $DB->getCurrentCity();
+
     return [
       "template" => "festivita.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => $section["seo_title"],
-        "seoTitle" => $section["seo_title"],
+        "seoTitle" => $section["seo_title"] . ".",
         "title" => $section["title"],
-        "seoDescription" => $section["seo_description"],
+        "seoDescription" => $section["seo_description"] . ".",
         "description" => $section["description"],
+        "seoKeywords" => $section["seo_keyword"] . ".",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "canonical" => $App->getCurrentUrl(),
         "events" => $events,
         "h3" => $section["seo_footer"],
         "calendar" => $App->getCalendar(),
@@ -695,15 +748,22 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $festivita = $DB->getEvFestivita($slug_festivita);
     $events = $DB->getEventsFromDBbyFestivita($festivita["holiday_id"]);
     $n_events = count($events);
+    $currentCity = $DB->getCurrentCity();
+    
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => $festivita["seo_title"],
-        "seoTitle" => $festivita["title"],
+        "seoTitle" => $festivita["seo_title"] . " " . date("Y"),
         "title" => $festivita["seo_title"],
         "seoDescription" => $festivita["seo_description"],
         "description" => $festivita["description"],
+        "seoKeywords" => $festivita["seo_keyword"] . ".",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
         "n_events" => $n_events,
         "n_pages" => ceil($n_events / 15),
         "pag" => 1,
@@ -711,6 +771,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "h3" => $festivita["seo_footer"],
         "calendar" => $App->getCalendar(),
         "catevents" => $DB->getCatEvents(),
+        "canonical" => $App->getCurrentUrl(),
         "disableEventlistHeader" => true,
         "breadcrumbitems" => []
       ])
@@ -726,10 +787,22 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $topBanner = $DB->getRandomTopBanner();
     $section = $DB->getSection($slug_sezione);
+    
+    $currentCity = $DB->getCurrentCity();
+    
     return [
       "template" => "sezione.php",
       "data" => array_merge($App->getCommonData(), [
-        "seoTitle" => $section["seo_title"],
+        "seoTitle" => $section["seo_title"] . ".",
+        "title" => $section["title"],
+        "seoDescription" => $section["seo_description"],
+        "seoKeywords" => $section["seo_keyword"] . ".",
+        "description" => $section["description"],
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "canonical" => $App->getCurrentUrl(),
         "h3" => $section["seo_footer"],
         "bodyclass" => "sections section",
         "section" => $section,

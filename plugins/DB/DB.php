@@ -828,7 +828,6 @@ class DB {
       LIMIT ' . $offset . ', ' . $items_per_page . '
     ';
 
-    echo $query;
     $result = $this->_getData($query, [
       $this->_site,
       $slug

@@ -161,7 +161,20 @@
         <div class="contentToggle">
           <?php foreach ($locale_events as $event) { ?>
           <?php 
-            $event_img = $App->img("events", $event["id"], 315, 179, $slide["image_file_name"]);
+          $event_img = "";
+          if (is_null($event["recurrent_id"]) && $event["image_file_name"] != "") {
+            $event_img = $App->img(
+              "events", $event["id"], 315, 177,
+              $event["image_file_name"]
+            );
+          } else {
+            if ($event["recurrent_image"] != "") {
+              $event_img = $App->img(
+                "recurrents", $event["recurrent_id"], 315, 177,
+                $event["recurrent_image"]
+              );
+            }
+          }          
           ?>
           <div class="row collapse abstract">
             <div class="thumbnail small-12 medium-3 large-4 columns">
@@ -200,6 +213,18 @@
           </p>
         </div>
       </div>
+      
+      <?php if ($locale["prices"] != "") { ?>
+      <div class="sheet prices" id="prices">
+          <h3 class="toggle">
+          Prezzi <?php echo $locale["title"]; ?>
+          <i class="fa fa-angle-down"></i>
+        </h3>
+        <div class="contentToggle">
+          <?php echo $locale["prices"]; ?>
+        </div>
+      </div>
+      <?php } ?>
       
       <?php if ($locale["info"] != "") { ?>
       <section class="sheet booking_wrap" id="booking">
@@ -328,6 +353,14 @@
               Eventi
             </a>
           </li>
+          <?php if ($locale["prices"] != "") { ?>
+          <li class="prices">
+            <a href="#prices" title="Prezzi" class="">
+              <i class="fa fa-money fa-fw"></i>
+              Prezzi
+            </a>
+          </li>
+          <?php } ?>
           <?php if ($locale["info"] != "") { ?>
           <li class="booking">
             <a href="#booking" title="Info e prenotazioni" class="">

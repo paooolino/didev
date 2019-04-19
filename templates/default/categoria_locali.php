@@ -37,9 +37,9 @@
           <li class="name">
             <p>
               <span class="counter"><?php echo count($list); ?></span>
-              <strong>Aperitivi</strong>
+              <strong><?php echo $cat["logic_title"]; ?></strong>
                a 
-              Brescia
+              <?php echo $currentCity; ?>
             </p>
           </li>
         </ul>
