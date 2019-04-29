@@ -47,6 +47,20 @@ class App {
     return false;
   }
   
+  public function getEmptyLetters($names) {
+    $empties = "";
+    $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $namesletters = implode("", array_map(function($name) {
+      return $name[0];
+    }, $names));
+    for ($i = 0; $i < strlen($letters); $i++) {
+      if (stripos($namesletters, $letters[$i]) === false) {
+        $empties .= $letters[$i];
+      }
+    }
+    return $empties;
+  }
+  
   public function getCommonData() {
     $DB = $this->DB;
     $topBanner = $DB->getRandomTopBanner();
@@ -74,6 +88,12 @@ class App {
       "1" => "silver",
       "0" => "free"
     ];
+    
+    $infopren = '';
+    $arrinfo = array_filter([$item["phone"], $item["mobile"]]);
+    if (count($arrinfo) > 0) {
+      $infopren = '<p class="booking">INFO E PRENOTAZIONI: ' . implode(" - ", $arrinfo) . '</p>';
+    }
     
     $html = '
       <div class="item ' . $level_names[$item["level"]] . ' row collapse">
@@ -107,9 +127,9 @@ class App {
             <a class="summary" title="' . $item["title"] . '" href="{{Link|Get|LOCALE|' . $item["seo_url"] . '}}">
               ' . $item["title"] . '
             </a>
-            <span class="address">' . $item["title"] . ' - ' . $item["address_way"] . ', ' . $item["address_number"] . ' - ' . $item["address_city"] . ', ' . $item["address_zip"] . ' - (' . $item["address_province"] . '), IT</span>
+            <span class="address">' . $item["typo_title"] . ' - ' . $item["address_way"] . ', ' . $item["address_number"] . ' - ' . $item["address_city"] . ', ' . $item["address_zip"] . ' - (' . $item["address_province"] . '), IT</span>
             <p class="description">' . $item["seo_description"] . '</p>
-            <p class="booking">INFO E PRENOTAZIONI: ' . $item["phone"] . ' - ' . $item["mobile"] . '</p>
+            ' . $infopren . '
           </div>
         </div>
       </div>

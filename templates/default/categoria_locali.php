@@ -36,7 +36,7 @@
         <ul class="title-area info_panel">
           <li class="name">
             <p>
-              <span class="counter"><?php echo count($list); ?></span>
+              <span class="counter"><?php echo $ntot; ?></span>
               <strong><?php echo $cat["logic_title"]; ?></strong>
                a 
               <?php echo $currentCity; ?>
@@ -106,13 +106,13 @@
         <?php 
           $chars = str_split("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
           foreach ($chars as $letter) { ?>
-          <?php if (false) { ?>
+          <?php if (stristr($empty_letters, $letter) !== false) { ?>
             <li>
-              <span>H</span>
+              <span><?php echo $letter; ?></span>
             </li>
           <?php } else { ?>
             <li>
-              <a href="{{Link|Get|CATEGORIA_LOCALI_LETTERA|<?php echo $slug_categoria; ?>|<?php echo $letter; ?>}}" rel="nofollow" title="che iniziano con la lettera A">
+              <a class="<?php echo isset($current_letter) && $current_letter == $letter ? "active" : ""; ?>" href="{{Link|Get|CATEGORIA_LOCALI_LETTERA|<?php echo $slug_categoria; ?>|<?php echo $letter; ?>}}" rel="nofollow" title="che iniziano con la lettera <?php echo $letter; ?>">
                 <?php echo $letter; ?>
               </a>
             </li>
@@ -120,7 +120,9 @@
         <?php } ?>
       </ul>
     </section>
-    <div class="items ajaxLoadItems" data-slug="{{slug_categoria}}" data-page="1">
+    <div 
+      class="items <?php if (isset($enable_ajax) && $enable_ajax == true) { ?>ajaxLoadItems<?php } ?>" 
+      data-slug="{{slug_categoria}}" data-page="1">
       <?php 
       foreach ($list as $item) { 
         echo $App->printLocaleItem($item);
@@ -152,7 +154,9 @@
     <?php } ?>
   </section>
   <aside class="show-for-large-up large-3 columns spaceT side_right">
+    <?php if (isset($no_calendar) && $no_calendar == true) { ; } else { ?>
     <?php include("partials/calendar.php"); ?>
+    <?php } ?>
     
     <div class="show-for-large-up spaceT">
       <aside class="adsBanner responsive visible-for-large-up">

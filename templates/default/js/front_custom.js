@@ -23,7 +23,7 @@ function set_tabs(){
 var homeSlideshow = function(body) {
   body.find('.mainbanner').slick({
     dots: false,
-    autoplay: true,
+    autoplay: false,
     pauseOnHover:true,
     speed:300,
     autoplaySpeed: 4000,
@@ -177,15 +177,59 @@ var boxCalendar = $("#main").find(".box_calendar");
 
 $(document).ready(function(){
 
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   $(document).foundation();
 
   enableDatePicker();
 
   navMainActive();
 
-  $(".cookiesNotice").find(".confirmation a").click(function() {
-    $('.cookiesNotice').slideUp("slow");
-  });
+  // cookie notice
+  (function() {
+    if (getCookie('cookie_notice') != 'true') {
+      var html = '\
+        <div class="cookiesNotice alert-box secondary" data-alert>\
+        <div class="row">\
+        <div class="notice medium-7 large-8 columns">\
+        Questo sito utilizza cookie per offrirti una migliore esperienza di navigazione sul sito. Maggiori informazioni sui cookie in <a data-gavalue="Bergamo" data-galabel="Cookies_informativa" href="/sezione/cookie-notice">questa pagina</a>. Proseguendo la navigazione acconsenti all’uso dei cookie.\
+        </div>\
+        <div class="confirmation medium-5 large-4 columns">\
+        <a class="button tiny" data-gavalue="Bergamo" data-galabel="Cookies_consenso" data-remote="true" href="/cookie_notice">Accetto le Condizioni</a>\
+        </div>\
+        </div>\
+        </div>\
+      ';
+      $('body').prepend(html);
+      $(".cookiesNotice").find(".confirmation a").click(function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        
+        setCookie('cookie_notice', 'true', 365*5);
+        $('.cookiesNotice').slideUp("slow");
+      });
+    }
+  })();
 
   if (page_home.length) {
     homeSlideshow(page_home);

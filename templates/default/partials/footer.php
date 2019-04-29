@@ -7,11 +7,13 @@
         Chi siamo
         </a>
         </li>
+        <?php if ($currentCity == "Brescia") { ?>
         <li>
         <a href="{{Link|Get|CATEGORIA_LOCALI|ricette-cocktail-internazionali}}" title="Ricette cocktail internazionali">
         Ricette cocktail
         </a>
         </li>
+        <?php } ?>
       </ul>
       <p>ARS di Alberto Ragnoli - Via X Giornate 14, Castel Mella 25030 - BRESCIA ITALY - P.IVA 03304640984 <br /> Iscrizione presso la Camera di Commercio di Brescia, REA 52265<br />Copyright 2006-<?php echo date("Y"); ?> - Ogni riproduzione, anche parziale, è vietata</p>
     </footer>

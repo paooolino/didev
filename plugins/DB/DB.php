@@ -638,8 +638,9 @@ class DB {
         ];
       }
       if ($row["behaviour"] == 2) { // locations in evidenza
+        $currentCity = $this->getCurrentCity()[0]["name"];
         $boxes[] = [
-          "title" => "Locali in evidenza a Brescia",
+          "title" => "Locali in evidenza a $currentCity",
           "link" => "",
           "description" => 'I locali della provincia che nelle ultime 24h hanno scalato più posizioni in popolarità',
           "size" => 1,
@@ -670,7 +671,7 @@ class DB {
   }
   
   public function getCategoriaLocali($slug) {
-    $query = "SELECT *, typos.logic_title FROM typo_btw_sites LEFT JOIN typos ON typos.id = typo_btw_sites.typo_id WHERE site_id = ? AND seo_url = ?";
+    $query = "SELECT typo_btw_sites.*, typos.image_file_name, typos.logic_title FROM typo_btw_sites LEFT JOIN typos ON typos.id = typo_btw_sites.typo_id WHERE site_id = ? AND seo_url = ?";
     $result = $this->_getData($query, [
       $this->_site,
       $slug
@@ -795,9 +796,14 @@ class DB {
     return $result;    
   }
   
-  public function getListCategoriaLocali($slug, $all=false, $pag=1) {
-    $items_per_page = 10;
-    $offset = ($pag - 1) * 10; 
+  // da dismettere - usare quella bytypoid sotto
+  public function getListCategoriaLocali($slug, $all=false, $pag=1, $nopagination=false) {
+    $limitcond = '';
+    if (!$nopagination) {
+      $items_per_page = 10;
+      $offset = ($pag - 1) * 10; 
+      $limitcond = 'LIMIT ' . $offset . ', ' . $items_per_page;
+    }
     $visibility_condition = "";
     if (!$all) {
       $visibility_condition = ' AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) ';
@@ -808,6 +814,7 @@ class DB {
         location_visibilities.level as level,
         location_visibilities.expire_at as expire_at,
         location_visibilities.location_id,
+        typo_btw_sites.title as typo_title,
         locations.*
       FROM
         location_visibilities
@@ -825,12 +832,62 @@ class DB {
         AND locations.active = 1
       ORDER BY
         location_visibilities.level DESC
-      LIMIT ' . $offset . ', ' . $items_per_page . '
-    ';
+      ' . $limitcond;
 
     $result = $this->_getData($query, [
       $this->_site,
       $slug
+    ]);
+    return $result;
+  }
+  
+  public function getListCategoriaLocaliByTypoId($typo_id, $all=false, $pag=1, $nopagination=false) {
+    $limitcond = '';
+    if (!$nopagination) {
+      $items_per_page = 10;
+      $offset = ($pag - 1) * 10; 
+      $limitcond = 'LIMIT ' . $offset . ', ' . $items_per_page;
+    }
+    $visibility_condition = "";
+    if (!$all) {
+      $visibility_condition = ' AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) ';
+    }
+    $query = '
+      SELECT
+        location_visibilities.id as main_id,
+        location_visibilities.level as level,
+        location_visibilities.expire_at as expire_at,
+        location_visibilities.location_id,
+        typo_btw_sites.title as typo_title,
+        locations.*
+      FROM
+        location_visibilities
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      LEFT JOIN
+        typo_btw_sites 
+        ON locations.typo_id = typo_btw_sites.id
+      WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        ' . $visibility_condition . '
+        AND location_visibilities.typo_id = ?
+        AND locations.active = 1
+      ORDER BY
+        location_visibilities.level DESC,
+        location_visibilities.expire_at DESC
+      ' . $limitcond;
+
+    /*echo $query;
+    print_r([
+      $this->_site,
+      $typo_id
+    ]);
+    die();*/
+    $result = $this->_getData($query, [
+      $this->_site,
+      $typo_id
     ]);
     return $result;
   }
@@ -846,6 +903,7 @@ class DB {
         location_visibilities.level as level,
         location_visibilities.expire_at as expire_at,
         location_visibilities.location_id,
+        typo_btw_sites.title as typo_title,
         locations.*
       FROM
         location_visibilities

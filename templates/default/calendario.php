@@ -24,7 +24,7 @@
                                 <?php if (!$cd["hasevents"] || $cd["whichmonth"] == "prev" || $cd["whichmonth"] == "next" || $cd["dayTimeReference"] == "past") { ?>
                                   <?php echo $cd["daynumber"]; ?>
                                 <?php } else { ?>
-                                  <a title="Eventi a Brescia <?php echo $cd["daynumber"]; ?> <?php echo $cd["monthName"]; ?>" href="<?php echo $cd["url"]; ?>">
+                                  <a title="Eventi a <?php echo $currentCity; ?> <?php echo $cd["daynumber"]; ?> <?php echo $cd["monthName"]; ?>" href="<?php echo $cd["url"]; ?>">
                                     <?php echo $cd["daynumber"]; ?>
                                   </a>
                                 <?php } ?>
@@ -37,13 +37,13 @@
                   </div>
                 </div>
                 <div class="todayEvents bticons icalendar">
-                  <a title="eventi stasera a Brescia" href="{{Link|Get|EVENTI_STASERA}}">Eventi stasera
+                  <a title="eventi stasera a <?php echo $currentCity; ?>" href="{{Link|Get|EVENTI_STASERA}}">Eventi stasera
                     <i class="fa fa-calendar"></i>
                     <span class="bigrounded"><?php echo $calendar["tot_events_today"]; ?></span>
                   </a>
                 </div>
                 <div class="weekendEvents bticons icalendar">
-                  <a title="eventi week end a Brescia" href="{{Link|Get|EVENTI_WEEKEND}}">Eventi weekend
+                  <a title="eventi week end a <?php echo $currentCity; ?>" href="{{Link|Get|EVENTI_WEEKEND}}">Eventi weekend
                     <i class="fa fa-calendar"></i>
                     <span class="bigrounded"><?php echo $calendar["tot_events_weekend"]; ?></span>
                   </a>

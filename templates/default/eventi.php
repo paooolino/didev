@@ -39,7 +39,7 @@
             <span class="counter">{{n_events}}</span>
             Eventi
              a 
-            Brescia
+            <?php echo $currentCity; ?>
             </p>
           </li>
         </ul>
@@ -62,6 +62,9 @@
     <?php } ?>
     <section class="collection">
       <div class="row">
+        <?php if (count($events) == 0) { ?>
+          <div class="small-12 medium-12 large-12 columns">Nessun elemento trovato.</div>
+        <?php } ?>
         <?php foreach ($events as $event) { ?>
           <?php 
           $event_image = "";
@@ -164,7 +167,7 @@
     <p class="archive_events">
       <a class="bt" href="/eventi-passati">
         <i class="fa fa-calendar"></i>
-        vedi eventi passati
+        <?php echo isset($archivelabel) ? $archivelabel : "vedi eventi passati"; ?>
       </a>
     </p>
     <?php } ?>

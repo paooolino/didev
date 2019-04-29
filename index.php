@@ -152,6 +152,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "h2" => "eventi di locali e discoteche di " . $currentCity[0]["name"] . " da non perdere",
         "h2_2" => "discotechebrescia.it: la miglior vetrina per eventi, locali e ristoranti di " . $currentCity[0]["name"],
         "h3" => $homeContent["seo_footer"],
+        "promo_description" => $homeContent["promo_description"],
+        "promo_title" => $homeContent["promo_title"],
         "hboxes" => $DB->getHomeBoxes(),
         "banner_dx" => $banner_dx[0]
       ])
@@ -204,7 +206,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "title" => $section["title"],
         "seoDescription" => $section["seo_description"],
         "seoKeywords" => $section["seo_keyword"] . ".",
-        "description" => $section["description"],
+        "description" => $section["seo_description"],
         "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
         "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
         "ogUrl" => $App->getCurrentUrl(),
@@ -227,7 +229,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
     $sectionEv = $DB->getSection(str_replace("/", "", $Link->getRoute("EVENTI")));
     $evcat = $DB->getEvCategory($evcategoria);
-    $events = $DB->getEventsFromDBbyCategory($evcat["cat_id"]);
+    $events = $DB->getEventsFromDBbyCategory($evcat["id"]);
     $n_events = count($events);
     $currentCity = $DB->getCurrentCity();
     
@@ -546,31 +548,42 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $cat = $DB->getCategoriaLocali($slug_categoria);
 
+    $current_page = 1;
+    //$tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
+    $tutti = $DB->getListCategoriaLocaliByTypoId($cat["id"], false, 1, true);
+    $list = array_slice($tutti, ($current_page-1) * 10, 10);
+    
+    $empty_letters = $App->getEmptyLetters(array_map(function($item) {
+      return $item["title"];
+    }, $tutti));
+    
     list($z1, $z2) = $DB->getZonesListForCategoriaLocali($slug_categoria);
     $currentCity = $DB->getCurrentCity();  
     return [
       "template" => "categoria_locali.php",
       "data" => array_merge($App->getCommonData(), [
         "cat" => $cat,
-        "list" => $DB->getListCategoriaLocali($slug_categoria),
-        "ntot" => $DB->countListCategoriaLocali($slug_categoria),
+        "list" => $list,
+        "ntot" => count($tutti),
         "slug_categoria" => $slug_categoria,
         "z1" => $z1,
         "z2" => $z2,
         "bodyclass" => "locations typology_locations",
         "seoTitle" => $cat["seo_title"],
         "h3" => $cat["seo_footer"],
-        "current_page" => 1,
-        "calendar" => $App->getCalendar(),
+        "current_page" => $current_page,
         "seoDescription" => $cat["seo_description"],
         "seoKeywords" => $cat["seo_keyword"],
         "ogTitle" => $cat["title"],
         "ogDescription" => $cat["seo_description"],
         "ogSiteName" => $currentCity[0]["title_big"],
         "currentCity" => $currentCity[0]["name"],
+        "empty_letters" => $empty_letters,
         "twitterTitle" => "",
         "twitterDescription" => "",
         "canonical" => $App->getCurrentUrl(),
+        "no_calendar" => true,
+        "enable_ajax" => true,
         "next" => $App->getCurrentUrl() . "/2",
       ])
     ];
@@ -579,7 +592,10 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("AJAX_LOAD_ITEMS"), "POST", function($machine) {
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
-    $list = $DB->getListCategoriaLocali($_POST["slug"], false, $_POST["page"]);
+    $cat = $DB->getCategoriaLocali($_POST["slug"]);
+    
+    //$list = $DB->getListCategoriaLocali($_POST["slug"], false, $_POST["page"]);
+    $list = $DB->getListCategoriaLocaliByTypoId($cat["id"], false, $_POST["page"]);
     $html = '';
     foreach ($list as $item) {
       $html .= $App->printLocaleItem($item);
@@ -622,19 +638,39 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     list($z1, $z2) = $DB->getZonesListForCategoriaLocaliLettera($slug_categoria, $lettera);
+    
+    $tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
+    $empty_letters = $App->getEmptyLetters(array_map(function($item) {
+      return $item["title"];
+    }, $tutti));
+    
+    $list = $DB->getListCategoriaLocaliLettera($slug_categoria, false, $lettera);
+    
+    $currentCity = $DB->getCurrentCity();  
     return [
       "template" => "categoria_locali.php",
       "data" => array_merge($App->getCommonData(), [
         "cat" => $cat,
-        "list" => $DB->getListCategoriaLocaliLettera($slug_categoria, false, $lettera),
-        "ntot" => $DB->countListCategoriaLocaliLettera($slug_categoria, $lettera),
+        "list" => $list,
+        "ntot" => count($list),
         "z1" => $z1,
         "z2" => $z2,
         "slug_categoria" => $slug_categoria,
         "bodyclass" => "locations typology_locations",
-        "seoTitle" => $cat["seo_title"],
+        "seoTitle" => $cat["seo_title"] . ' - Lettera ' . $lettera . '.',
+        "seoDescription" => $cat["seo_description"] . ' - Lettera ' . $lettera . '.',
+        "seoKeywords" => $cat["seo_keyword"],
+        "ogTitle" => $cat["title"],
+        "ogDescription" => $cat["seo_description"] . ' - Lettera ' . $lettera . '.',
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "currentCity" => $currentCity[0]["name"],
+        "twitterTitle" => "",
+        "twitterDescription" => "",
+        "canonical" => $App->getCurrentUrl(),
+        "empty_letters" => $empty_letters,
         "h3" => $cat["seo_footer"],
-        "calendar" => $App->getCalendar()
+        "current_letter" => $lettera,
+        "no_calendar" => true
       ])
     ];
   }); 
@@ -670,7 +706,10 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $logo_img = $App->img("locations", $locale["id"], 157, 157, $locale["logo_file_name"], "logos");
      
     $showcase = $DB->getShowcase($locale["id"]);
-    $img = $App->img("location_showcases", $showcase[0]["id"], 1335, 516, $showcase[0]["image_fingerprint"] . "-" . $showcase[0]["image_file_name"]);
+    $img = "";
+    if (count($showcase) > 0) {
+      $img = $App->img("location_showcases", $showcase[0]["id"], 1335, 516, $showcase[0]["image_fingerprint"] . "-" . $showcase[0]["image_file_name"]);
+    }
     
     $locale_events = $DB->getEventsForLocale($locale["id"]);
     
@@ -755,7 +794,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => $festivita["seo_title"],
-        "seoTitle" => $festivita["seo_title"] . " " . date("Y"),
+        "mainSummary" => $festivita["title"], 
+        "seoTitle" => $festivita["seo_title"] . " " . date("Y") . ".",
         "title" => $festivita["seo_title"],
         "seoDescription" => $festivita["seo_description"],
         "description" => $festivita["description"],
@@ -773,6 +813,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "catevents" => $DB->getCatEvents(),
         "canonical" => $App->getCurrentUrl(),
         "disableEventlistHeader" => true,
+        "archivelabel" => "Archivio eventi " . $festivita["title"],
         "breadcrumbitems" => []
       ])
     ];

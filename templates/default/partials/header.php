@@ -51,6 +51,7 @@
 
 </head>
 <body class="front tenant-bs <?php echo $bodyclass; ?>">
+
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap" data-equalizer>
     <div class="tab-bar show-for-small small_logo" data-equalizer>

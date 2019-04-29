@@ -1124,3 +1124,7 @@ ul.pagination {
   
 small.error{display:none;}
 .row.error{display:none;}
+
+.slick-slide{position:relative;}
+
+.navFooter.inline-list > li {margin-left:0;}
