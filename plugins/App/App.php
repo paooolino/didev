@@ -138,6 +138,83 @@ class App {
     return $html;
   }
   
+  public function printEvento($event) {
+    $html = '';
+    
+    $event_image = "";
+    if (is_null($event["recurrent_id"]) && $event["image_file_name"] != "") {
+      $event_image = $this->img(
+        "events", $event["id"], 315, 177,
+        $event["image_file_name"]
+      );
+    } else {
+      if ($event["recurrent_image"] != "") {
+        $event_image = $this->img(
+          "recurrents", $event["recurrent_id"], 315, 177,
+          $event["recurrent_image"]
+        );
+      }
+    }
+    
+    $html .= '
+      <div class="small-12 medium-12 large-12 columns event_preview h-event vevent" id="hcalendar-event' . $event["id"] . '">
+        <div class="component">
+          <div class="row collapse">
+            ';
+            if ($event_image != "")  {
+              $html .= '
+              <div class="thumbnail small-12 medium-3 large-4 columns">
+                <a title="' . $event["title"] . '" href="{{Link|Get|EVENTO|' . $event["seo_url"] . '}}">
+                  
+                  <img 
+                    alt="' . $event["title"] . '" 
+                    data-interchange="
+                      [' . $event_image . ', (default)], 
+                      [' . $event_image . ', (medium)], 
+                      [' . $event_image . ', (large)]
+                    " 
+                    src="' . $event_image . '" 
+                    title="' . $event["title"] . '"
+                  >
+                  <noscript>
+                    <img 
+                      alt="' . $event["title"] . '" 
+                      src="' . $event_image . '" 
+                      title="' . $event["title"] . '" />
+                  </noscript>
+                </a>
+              </div>
+              ';
+            }
+            if ($event_image != "")  {
+              $html .= '<div class="small-12 medium-9 large-8 columns texts">';
+            } else {
+              $html .= '<div class="small-12 medium-12 large-12 columns texts">';
+            }
+            $html .= '
+              <div class="desc">
+                <span class="info">
+                <time class="dt-start dtstart" datetime="2017-11-19T22:00:00+01:00" title="2017-11-19T22:00:00+01:00">2017-11-19T22:00:00+01:00</time>
+                <time class="dt-end dtend" datetime="2017-11-19T23:59:00+01:00" title="2017-11-19T23:59:00+01:00">2017-11-19T23:59:00+01:00</time>
+                ' . $event["title_date"] . '
+                 - 
+                <a title="' . $event["locations_title"] . '" href="/locale/' . $event["locations_seo_url"] . '">' . $event["locations_title"] . '</a>
+                <span class="location p-location" title="' . $event["locations_address_city"] . ', ' . $event["locations_address_province"] . '">' . $event["locations_address_city"] . '</span>
+                </span>
+                <a title="' . $event["title"] . '" class="p-name summary" href="{{Link|Get|EVENTO|' . $event["seo_url"] . '}}">' . $event["title"] . '</a>
+                <p class="description p-summary description">' . $event["seo_description"] . '</p>
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    ';
+    
+    return $html;
+  }
+  
   // ritorna solo il nome di riferimento della zona, dato il record.
   public function _zName($zRecord) {
     $parts = explode("[[", $zRecord["title"]);

@@ -37,12 +37,13 @@
           <li class="name">
             <p>
             <span class="counter">{{n_events}}</span>
-            Eventi
+             <?php echo isset($past) && $past == true ? "Archivio eventi" : "Eventi"; ?>
              a 
             <?php echo $currentCity; ?>
             </p>
           </li>
         </ul>
+        <?php if (!(isset($past) && $past == true)) { ?>
         <section class="top-bar-section choice">
           <ul class="right">
             <li class="has-dropdown">
@@ -57,82 +58,21 @@
             </li>
           </ul>
         </section>
+        <?php } ?>
       </nav>
     </section>
     <?php } ?>
-    <section class="collection">
-      <div class="row">
-        <?php if (count($events) == 0) { ?>
-          <div class="small-12 medium-12 large-12 columns">Nessun elemento trovato.</div>
-        <?php } ?>
-        <?php foreach ($events as $event) { ?>
-          <?php 
-          $event_image = "";
-          if (is_null($event["recurrent_id"]) && $event["image_file_name"] != "") {
-            $event_image = $App->img(
-              "events", $event["id"], 315, 177,
-              $event["image_file_name"]
-            );
-          } else {
-            if ($event["recurrent_image"] != "") {
-              $event_image = $App->img(
-                "recurrents", $event["recurrent_id"], 315, 177,
-                $event["recurrent_image"]
-              );
-            }
-          }
-          ?>
-          <div class="small-12 medium-12 large-12 columns event_preview h-event vevent" id="hcalendar-event<?php echo $event["id"]; ?>">
-            <div class="component">
-              <div class="row collapse">
-                <?php if ($event_image != "")  { ?>
-                  <div class="thumbnail small-12 medium-3 large-4 columns">
-                    <a title="<?php echo $event["title"]; ?>" href="{{Link|Get|EVENTO|<?php echo $event["seo_url"]; ?>}}">
-                      
-                      <img 
-                        alt="<?php echo $event["title"]; ?>" 
-                        data-interchange="
-                          [<?php echo $event_image ?>, (default)], 
-                          [<?php echo $event_image; ?>, (medium)], 
-                          [<?php echo $event_image; ?>, (large)]
-                        " 
-                        src="<?php echo $event_image; ?>" 
-                        title="<?php echo $event["title"]; ?>"
-                      >
-                      <noscript>
-                        <img 
-                          alt="<?php echo $event["title"]; ?>" 
-                          src="<?php echo $event_image; ?>" 
-                          title="<?php echo $event["title"]; ?>" />
-                      </noscript>
-                    </a>
-                  </div>
-                <?php } ?>
-                <?php if ($event_image != "")  { ?>
-                  <div class="small-12 medium-9 large-8 columns texts">
-                <?php } else { ?>
-                  <div class="small-12 medium-12 large-12 columns texts">
-                <?php } ?>
-                    <div class="desc">
-                      <span class="info">
-                      <time class="dt-start dtstart" datetime="2017-11-19T22:00:00+01:00" title="2017-11-19T22:00:00+01:00">2017-11-19T22:00:00+01:00</time>
-                      <time class="dt-end dtend" datetime="2017-11-19T23:59:00+01:00" title="2017-11-19T23:59:00+01:00">2017-11-19T23:59:00+01:00</time>
-                      <?php echo $event["title_date"]; ?>
-                       - 
-                      <a title="<?php echo $event["locations_title"]; ?>" href="/locale/<?php echo $event["locations_seo_url"]; ?>"><?php echo $event["locations_title"]; ?></a>
-                      <span class="location p-location" title="<?php echo $event["locations_address_city"]; ?>, <?php echo $event["locations_address_province"]; ?>"><?php echo $event["locations_address_city"]; ?></span>
-                      </span>
-                      <a title="<?php echo $event["title"]; ?>" class="p-name summary" href="{{Link|Get|EVENTO|<?php echo $event["seo_url"]; ?>}}"><?php echo $event["title"]; ?></a>
-                      <p class="description p-summary description"><?php echo $event["seo_description"]; ?></p>
-                    </div>
-                  </div>
-                
-              </div>
-            </div>
-          </div>
-        <?php } ?>
-      </div>
+    <section class="row collection <?php if (isset($enable_ajax) && $enable_ajax == true) { ?>ajaxLoadEvents<?php } ?>"
+      data-page="1" data-past="<?php echo isset($past) && $past == true ? "true" : "false"; ?>"
+      >
+      <?php if (count($events) == 0) { ?>
+        <div class="small-12 medium-12 large-12 columns">Nessun elemento trovato.</div>
+      <?php } ?>
+      <?php foreach ($events as $event) { ?>
+        <?php echo $App->printEvento($event); ?>
+      <?php } ?>
     </section>
+    <?php if (false) { ?>
     <div class="paginate_number">
       <ul aria-label="Pagination" class="pagination" role="menubar">
 
@@ -162,14 +102,22 @@
       </ul>
       <p class="empty"></p>
     </div>
-
+    <?php } ?>
+    
     <?php if (!(isset($disableEventsArchive) && $disableEventsArchive == true)) { ?>
-    <p class="archive_events">
-      <a class="bt" href="/eventi-passati">
-        <i class="fa fa-calendar"></i>
-        <?php echo isset($archivelabel) ? $archivelabel : "vedi eventi passati"; ?>
-      </a>
-    </p>
+    <div class="boxed promo">
+      <p class="archive_events">
+        <a class="bt" href="{{archivelink}}">
+          <i class="fa fa-calendar"></i>
+          <?php echo isset($archivelabel) ? $archivelabel : "vedi eventi passati"; ?>
+        </a>
+      </p>
+      <?php 
+      if (isset($description2) && $description2 != "") { 
+        echo $description2;
+      }
+      ?>
+    </div>
     <?php } ?>
 
   </section>

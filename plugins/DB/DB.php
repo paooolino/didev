@@ -528,7 +528,13 @@ class DB {
     return $items;
   }
   
-  public function getEventsFromDB($wherecond="", $limitcond="") {
+  public function getEventsFromDB($wherecond="", $limitcond="", $past=false) {
+    $ordcond = 'time_to ASC';
+    $timecond = 'AND time_to > NOW()';
+    if ($past) {
+      $ordcond = 'time_to DESC';
+      $timecond = 'AND time_to <= NOW()';
+    }
     $query = "
       SELECT * FROM (SELECT 
         events.*,
@@ -547,14 +553,14 @@ class DB {
       WHERE
         events.site_id = ?
         $wherecond
-        AND time_to > NOW()
+        $timecond
       ORDER BY
         events.time_to ASC) AS A
         
       GROUP BY
         A.seo_url
       ORDER BY 
-        time_to ASC
+        $ordcond
       
       $limitcond
     ";
@@ -1241,12 +1247,14 @@ class DB {
         locations.address_way as locations_address_way,
         locations.address_number as locations_address_number,
         locations.address_city as locations_address_city,
+        locations.address_zip as locations_address_zip,
         locations.address_province as locations_address_province,
         locations.phone as locations_phone,
         locations.mobile as locations_mobile,
         locations.email as locations_email,
         locations.seo_url as locations_seo_url,
-        locations.logo_file_name as locations_logo_file_name        
+        locations.logo_file_name as locations_logo_file_name,
+        events.time_to <= NOW() as expired
       FROM events
       LEFT JOIN event_btw_locations 
         ON events.id = event_btw_locations.event_id 
@@ -1306,7 +1314,13 @@ class DB {
     return $events;
   }
   
-  public function getEventsFromDBbyFestivita($holiday_id) {
+  public function getEventsFromDBbyFestivita($holiday_id, $past=false) {
+    $timecond = 'AND time_to > NOW()';
+    $ordercond = 'time_to ASC';
+    if ($past) {
+      $timecond = 'AND time_to <= NOW()';
+      $ordercond = 'time_to DESC';
+    }
     $query = "
       SELECT 
         events.*,
@@ -1328,7 +1342,7 @@ class DB {
         
       WHERE
         events.site_id = ?
-        AND time_to > NOW()
+        $timecond
         AND locations.active = 1
         
         AND holiday_btw_events.holiday_id = ?
@@ -1336,7 +1350,7 @@ class DB {
       GROUP BY
         events.seo_url
       ORDER BY
-        time_to ASC
+        $ordercond
     ";
     $events = $this->_getData($query, [$this->_site, $holiday_id]);
     

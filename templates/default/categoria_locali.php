@@ -14,11 +14,13 @@
       </li>
     </nav>
     <article class="boxed spaceB notehead">
-      <img alt="<?php echo $cat["title"]; ?>" title="<?php echo $cat["title"]; ?>" class="thumbcat" 
-        <?php
+      <?php
+      if ($cat["image_file_name"] != "") {
         $imgurl = $App->img("typos", $cat["id"], "W", 57, $cat["image_file_name"]);
         ?>
-        src="<?php echo $imgurl; ?>">
+        <img alt="<?php echo $cat["title"]; ?>" title="<?php echo $cat["title"]; ?>" class="thumbcat" 
+          src="<?php echo $imgurl; ?>">
+      <?php } ?>
       <hgroup>
         <h1 class="mainsummary"><?php echo $cat["title"]; ?></h1>
         <h2 class="summary"><?php echo $cat["seo_subtitle"]; ?></h2>

@@ -86,6 +86,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("CATEGORIA_LOCALI_LETTERA", "/locali/{slug_categoria}/lettera/{lettera}");
   $Link->setRoute("LOCALE", "/locale/{slug_locale}");
   $Link->setRoute("AJAX_LOAD_ITEMS", "/ajax-load-items");
+  $Link->setRoute("AJAX_LOAD_EVENTS", "/ajax-load-events");
 
   $Link->setRoute("ELENCO_FESTIVITA", "/festivita");
   $Link->setRoute("FESTIVITA", "/eventi-festivita/{slug_festivita}");
@@ -192,9 +193,11 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $Link = $machine->plugin("Link");
     $DB = $machine->plugin("DB");
     
+    $current_page = 1;
     $section = $DB->getSection(str_replace("/", "", $Link->getRoute("EVENTI")));
     $events = $DB->getEventsFromDB("AND events.active = 1");
     $n_events = count($events);
+    $list = array_slice($events, ($current_page-1) * 10, 10);
     $currentCity = $DB->getCurrentCity();  
     
     return [
@@ -214,9 +217,50 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "n_events" => $n_events,
         "n_pages" => ceil($n_events / 15),
         "pag" => 1,
-        "events" => $events,
+        "events" => $list,
         "h3" => $section["seo_footer"],
+        "archivelink" => $Link->Get("EVENTI_PASSATI_ALL"),
+        "enable_ajax" => true,
         "calendar" => $App->getCalendar(),
+        "catevents" => $DB->getCatEvents()
+      ])
+    ];
+  });
+  
+  $machine->addPage($Link->getRoute("EVENTI_PASSATI_ALL"), function($machine) {
+    $App = $machine->plugin("App");
+    $Link = $machine->plugin("Link");
+    $DB = $machine->plugin("DB");
+    
+    $current_page = 1;
+    //$section = $DB->getSection(str_replace("/", "", $Link->getRoute("EVENTI_PASSATI_ALL")));
+    $events = $DB->getEventsFromDB("AND events.active = 1", "", true);
+    $n_events = count($events);
+    $list = array_slice($events, ($current_page-1) * 10, 10);
+    $currentCity = $DB->getCurrentCity();  
+    
+    return [
+      "template" => "eventi.php",
+      "data" => array_merge($App->getCommonData(), [
+        "bodyclass" => "events next_events",
+        "h2" => "Archivio eventi e serate",
+        "mainSummary" => "Archivio eventi delle discoteche di " . $currentCity[0]["name"],
+        "seoTitle" => "Archivio eventi delle discoteche di " . $currentCity[0]["name"] . ".",
+        "title" => "Archivio eventi e serate",
+        "seoDescription" => "In questa sezione potrete trovare l'archivio di tutti gli eventi e serate dei migliori locali e delle migliori discoteche di " . $currentCity[0]["name"] . " e provincia.",
+        "seoKeywords" => "archivio eventi, archivio serate, serate discoteca, eventi discoteca, eventi " . $currentCity[0]["name"] . ".",
+        "description" => "In questa sezione potrete trovare l'archivio di tutti gli eventi e serate dei migliori locali e delle migliori discoteche di " . $currentCity[0]["name"] . " e provincia",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "n_events" => $n_events,
+        "n_pages" => ceil($n_events / 15),
+        "pag" => 1,
+        "past" => true, // serve per la chiamata ajax
+        "events" => $list,
+        "h3" => "Archivio eventi e serate delle migliori discoteche e dei locali di " . $currentCity[0]["name"],
+        "enable_ajax" => true,
         "catevents" => $DB->getCatEvents()
       ])
     ];
@@ -241,8 +285,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "seoTitle" => $evcat["seo_title"] . ".",
         "title" => $evcat["title"],
         "mainSummary" => $evcat["title"],
-        "seoDescription" => $evcat["seo_description"],
-        "description" => $evcat["description"] . ".",
+        "seoDescription" => $evcat["seo_description"] . ".",
+        "description" => $evcat["description"],
         "seoKeywords" => $evcat["seo_keyword"] . ".",
         "n_events" => $n_events,
         "n_pages" => ceil($n_events / 15),
@@ -534,6 +578,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "canonical" => $App->getCurrentUrl(),
         "twitterTitle" => $evento["seo_title"],
         "twitterDescription" => $evento["seo_description"],
+        "map" => $DB->getLocaleMap($evento["locations_id"]),
         "ogImage" => $logo_img
       ])
     ];
@@ -599,6 +644,24 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $html = '';
     foreach ($list as $item) {
       $html .= $App->printLocaleItem($item);
+    }
+    echo $html;
+    die();
+  });
+  
+  $machine->addAction($Link->getRoute("AJAX_LOAD_EVENTS"), "POST", function($machine) {
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    
+    $offset = ($_POST["page"] - 1) * 10;
+    $list = $DB->getEventsFromDB(
+      "AND events.active = 1", 
+      "LIMIT $offset, 10", 
+      $_POST["past"] == "true" ? true : false
+    );
+    $html = '';
+    foreach ($list as $event) {
+      $html .= $App->printEvento($event);
     }
     echo $html;
     die();
@@ -785,7 +848,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     
     $festivita = $DB->getEvFestivita($slug_festivita);
-    $events = $DB->getEventsFromDBbyFestivita($festivita["holiday_id"]);
+    $events = $DB->getEventsFromDBbyFestivita($festivita["id"]);
     $n_events = count($events);
     $currentCity = $DB->getCurrentCity();
     
@@ -799,6 +862,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "title" => $festivita["seo_title"],
         "seoDescription" => $festivita["seo_description"],
         "description" => $festivita["description"],
+        "description2" => $festivita["description2"],
         "seoKeywords" => $festivita["seo_keyword"] . ".",
         "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
         "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
@@ -814,10 +878,52 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "canonical" => $App->getCurrentUrl(),
         "disableEventlistHeader" => true,
         "archivelabel" => "Archivio eventi " . $festivita["title"],
+        "archivelink" => $Link->Get(["FESTIVITA_ARCHIVIO", $slug_festivita]),
         "breadcrumbitems" => []
       ])
     ];
   }); 
+  
+  $machine->addPage($Link->getRoute("FESTIVITA_ARCHIVIO"), function($machine, $slug_festivita) {
+    $App = $machine->plugin("App");
+    $Link = $machine->plugin("Link");
+    $DB = $machine->plugin("DB");
+    
+    $festivita = $DB->getEvFestivita($slug_festivita);
+    $events = $DB->getEventsFromDBbyFestivita($festivita["id"], true);
+    $n_events = count($events);
+    $currentCity = $DB->getCurrentCity();
+    
+    $description = '<a class="button radius" title="' . $festivita["title"] . ' a ' . $currentCity[0]["name"] . '" href="' . $Link->Get(["FESTIVITA", $slug_festivita]) . '">Accedi agli eventi ' . $festivita["title"] . ' a ' . $currentCity[0]["name"] . ' aggiornati</a>';
+    return [
+      "template" => "eventi.php",
+      "data" => array_merge($App->getCommonData(), [
+        "bodyclass" => "events next_events",
+        "h2" => "Questi eventi riguardano gli anni scorsi!",
+        "mainSummary" => "Archivio eventi passati " . $festivita["title"] . " a " . $currentCity[0]["name"], 
+        "seoTitle" => $festivita["seo_title"] . " " . date("Y") . ".",
+        "title" => $festivita["seo_title"],
+        "seoDescription" => $festivita["seo_description"],
+        "description" => $description,
+        "seoKeywords" => $festivita["seo_keyword"] . ".",
+        "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
+        "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
+        "ogUrl" => $App->getCurrentUrl(),
+        "ogSiteName" => $currentCity[0]["title_big"],
+        "n_events" => $n_events,
+        "n_pages" => ceil($n_events / 15),
+        "pag" => 1,
+        "events" => $events,
+        "h3" => $festivita["seo_footer"],
+        "calendar" => $App->getCalendar(),
+        "catevents" => $DB->getCatEvents(),
+        "canonical" => $App->getCurrentUrl(),
+        "disableEventlistHeader" => true,
+        "disableEventsArchive" => true,
+        "breadcrumbitems" => []
+      ])
+    ];
+  });
   
   /**
    *  Altro

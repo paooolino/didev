@@ -52,6 +52,7 @@
 <!-- my customs -->
 <script>
 var AJAX_LOAD_ITEMS_ENDPOINT = '<?php echo $Link->Get("AJAX_LOAD_ITEMS"); ?>';
+var AJAX_LOAD_EVENTS_ENDPOINT = '<?php echo $Link->Get("AJAX_LOAD_EVENTS"); ?>';
 </script>
 <script src="{{templatePath}}js/modules/ckeditor.js"></script>
 <script src="{{templatePath}}js/modules/backofficeListFlags.js"></script>

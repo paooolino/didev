@@ -66,7 +66,7 @@
                   <?php foreach($menuitem["children"] as $submenuitem) { ?>
                     <?php 
                     $class = "";
-                    if (isset($cat) && $cat["id"] == $submenuitem["id"]) {
+                    if (isset($cat) && $cat["typo_id"] == $submenuitem["id"]) {
                       $class = "active";
                     }
                     ?>
