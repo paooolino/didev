@@ -614,13 +614,18 @@ class App {
       $to = new \DateTime($ev["time_to"]);
       $from->setTime(0,0);
       $to->setTime(23,59);
+      $dt1->setTime(0,0);
+      $dt2->setTime(23,59);
+      
       /*
       echo "================================= \r\n";
       echo "ev: " . ($ev["id"]) . "\r\n";
       echo "from: " . $from->getTimestamp() . "\r\n";
       echo "to: " . $to->getTimestamp() . "\r\n";
       echo "dt1: " . $dt1->getTimestamp() . "\r\n";
+      var_dump( ($dt1 <= $from && $from <= $dt2) || ($dt1 <= $to && $to <= $dt2) );
       */
+      
       //echo "from: " . $from->getTimestamp() . "\r\n";
       // 20/4 <= 19/4 && 19/4 <= 20/4    ||  20/4 <= 21/4 && 21/4 <= 20/4 
       //if (($from <= $dt1 && $dt1 <= $to) || ($from <= $dt2 && $dt2 <= $to)) {

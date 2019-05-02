@@ -473,7 +473,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "bodyclass" => "events next_events",
         "seoTitle" => "Eventi $cityname - " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
         "title" => "Eventi",
-        "mainSUmmary" => "Eventi $cityname " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "mainSummary" => "Eventi $cityname " . strftime("%A %e %B %Y", $day->getTimestamp()),
         "h2" => "Scopri tutti gli eventi in programma a $cityname per " . strftime("%A %e %B %Y", $day->getTimestamp()),
         "description" => "",
         "seoDescription" => "Eventi a $cityname nei migliori locali e discoteche. Scopri gli eventi a $cityname e provincia di -  " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
