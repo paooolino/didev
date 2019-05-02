@@ -608,7 +608,7 @@ class App {
   
   // ritorna gli eventi definiti per almeno uno dei giorni compresi tra dt1 e dt2
   public function getEventsForRange($dt1, $dt2) {
-    $events = $this->_machine->plugin("DB")->getEventsFromDB("AND events.active = 1");
+    $events = $this->_machine->plugin("DB")->getEventsFromDB("AND events.active = 1", "", false, "time_to DESC");
     $events = array_filter($events, function($ev) use ($dt1, $dt2) {
       $from = new \DateTime($ev["time_from"]);
       $to = new \DateTime($ev["time_to"]);
@@ -623,16 +623,21 @@ class App {
       echo "from: " . $from->getTimestamp() . "\r\n";
       echo "to: " . $to->getTimestamp() . "\r\n";
       echo "dt1: " . $dt1->getTimestamp() . "\r\n";
-      var_dump( ($dt1 <= $from && $from <= $dt2) || ($dt1 <= $to && $to <= $dt2) );
+      echo "dt2: " . $dt2->getTimestamp() . "\r\n";
+      var_dump( ($dt1->getTimestamp() < $from->getTimestamp() && $dt2->getTimestamp() < $from->getTimestamp()) || ($dt1->getTimestamp() > $to->getTimestamp() && $dt2->getTimestamp() > $to->getTimestamp()) );
       */
       
       //echo "from: " . $from->getTimestamp() . "\r\n";
       // 20/4 <= 19/4 && 19/4 <= 20/4    ||  20/4 <= 21/4 && 21/4 <= 20/4 
       //if (($from <= $dt1 && $dt1 <= $to) || ($from <= $dt2 && $dt2 <= $to)) {
-      if (($dt1 <= $from && $from <= $dt2) || ($dt1 <= $to && $to <= $dt2)) {   
-        return true;
+      //if (($dt1 <= $from && $from <= $dt2) || ($dt1 <= $to && $to <= $dt2)) {   
+      //  return true;
+      //}
+      //return false;
+      if (($dt1 < $from && $dt2 < $from) || ($dt1 > $to && $dt2 > $to)) {
+        return false;
       }
-      return false;
+      return true;
     });
     return $events;
   }
