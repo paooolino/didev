@@ -449,6 +449,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "pag" => 1,
         "events" => $events,
         "h3" => $section["seo_footer"],
+        "calendar" => $App->getCalendar(),
         "canonical" => $App->getCurrentUrl(),
         "next" => $App->getCurrentUrl() . "/2",
         "disableEventlistHeader" => true,
@@ -489,6 +490,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "canonical" => $App->getCurrentUrl(),
         "h3" => "Eventi " . strftime("%A %e %B %Y", $day->getTimestamp()),
         "calendar" => $App->getCalendar(),
+        "disableEventsArchive" => true,
         "disableEventlistHeader" => true
       ])
     ];
@@ -499,9 +501,13 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    */
   $machine->addPage($Link->getRoute("CALENDARIO"), function($machine, $anno, $mese) {
     $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    
+    $currentCity = $DB->getCurrentCity();
     return [
       "template" => "calendario.php",
       "data" => [
+        "currentCity" => $currentCity[0]["name"],
         "calendar" => $App->getCalendar($anno, $mese)
       ]
     ];

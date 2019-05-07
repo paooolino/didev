@@ -9,7 +9,7 @@
                 <div class="show-for-large-up">
                   <div id="events_calendar">
                     <header class="calendar-header">
-                      <?php echo $calendar["prev_link"]; ?><span><?php echo $calendar["current_month"]; ?> <?php echo $calendar["current_year"]; ?></span>
+                      <?php echo $calendar["prev_link"]; ?><span><?php echo ucfirst($calendar["current_month"]); ?> <?php echo $calendar["current_year"]; ?></span>
                       <?php echo $calendar["next_link"]; ?>
                     </header>
                     <table>
