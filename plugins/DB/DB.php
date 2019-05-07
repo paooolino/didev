@@ -528,13 +528,16 @@ class DB {
     return $items;
   }
   
-  public function getEventsFromDB($wherecond="", $limitcond="", $past=false) {
+  public function getEventsFromDB($wherecond="", $limitcond="", $past=false, $forcedordcond="") {
     $ordcond = 'time_to ASC';
     $timecond = 'AND time_to > NOW()';
     if ($past) {
       $ordcond = 'time_to DESC';
       $timecond = 'AND time_to <= NOW()';
     }
+    if ($forcedordcond != "")
+      $ordcond = $forcedordcond;
+    
     $query = "
       SELECT * FROM (SELECT 
         events.*,
@@ -555,7 +558,7 @@ class DB {
         $wherecond
         $timecond
       ORDER BY
-        events.time_to ASC) AS A
+        events.$ordcond) AS A
         
       GROUP BY
         A.seo_url

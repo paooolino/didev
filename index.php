@@ -452,6 +452,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "calendar" => $App->getCalendar(),
         "canonical" => $App->getCurrentUrl(),
         "next" => $App->getCurrentUrl() . "/2",
+        "calendar" => $App->getCalendar(),
         "disableEventlistHeader" => true,
         "disableEventsArchive" => true
       ])
@@ -462,8 +463,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     
-    $day = \DateTime::createFromFormat("Y-n-j", $anno . "-" . $mese . "-" . $giorno);
-    $events = $App->getEventsForRange($day, $day);
+    $day1 = \DateTime::createFromFormat("Y-n-j", $anno . "-" . $mese . "-" . $giorno);
+    $day2 = \DateTime::createFromFormat("Y-n-j", $anno . "-" . $mese . "-" . $giorno);
+    $events = $App->getEventsForRange($day1, $day2);
     $n_events = count($events);
     $currentCity = $DB->getCurrentCity();
     $cityname = $currentCity[0]["name"];
@@ -472,12 +474,12 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
-        "seoTitle" => "Eventi $cityname - " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "seoTitle" => "Eventi $cityname - " . strftime("%A %e %B %Y", $day1->getTimestamp()) . ".",
         "title" => "Eventi",
-        "mainSummary" => "Eventi $cityname " . strftime("%A %e %B %Y", $day->getTimestamp()),
-        "h2" => "Scopri tutti gli eventi in programma a $cityname per " . strftime("%A %e %B %Y", $day->getTimestamp()),
+        "mainSummary" => "Eventi $cityname " . strftime("%A %e %B %Y", $day1->getTimestamp()),
+        "h2" => "Scopri tutti gli eventi in programma a $cityname per " . strftime("%A %e %B %Y", $day1->getTimestamp()),
         "description" => "",
-        "seoDescription" => "Eventi a $cityname nei migliori locali e discoteche. Scopri gli eventi a $cityname e provincia di -  " . strftime("%A %e %B %Y", $day->getTimestamp()) . ".",
+        "seoDescription" => "Eventi a $cityname nei migliori locali e discoteche. Scopri gli eventi a $cityname e provincia di -  " . strftime("%A %e %B %Y", $day1->getTimestamp()) . ".",
         "seoKeywords" => "eventi $cityname, eventi discoteche, eventi discoteca, eventi provincia.",
         "ogTitle" => "Discoteche, locali, eventi, ristoranti etnici, birrerie a " . $currentCity[0]["name"] . " e provincia.",
         "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
@@ -488,7 +490,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "n_events" => $n_events,
         "events" => $events,
         "canonical" => $App->getCurrentUrl(),
-        "h3" => "Eventi " . strftime("%A %e %B %Y", $day->getTimestamp()),
+        "h3" => "Eventi " . strftime("%A %e %B %Y", $day1->getTimestamp()),
         "calendar" => $App->getCalendar(),
         "disableEventsArchive" => true,
         "disableEventlistHeader" => true
