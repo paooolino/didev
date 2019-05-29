@@ -28,7 +28,8 @@ namespace WebEngine;
  */
 class WebEngine
 {
-  private $disable_cache = true;
+  public $disable_cache = false;
+  public $disabled_cache_routes = [];
   private $_SERVER;
   private $_GET;
   private $_POST;
@@ -65,7 +66,7 @@ class WebEngine
     "mp4" => "video/mp4"
   ];
     
-  private $pool;
+  public $pool;
   
   /**
    * Create new engine.
@@ -114,7 +115,7 @@ class WebEngine
     $this->basepath = rtrim(dirname($script_name), DIRECTORY_SEPARATOR);
   
     $driver = new \Stash\Driver\FileSystem([
-      "path" => './cache/pages/'
+      "path" => __DIR__ . '/../cache/pages/'
     ]);
     $this->pool = new \Stash\Pool($driver);
     
@@ -404,8 +405,14 @@ class WebEngine
       $path = $this->getCurrentPath();
     }
     
-    $route_matchinfo = $this->_matchRoute($path, $method);   
-
+    $route_matchinfo = $this->_matchRoute($path, $method);
+    if (in_array(
+        $this->plugin("Link")->getRouteName($route_matchinfo["routepattern"]),
+        $this->disabled_cache_routes
+      )) {
+      $this->disable_cache = true;
+    }
+    
     if ($route_matchinfo) {
       $cache_index = md5($this->plugin("DB")->getSite() . $path . $method);
       $item = $this->pool->getItem($cache_index);
@@ -531,6 +538,7 @@ class WebEngine
       $this->_routes[$name] = [];
     }
     $this->_routes[$name][$method] = $cb;
+
     return "";
   }
   
@@ -548,7 +556,7 @@ class WebEngine
       function (\FastRoute\RouteCollector $r) use ($method) {
         foreach ($this->_routes as $routename => $routearr) {
           if (isset($routearr[$method])) {
-            $r->addRoute($method, $routename, $routearr[$method]);
+            $r->addRoute($method, $routename, [$routearr[$method], $routename]);
           }
         }
       }
@@ -565,11 +573,13 @@ class WebEngine
         // ... 405 Method Not Allowed
         break;
       case \FastRoute\Dispatcher::FOUND:
-        $handler = $routeInfo[1];
+        $handler = $routeInfo[1][0];
+        $routepattern = $routeInfo[1][1];
         $vars = $routeInfo[2];
         return [
           "routename" => $path,
           "wildcards" => isset($vars) ? count($vars) : 0,
+          "routepattern" => $routepattern,
           "callback" => $handler,
           "params" => array_merge(
             // the WebEngine object is passed as first param

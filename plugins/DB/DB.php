@@ -5,19 +5,19 @@ use \PDO;
 use \PDOException;
 
 class DB {
-  private $disable_cache = true;
+  public $disable_cache = false;
   private $_conn;
   private $_site;
   private $_machine;
   private $_cache;
-  private $pool;
+  public $pool;
   
   public function __construct($machine) {
     $this->_machine = $machine;
     $this->_site = 1;
     $this->_cache = [];
     $driver = new \Stash\Driver\FileSystem([
-      "path" => './cache/db/'
+      "path" => __DIR__ . '/../../cache/db/'
     ]);
     $this->pool = new \Stash\Pool($driver);
   }

@@ -699,8 +699,25 @@ class App {
     return $result;
   }
   
-  public function getAdminMenuitems()
-  {
+  public function rrmdir($dir) { 
+     if (is_dir($dir)) { 
+       $objects = scandir($dir); 
+       foreach ($objects as $object) { 
+         if ($object != "." && $object != "..") { 
+           if (is_dir($dir."/".$object))
+             $this->rrmdir($dir."/".$object);
+           else {
+             //echo $dir."/".$object;
+             //echo "<br>";
+             var_dump(unlink($dir."/".$object));
+           }
+         } 
+       }
+       rmdir($dir); 
+     } 
+   }
+ 
+  public function getAdminMenuitems() {
     $currentpath = $this->_machine->basepath;
     $admin_items = [];
     if (isset($this->LOGGED_USER["role"]) && $this->LOGGED_USER["role"] == 0) {
@@ -713,6 +730,12 @@ class App {
       ]];
     }
     return array_merge($admin_items, [
+      [
+        "label" => "Cancella cache",
+        "url" => $this->_machine->plugin("Link")->Get("/tools/cache-reset"),
+        "title" => "Cancella la cache",
+        "iconclass" => "fa fa-cache"
+      ],
       [
         "label" => "Banners",
         "url" => $this->_machine->plugin("Link")->Get("/admin/banners"),

@@ -12,6 +12,28 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   // Create engine
   $machine = new \WebEngine\WebEngine();
   $machine->append_debug_infos = true;
+  $machine->disabled_cache_routes = [
+    "SEARCH",
+    "ADMIN_DELETE",
+    "SEND_OK",
+    "FORM_ONLIST",
+    "FORM_LOCATION_SUGGEST",
+    "FORM_CONTACT",
+    "FORM_PARTY",
+    "ADMIN_LOGIN",
+    "ADMIN",
+    "ADMIN_GENERATE_THUMBNAILS",
+    "ADMIN_TABLE",
+    "ADMIN_NEWTABLE_EXT",
+    "ADMIN_NEWTABLE",
+    "AJAX_SAVE",
+    "ADMIN_RITAGLIO",
+    "ADMIN_RECORD",
+    "ADMIN_NEWTABLE",
+    "CHECK_IMAGES",
+    "UPLOAD",
+    "CACHE_RESET"
+  ];
   
   // Plugins
 	$Link = $machine->addPlugin("Link");
@@ -109,6 +131,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("CHECK_IMAGES", "/tools/check-images");
   $Link->setRoute("UPLOAD", "/tools/upload/{table}/{id}/{fieldname}");
   $Link->setRoute("RITAGLIO", "/tools/ritaglio/nuovo/{table}/{id}");
+  $Link->setRoute("CACHE_RESET", "/tools/cache-reset");
   
   $Link->setRoute("FORM_ONLIST", "/form/mettiti-in-lista");
   $Link->setRoute("FORM_LOCATION_SUGGEST", "/form/inserisci-locale");
@@ -162,6 +185,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
 
   $machine->addPage($Link->getRoute("SEARCH"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+        
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     $homeContent = $DB->getHomeContent();
@@ -390,6 +415,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN_DELETE"), function($machine, $table, $id) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     $Backoffice = $machine->plugin("Backoffice");
@@ -967,6 +994,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   }); 
   
   $machine->addPage($Link->getRoute("SEND_OK"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     $topBanner = $DB->getRandomTopBanner();
@@ -985,6 +1014,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    *  Forms
    */
   $machine->addAction($Link->getRoute("FORM_ONLIST"), "POST", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+
     $machine->plugin("DiscosForms")->send(
       "Mettiti in lista",
       $_POST["form_onlist"]
@@ -993,6 +1024,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("FORM_LOCATION_SUGGEST"), "POST", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+
     $machine->plugin("DiscosForms")->send(
       "Inserisci locale",
       $_POST["form_location_suggest"]
@@ -1001,6 +1034,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("FORM_CONTACT"), "POST", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $machine->plugin("DiscosForms")->send(
       "Contatti",
       $_POST["form_contact"]
@@ -1009,6 +1044,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("FORM_PARTY"), "POST", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $machine->plugin("DiscosForms")->send(
       "Organizza festa",
       $_POST["form_party"]
@@ -1020,6 +1057,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    *  Backoffice home
    */
   $machine->addAction($Link->getRoute("ADMIN_LOGIN"), "POST", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $App = $machine->plugin("App");
     $Link = $machine->plugin("Link");
     
@@ -1038,6 +1077,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
     
   $machine->addPage($Link->getRoute("ADMIN_LOGIN"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     return [
       "template" => "login.php",
       "data" => []
@@ -1045,6 +1086,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     if (!$machine->plugin("App")->checkLogin()) {
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
     } else {
@@ -1071,6 +1114,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
    
   $machine->addPage($Link->getRoute("ADMIN_GENERATE_THUMBNAILS"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     if (false) { //(!$machine->plugin("App")->checkLogin()) {
@@ -1165,6 +1210,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    *  Backoffice: table list
    */
   $machine->addPage($Link->getRoute("ADMIN_TABLE"), function($machine, $table) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $App = $machine->plugin("App");
     if (!$machine->plugin("App")->checkLogin()) {
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
@@ -1181,7 +1228,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       //if ($table == "cat_btw_sites") { $disable_new = true; }
       //if ($table == "holiday_btw_sites") { $disable_new = true; }
       //if ($table == "report_btw_sites") { $disable_new = true; }
-      
       return [
         "template" => "admin_table.php",
         "data" => [
@@ -1209,6 +1255,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN_NEWTABLE_EXT"), function($machine, $table) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $machine->plugin("App");
     
     if (!$machine->plugin("App")->checkLogin()) {
@@ -1253,6 +1301,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN_NEWTABLE"), function($machine, $table) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $machine->plugin("App");
     if (!$machine->plugin("App")->checkLogin()) {
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
@@ -1296,6 +1346,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("AJAX_SAVE"), "POST", function($engine) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     if (!$engine->plugin("App")->checkLogin()) {
         die();
     } else {
@@ -1345,6 +1397,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    *  Backoffice: record update
    */
   $machine->addPage($Link->getRoute("ADMIN_RITAGLIO"), function($machine, $table, $id, $field) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $machine->plugin("App");
     if (!$machine->plugin("App")->checkLogin()) {
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
@@ -1404,6 +1458,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("ADMIN_RITAGLIO"), "POST", function($machine, $table, $id, $field) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $machine->plugin("App");
     
     if (!$machine->plugin("App")->checkLogin()) {
@@ -1441,6 +1497,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN_RECORD"), function($machine, $table, $id) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $machine->plugin("App");
     if (!$machine->plugin("App")->checkLogin()) {
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
@@ -1473,6 +1531,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("ADMIN_NEWTABLE"), "POST", function($engine, $table) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     $App = $engine->plugin("App");
     if (!$engine->plugin("App")->checkLogin()) {
       $engine->redirect($engine->plugin("Link")->Get("ADMIN_LOGIN"));
@@ -1621,6 +1681,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("ADMIN_RECORD"), "POST", function($machine, $table, $id) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
     // build fields and values array
     $App = $machine->plugin("App");
     if (!$machine->plugin("App")->checkLogin()) {
@@ -1728,6 +1790,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   // IMAGE CHECKER
   $machine->addAction($Link->getRoute("CHECK_IMAGES"), "GET", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $App = $machine->plugin("App");
     
     $image_infos = [];
@@ -1762,6 +1826,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   // IMAGE UPLOAD
   $machine->addAction($Link->getRoute("UPLOAD"), "POST", function($machine, $table, $id, $fieldname) {
+    $machine->plugin("DB")->disable_cache = true;
+    
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     $Backoffice = $machine->plugin("Backoffice");
@@ -1776,6 +1842,21 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
     // back to referrer
     $machine->back();
+  });
+  
+  // CACHE RESET
+  $machine->addPage($Link->getRoute("CACHE_RESET"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      $machine->plugin("DB")->pool->clear();
+      $machine->pool->clear();
+      
+      echo 'Cache cancellata. <a href="javascript:history.back();">Torna indietro</a>';
+      die();
+    }
   });
   
   $machine->run();
