@@ -1346,7 +1346,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("AJAX_SAVE"), "POST", function($engine) {
-    $machine->plugin("DB")->disable_cache = true;    
+    $engine->plugin("DB")->disable_cache = true;    
     
     if (!$engine->plugin("App")->checkLogin()) {
         die();
@@ -1381,7 +1381,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         $engine->POST("id"),
         $engine->basepath . "/admin/" . $engine->POST("table") . "/{{id}}"
       );
-      
+
       if ($_POST["table"] == "recurrents") {
         if ($_POST["field"] == "recurrence_from" || $_POST["field"] == "recurrence_to") {
           $engine->plugin("Backoffice")->updateRecurrents($_POST["id"]);

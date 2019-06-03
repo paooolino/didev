@@ -30,7 +30,7 @@ class Backoffice {
   private $_row_template = '
     <tr data-id="{{ID_VALUE}}" class="active_{{ACTIVE}}">
       {{CELLS}}
-      <td><a href="{{EDIT_RECORD_LINK}}">modifica</a> | <a onclick="return confirm(\'Confermi la cancellazione del record?\');" href="{{DELETE_RECORD_LINK}}">elimina</a></td>
+      <td style="white-space: nowrap;"><a href="{{EDIT_RECORD_LINK}}">modifica</a> | <a onclick="return confirm(\'Confermi la cancellazione del record?\');" href="{{DELETE_RECORD_LINK}}">elimina</a></td>
     </tr>
   ';
   
@@ -334,6 +334,15 @@ class Backoffice {
       }
       $wherePart .= $table . "." . $this->_config[$table]["field_id"] . " = ?";
       $data[] = $id;
+    }
+    
+    if ($table == "events" && !isset($_GET["all"])) {
+      if ($wherePart != "") {
+        $wherePart .= " AND ";
+      } else {
+        $wherePart .= " WHERE ";
+      }
+      $wherePart .= "events.time_to > DATE_ADD(NOW(), INTERVAL -6 MONTH)";
     }
     
     $activeCondition = isset($this->_config[$table]["activeCondition"])
