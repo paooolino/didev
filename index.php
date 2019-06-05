@@ -1152,7 +1152,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("SET_SITE_COOKIE"), "GET", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
     
-    if (!$machine->plugin("App")->checkLogin()) {
+    $admin = (isset($_GET["admin"]) && $_GET["admin"] == 1) ? true : false;
+    if ($admin && !$machine->plugin("App")->checkLogin()) {
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
     } else {
       setcookie("n_site", $_GET["n_site"], 0, "/");
