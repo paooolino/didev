@@ -414,7 +414,7 @@ class WebEngine
     }
     
     if ($route_matchinfo) {
-      $cache_index = md5($this->plugin("DB")->getSite() . $path . $method);
+      $cache_index = md5($this->plugin("App")->is_online . $this->plugin("DB")->getSite() . $path . $method);
       $item = $this->pool->getItem($cache_index);
       $cached_body = $item->get();
 

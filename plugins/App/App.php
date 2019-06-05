@@ -12,6 +12,7 @@ class App {
   private $_imageManager;
   private $DB;
   public $defaultOgImage;
+  public $is_online;
   
   public function __construct($machine) {
     $this->UPLOADS_HOST = getenv("UPLOADS_HOST");

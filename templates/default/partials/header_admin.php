@@ -51,6 +51,7 @@
         </a>
       </section>
     </div>
+    <?php $sidebar_admin = true; ?>
     <?php include("sidebar.php"); ?>
     <div data-equalizer-watch id="main">
       
