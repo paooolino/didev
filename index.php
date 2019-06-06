@@ -32,7 +32,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     "ADMIN_NEWTABLE",
     "CHECK_IMAGES",
     "UPLOAD",
-    "CACHE_RESET"
+    "CACHE_RESET",
+    "GENERATE_SITEMAP"
   ];
   
   // Plugins
@@ -168,6 +169,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("UPLOAD", "/tools/upload/{table}/{id}/{fieldname}");
   $Link->setRoute("RITAGLIO", "/tools/ritaglio/nuovo/{table}/{id}");
   $Link->setRoute("CACHE_RESET", "/tools/cache-reset");
+  $Link->setRoute("GENERATE_SITEMAP", "/tools/generate-sitemap");
   
   $Link->setRoute("FORM_ONLIST", "/form/mettiti-in-lista");
   $Link->setRoute("FORM_LOCATION_SUGGEST", "/form/inserisci-locale");
@@ -1909,6 +1911,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       echo 'Cache cancellata. <a href="javascript:history.back();">Torna indietro</a>';
       die();
     }
+  });  
+  
+  // GENERATE SITEMAP
+  $machine->addPage($Link->getRoute("GENERATE_SITEMAP"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    $Sitemap = $machine->addPlugin("SitemapPlugin");
+    
+    $Sitemap->generate(__DIR__ . "/sitemaps", "test");
   });
   
   $machine->run();
