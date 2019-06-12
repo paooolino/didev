@@ -602,8 +602,8 @@ class Backoffice {
     // aggiunge eventualmente la lista delle scadenze dei locali
     $f = $this->_config[$table];
     if (isset($f["listalocali"]) && isset($f["listalocali"]["slugfield"])) {
-      $slug = $row[$f["listalocali"]["slugfield"]];
-      $list = $DB->getListCategoriaLocali($slug, true);
+      $cat_id = $row[$f["listalocali"]["field_id"]];
+      $list = $DB->getListCategoriaLocaliByTypoId($cat_id, true, 1, true);
       $html .= '
         <table 
             data-table="' . $f["listalocali"]["extern_table"] . '"
