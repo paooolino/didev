@@ -28,7 +28,14 @@
               </button>
               <ul aria-hidden class="f-dropdown choiceTenants" data-dropdown-content id="choiceTenant-large">
                 <?php foreach ($cities as $city) { ?>
-                  <li><a title="Discoteche, locali ed eventi a <?php echo $city["name"]; ?>" data-gavalue="<?php echo $city["name"]; ?>" data-galabel="Cambio_provincia" href="//<?php echo $city["url"]; ?>"><?php echo $city["name"]; ?></a></li>
+                  <?php
+                  $url = "//" . $city["url"];
+                  $admin = (isset($sidebar_admin) && $sidebar_admin == true) ? "1" : "0";
+                  if (!$App->is_online) { //($admin) {
+                    $url = $Link->Get("SET_SITE_COOKIE") . "?admin=" . $admin . "&n_site=" . $city["id"];
+                  }
+                  ?>
+                  <li><a title="Discoteche, locali ed eventi a <?php echo $city["name"]; ?>" data-gavalue="<?php echo $city["name"]; ?>" data-galabel="Cambio_provincia" href="<?php echo $url; ?>"><?php echo $city["name"]; ?></a></li>
                 <?php } ?>
               </ul>
             </div>

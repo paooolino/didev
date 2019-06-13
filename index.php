@@ -32,7 +32,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     "ADMIN_NEWTABLE",
     "CHECK_IMAGES",
     "UPLOAD",
-    "CACHE_RESET"
+    "CACHE_RESET",
+    "GENERATE_SITEMAP"
   ];
   
   // Plugins
@@ -60,27 +61,62 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   if (!is_object($conn)) { die("db connection error"); };
 
   // Set the site id
-  if (stripos($_SERVER["HTTP_HOST"], "discotechebrescia.it") !== false) { $DB->setSite(1); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotechebergamo.it") !== false) { $DB->setSite(2); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotecheverona.it") !== false) { $DB->setSite(3); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotechedimilano.it") !== false) { $DB->setSite(4); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotechecremona.it") !== false) { $DB->setSite(5); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotechepiacenza.it") !== false) { $DB->setSite(6); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotecheriminiriccione.it") !== false) { $DB->setSite(7); }
-  if (stripos($_SERVER["HTTP_HOST"], "discotechejesolo.it") !== false) { $DB->setSite(8); }
+  // se non siamo su un dominio online, mi affido al cookie
+  $domains = [
+    "discotechebrescia.it",
+    "discotechebergamo.it",
+    "discotecheverona.it",
+    "discotechedimilano.it",
+    "discotechecremona.it",
+    "discotechepiacenza.it",
+    "discotecheriminiriccione.it",
+    "discotechejesolo.it",
+    
+    "didev.bs",
+    "didev.bg",
+    "didev.vr",
+    "didev.mi",
+    "didev.cr",
+    "didev.pc",
+    "didev.ri",
+    "didev.je"
+  ];
+  $is_online = false;
+  foreach ($domains as $d) {
+    if (stripos($_SERVER["HTTP_HOST"], $d) !== false) {
+      $is_online = true;
+      break;
+    }
+  }
   
-  if (stripos($_SERVER["HTTP_HOST"], "didev.bs") !== false) { $DB->setSite(1); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.bg") !== false) { $DB->setSite(2); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.vr") !== false) { $DB->setSite(3); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.mi") !== false) { $DB->setSite(4); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.cr") !== false) { $DB->setSite(5); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.pc") !== false) { $DB->setSite(6); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.ri") !== false) { $DB->setSite(7); }
-  if (stripos($_SERVER["HTTP_HOST"], "didev.je") !== false) { $DB->setSite(8); }
+  if ($is_online) {
+    if (stripos($_SERVER["HTTP_HOST"], "discotechebrescia.it") !== false) { $DB->setSite(1); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotechebergamo.it") !== false) { $DB->setSite(2); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotecheverona.it") !== false) { $DB->setSite(3); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotechedimilano.it") !== false) { $DB->setSite(4); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotechecremona.it") !== false) { $DB->setSite(5); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotechepiacenza.it") !== false) { $DB->setSite(6); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotecheriminiriccione.it") !== false) { $DB->setSite(7); }
+    if (stripos($_SERVER["HTTP_HOST"], "discotechejesolo.it") !== false) { $DB->setSite(8); }
+    
+    if (stripos($_SERVER["HTTP_HOST"], "didev.bs") !== false) { $DB->setSite(1); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.bg") !== false) { $DB->setSite(2); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.vr") !== false) { $DB->setSite(3); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.mi") !== false) { $DB->setSite(4); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.cr") !== false) { $DB->setSite(5); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.pc") !== false) { $DB->setSite(6); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.ri") !== false) { $DB->setSite(7); }
+    if (stripos($_SERVER["HTTP_HOST"], "didev.je") !== false) { $DB->setSite(8); }
+  } else {
+    if (isset($_COOKIE["n_site"])) {
+      $DB->setSite($_COOKIE["n_site"]);
+    }
+  }
   
   // The App plugin
   // AFTER DB
   $App = $machine->addPlugin("App");
+  $App->is_online = $is_online;
   
   // The Backoffice plugin
   $Backoffice = $machine->addPlugin("Backoffice");
@@ -127,11 +163,13 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
   $Link->setRoute("ADMIN_DELETE", "/admin/delete/{table}/{id}");
   $Link->setRoute("AJAX_SAVE", "/ajax/save");
+  $Link->setRoute("SET_SITE_COOKIE", "/admin/set-site-cookie");
   
   $Link->setRoute("CHECK_IMAGES", "/tools/check-images");
   $Link->setRoute("UPLOAD", "/tools/upload/{table}/{id}/{fieldname}");
   $Link->setRoute("RITAGLIO", "/tools/ritaglio/nuovo/{table}/{id}");
   $Link->setRoute("CACHE_RESET", "/tools/cache-reset");
+  $Link->setRoute("GENERATE_SITEMAP", "/tools/generate-sitemap");
   
   $Link->setRoute("FORM_ONLIST", "/form/mettiti-in-lista");
   $Link->setRoute("FORM_LOCATION_SUGGEST", "/form/inserisci-locale");
@@ -1112,6 +1150,22 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       ];
     }
   });
+  
+  $machine->addAction($Link->getRoute("SET_SITE_COOKIE"), "GET", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
+    $admin = (isset($_GET["admin"]) && $_GET["admin"] == 1) ? true : false;
+    if ($admin && !$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      setcookie("n_site", $_GET["n_site"], 0, "/");
+      if ($_GET["admin"] == 0) {
+        $machine->redirect($machine->plugin("Link")->Get("HOME"));
+      } else {
+        $machine->redirect($machine->plugin("Link")->Get("ADMIN"));
+      }
+    }
+  });
    
   $machine->addPage($Link->getRoute("ADMIN_GENERATE_THUMBNAILS"), function($machine) {
     $machine->plugin("DB")->disable_cache = true;    
@@ -1857,6 +1911,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       echo 'Cache cancellata. <a href="javascript:history.back();">Torna indietro</a>';
       die();
     }
+  });  
+  
+  // GENERATE SITEMAP
+  $machine->addPage($Link->getRoute("GENERATE_SITEMAP"), function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    $Sitemap = $machine->addPlugin("SitemapPlugin");
+    
+    $Sitemap->generate(__DIR__ . "/sitemaps", "test");
   });
   
   $machine->run();

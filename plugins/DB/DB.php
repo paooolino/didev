@@ -885,7 +885,9 @@ class DB {
         AND locations.active = 1
       ORDER BY
         location_visibilities.level DESC,
-        location_visibilities.expire_at DESC
+        location_visibilities.expire_at DESC,
+        location_visibilities.order ASC,
+        location_visibilities.id ASC
       ' . $limitcond;
 
     /*echo $query;
