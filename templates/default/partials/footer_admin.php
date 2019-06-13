@@ -58,6 +58,7 @@
 <script src="{{templatePath}}js/modules/ajaxCalendar.js"></script>
 <script src="{{templatePath}}js/modules/admincrop.js"></script>
 <script src="{{templatePath}}js/modules/chosen.js"></script>
+<script src="{{templatePath}}js/modules/sortable.js"></script>
 <script>App.attachEvents();</script>
 <script>$(document).foundation();</script>
 </body>

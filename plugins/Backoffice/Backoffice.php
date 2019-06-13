@@ -606,6 +606,7 @@ class Backoffice {
       $list = $DB->getListCategoriaLocaliByTypoId($cat_id, true, 1, true);
       $html .= '
         <table 
+            class="sortable"
             data-table="' . $f["listalocali"]["extern_table"] . '"
             data-field_id="' . $f["listalocali"]["field_id"] . '"
           >
