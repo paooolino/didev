@@ -3,7 +3,7 @@ $(document).ready(function() {
     stop: function(event, ui) {
       var endpoint = $(event.target.closest('table')).data('order_endpoint');
       if (endpoint) {
-        var $trs = ui.item.siblings();
+        var $trs = $('table.sortable tbody').children();
         var ids = [];
         for(var i = 0; i < $trs.length; i++) {
           ids.push($trs.eq(i).data('id'));

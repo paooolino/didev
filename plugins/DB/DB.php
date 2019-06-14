@@ -37,6 +37,25 @@ class DB {
     }
   }  
   
+  public function saveOrder($table, $ids) {
+    $query = "
+      UPDATE $table SET $table.`order` =
+        CASE
+          " . implode("\r\n", array_map(function($id, $index) {
+            return "WHEN id = $id THEN $index";
+          }, $ids, array_keys($ids))) . "
+        END
+      WHERE id IN (" . implode(", ", $ids) . ")
+    ";
+    $sth = $this->_conn->prepare($query);
+    $result = $sth->execute([]);
+    if (!$result) {
+      print_r($sth->errorInfo());
+      die("Save to database failed");
+    }
+    return $sth->rowCount();
+  }
+  
   public function setSite($n) {
     $this->_site = $n;
   }
@@ -697,12 +716,12 @@ class DB {
     return $result[0];
   }
   
-  public function getCatById($locale_id)
+  public function getCatById($cat_id)
   {
     $query = "SELECT * FROM typo_btw_sites WHERE site_id = ? AND id = ?";
     $result = $this->_getData($query, [
       $this->_site,
-      $locale_id
+      $cat_id
     ]);
     return $result[0];
   }
@@ -884,9 +903,10 @@ class DB {
         AND location_visibilities.typo_id = ?
         AND locations.active = 1
       ORDER BY
+        location_visibilities.order ASC,
+        
         location_visibilities.level DESC,
         location_visibilities.expire_at DESC,
-        location_visibilities.order ASC,
         location_visibilities.id ASC
       ' . $limitcond;
 
@@ -942,9 +962,11 @@ class DB {
     return $result;
   }
   
+  // lato front le zone sono filtrate per categoria
   public function getListCategoriaLocaliZona($slug_categoria, $zona) {
     $query = '
       SELECT
+        location_visibilities.id as main_id,
         location_visibilities.level as level,
         location_visibilities.*,
 		  locations.*
@@ -964,12 +986,50 @@ class DB {
         AND typo_btw_sites.seo_url = ?
         AND locations.active = 1
       ORDER BY
-        location_visibilities.level DESC
+        location_visibilities.order ASC,
+        
+        location_visibilities.level DESC,
+        location_visibilities.expire_at DESC,
+        location_visibilities.id ASC
     ';
     $result = $this->_getData($query, [
       $this->_site,
       $zona,
       $slug_categoria
+    ]);
+    return $result;  
+  }
+  
+  // nel backoffice c'è la lista dei locali per zona, non filtrata per categoria
+  public function getListLocaliZona($zona) {
+    $query = '
+      SELECT
+        location_visibilities.id as main_id,
+        location_visibilities.level as level,
+        location_visibilities.expire_at as expire_at,
+        location_visibilities.*,
+        locations.*
+      FROM
+        location_visibilities
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+		WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypoZone"
+        AND zone_id = ?
+		  AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
+        AND locations.active = 1
+      ORDER BY
+        location_visibilities.order ASC,
+        
+        location_visibilities.level DESC,
+        location_visibilities.expire_at DESC,
+        location_visibilities.id ASC
+    ';
+    $result = $this->_getData($query, [
+      $this->_site,
+      $zona
     ]);
     return $result;  
   }

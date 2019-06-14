@@ -33,7 +33,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     "CHECK_IMAGES",
     "UPLOAD",
     "CACHE_RESET",
-    "GENERATE_SITEMAP"
+    "GENERATE_SITEMAP",
+    "ADMIN_CAT_ZONA_ORDINAMENTO"
   ];
   
   // Plugins
@@ -139,8 +140,10 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("CALENDARIO", "/eventi-calendario/{anno}/{mese}");
   
   $Link->setRoute("CATEGORIA_LOCALI", "/locali/{slug_categoria}");
+  $Link->setRoute("CATEGORIA_LOCALI_ORDERACTION", "/locali/{id_categoria}/orderaction");
   $Link->setRoute("CATEGORIA_LOCALI_PAG", "/locali/{slug_categoria}/{pag:\d+}");
   $Link->setRoute("CATEGORIA_ZONA", "/locali/{slug_categoria}/{slug_zona}");
+  $Link->setRoute("ZONA_ORDERACTION", "/zona/{slug_zona}");
   $Link->setRoute("CATEGORIA_LOCALI_LETTERA", "/locali/{slug_categoria}/lettera/{lettera}");
   $Link->setRoute("LOCALE", "/locale/{slug_locale}");
   $Link->setRoute("AJAX_LOAD_ITEMS", "/ajax-load-items");
@@ -160,6 +163,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_NEWTABLE", "/admin/new/{table}");
   $Link->setRoute("ADMIN_NEWTABLE_EXT", "/admin/new/{table}/ext");
   $Link->setRoute("ADMIN_RECORD", "/admin/{table}/{id}");
+  $Link->setRoute("ADMIN_CAT_ZONA_ORDINAMENTO", "/admin/{id_cat}/{id_zone}/order");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
   $Link->setRoute("ADMIN_DELETE", "/admin/delete/{table}/{id}");
   $Link->setRoute("AJAX_SAVE", "/ajax/save");
@@ -1399,6 +1403,36 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
   
+  $machine->addAction($Link->getRoute("CATEGORIA_LOCALI_ORDERACTION"), "POST", function($engine, $cat_id) {
+    $engine->plugin("DB")->disable_cache = true;  
+    if (!$engine->plugin("App")->checkLogin()) {
+      die();
+    } else {  
+      $result = $engine->plugin("DB")->saveOrder(
+        "location_visibilities",
+        $_POST["ids"]
+      );
+      
+      echo json_encode($result);
+      die();
+    }
+  });
+  
+  $machine->addAction($Link->getRoute("ZONA_ORDERACTION"), "POST", function($engine, $zona_id) {
+    $engine->plugin("DB")->disable_cache = true;  
+    if (!$engine->plugin("App")->checkLogin()) {
+      die();
+    } else {  
+      $result = $engine->plugin("DB")->saveOrder(
+        "location_visibilities",
+        $_POST["ids"]
+      );
+      
+      echo json_encode($result);
+      die();
+    }
+  });
+  
   $machine->addAction($Link->getRoute("AJAX_SAVE"), "POST", function($engine) {
     $engine->plugin("DB")->disable_cache = true;    
     
@@ -1558,29 +1592,66 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
     } else {
       
-    $DB = $machine->plugin("DB");
-    $Backoffice = $machine->plugin("Backoffice");
-    $cities = $DB->getCities();
-    $currentCity = $DB->getCurrentCity();
-    return [
-      "template" => "admin_record.php",
-      "data" => [
-        "bodyclass" => "",
-        "seoTitle" => "Pannello di amministrazione",
-        "currentCity" => $currentCity[0]["name"],
-        "cities" => $DB->getCities(),
-        "menuitems" => $App->getAdminMenuitems(),
-        "navbanners" => [],
-        "navtopitems" => $DB->getNavtopitems(),
-        "linktopitems" => $App->getLinktopitems(),
-        "h2" => "Pannello di amministrazione / " . $table . " / " . $id,
-        "updateFormHtml" => $Backoffice->getUpdateFormHtml([
-          "table" => $table,
-          "field_id" => $Backoffice->getFieldId($table),
-          "id" => $id
-        ])
-      ]
-    ];
+      $DB = $machine->plugin("DB");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();
+      return [
+        "template" => "admin_record.php",
+        "data" => [
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $DB->getCities(),
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(),
+          "h2" => "Pannello di amministrazione / " . $table . " / " . $id,
+          "updateFormHtml" => $Backoffice->getUpdateFormHtml([
+            "table" => $table,
+            "field_id" => $Backoffice->getFieldId($table),
+            "id" => $id
+          ])
+        ]
+      ];
+    }
+  });
+  
+  $machine->addPage($Link->getRoute("ADMIN_CAT_ZONA_ORDINAMENTO"), function($machine, $id_cat, $id_zone) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();
+      
+      $cat = $DB->getCatById($id_cat);
+      $endpoint = "#";
+      $extern_table = "location_visibilities";
+      $field_id = "id";
+      $list = $DB->getListCategoriaLocaliZona($cat["seo_url"], $id_zone);
+      $html = $Backoffice->getHtmlOrderList($endpoint, $extern_table, $field_id, $list);
+      return [
+        "template" => "admin_record.php",
+        "data" => [
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $DB->getCities(),
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(),
+          "h2" => "Pannello di amministrazione / " . $id_cat . " / " . $id_zone,
+          "updateFormHtml" => $html
+        ]
+      ];
     }
   });
   

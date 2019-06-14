@@ -571,11 +571,58 @@ class Backoffice {
   //  funzioni per il form di modifica dei dati
   // ==========================================================================
   
+  public function getHtmlOrderList($endpoint, $extern_table, $field_id, $list) {
+    $Backoffice = $this->_machine->plugin("Backoffice");
+    return '
+      <table 
+          data-order_endpoint="' . $endpoint . '"
+          class="sortable"
+          data-table="' . $extern_table . '"
+          data-field_id="' . $field_id . '"
+        >
+        <thead>
+          <th>Location</th>
+          <th>Livello</th>
+          <th>Scadenza</th>
+        </thead>
+        <tbody>
+          ' . implode("", array_map(function($item) use($Backoffice) {
+            $levels = [
+              "3" => "Platinum",
+              "2" => "Gold",
+              "1" => "Silver",
+              "0" => "Free"
+            ];
+            $level_select = $Backoffice->_getHtmlSelect($levels, $item["level"]);
+            $expire_select_value = $Backoffice->expireSelectValue($item["expire_at"]);
+            $expire_select = $Backoffice->_getHtmlSelect([
+              date("Y-m-d") => "scade il",
+              "2100-01-01" => "illimitato",
+              "2000-01-01" => "disabilitato"
+            ], $expire_select_value);
+            
+            $expire_datefield = "";
+            if ($expire_select_value != "2100-01-01" && $expire_select_value != "2000-01-01") {
+              $expire_datefield = '<input class="backoffice-datepicker" value="' . $item["expire_at"] . '" />';
+            }
+            
+            $tds = '';
+            $tds .= '<td>' . $item["title"] . '</td>';
+            $tds .= '<td style="width:160px;" data-field="level">' . $level_select . '</td>';
+            $tds .= '<td style="white-space:nowrap;" data-field="expire_at">' . $expire_select . "<br>" . $expire_datefield . '</td>';
+            return '<tr data-id="' . $item["main_id"] . '">' . $tds . '</tr>';
+          }, $list)) . '
+        </tbody>
+      </table>
+    ';
+  }
+  
   /**
    *  @param $opts [table, field_id, id]
    */
   public function getUpdateFormHtml($opts) {
     $App = $this->_machine->plugin("App");
+    $Link = $this->_machine->plugin("Link");
     $DB = $this->_machine->plugin("DB");
     $Backoffice = $this;
     
@@ -592,7 +639,7 @@ class Backoffice {
     $fo = $this->_config[$table]["fields"];
     
     $html = '';
-    $html .= '<form action="' . $this->_machine->plugin("Link")->Get(['/admin/{table}/{id}', $table, $id]) . '" method="post" enctype="multipart/form-data" class="form_inner">';
+    $html .= '<form action="' . $Link->Get(['/admin/{table}/{id}', $table, $id]) . '" method="post" enctype="multipart/form-data" class="form_inner">';
     $html .= $this->getHtmlFromConfigFields($fo, $row, $opts);
     $html .= '  <div class="form_footer">';
     $html .= '    <button type="submit">Invia</button>';
@@ -602,49 +649,30 @@ class Backoffice {
     // aggiunge eventualmente la lista delle scadenze dei locali
     $f = $this->_config[$table];
     if (isset($f["listalocali"]) && isset($f["listalocali"]["slugfield"])) {
-      $cat_id = $row[$f["listalocali"]["field_id"]];
-      $list = $DB->getListCategoriaLocaliByTypoId($cat_id, true, 1, true);
+      $item_id = $row[$f["listalocali"]["field_id"]];
+      $slug = $row[$f["listalocali"]["slugfield"]];
+      if ($table == "typo_btw_sites") {
+        $list = $DB->getListCategoriaLocaliByTypoId($item_id, true, 1, true);
+        $endpoint = $this->_machine->plugin("Link")->Get(["CATEGORIA_LOCALI_ORDERACTION", $item_id]);
+      }
+      /*if ($table == "zones") {
+        $list = $DB->getListLocaliZona($item_id);
+        $endpoint = $this->_machine->plugin("Link")->Get(["ZONA_ORDERACTION", $item_id]);
+      }*/
+      
+      // indice zone
+      list($z1, $z2) = $DB->getZonesListForCategoriaLocali($slug);
       $html .= '
-        <table 
-            class="sortable"
-            data-table="' . $f["listalocali"]["extern_table"] . '"
-            data-field_id="' . $f["listalocali"]["field_id"] . '"
-          >
-          <thead>
-            <th>Location</th>
-            <th>Livello</th>
-            <th>Scadenza</th>
-          </thead>
-          <tbody>
-            ' . implode("", array_map(function($item) use($Backoffice) {
-              $levels = [
-                "3" => "Platinum",
-                "2" => "Gold",
-                "1" => "Silver",
-                "0" => "Free"
-              ];
-              $level_select = $Backoffice->_getHtmlSelect($levels, $item["level"]);
-              $expire_select_value = $Backoffice->expireSelectValue($item["expire_at"]);
-              $expire_select = $Backoffice->_getHtmlSelect([
-                date("Y-m-d") => "scade il",
-                "2100-01-01" => "illimitato",
-                "2000-01-01" => "disabilitato"
-              ], $expire_select_value);
-              
-              $expire_datefield = "";
-              if ($expire_select_value != "2100-01-01" && $expire_select_value != "2000-01-01") {
-                $expire_datefield = '<input class="backoffice-datepicker" value="' . $item["expire_at"] . '" />';
-              }
-              
-              $tds = '';
-              $tds .= '<td>' . $item["title"] . '</td>';
-              $tds .= '<td style="width:160px;" data-field="level">' . $level_select . '</td>';
-              $tds .= '<td style="white-space:nowrap;" data-field="expire_at">' . $expire_select . "<br>" . $expire_datefield . '</td>';
-              return '<tr data-id="' . $item["main_id"] . '">' . $tds . '</tr>';
-            }, $list)) . '
-          </tbody>
-        </table>
+        <div>
+        Vai alle liste per zona: ' . implode(" - ", array_map(function($item) use($App, $Link, $item_id){
+            $link = $Link->Get(['ADMIN_CAT_ZONA_ORDINAMENTO', $item_id, $item["id"]]);
+            return '<a href="' . $link . '">' . $App->_zName($item) . '</a>'; 
+          }, array_merge($z1, $z2)
+        )) . ' 
+        <br><br></div>
       ';
+      
+      $html .= $this->getHtmlOrderList($endpoint, $f["listalocali"]["extern_table"], $f["listalocali"]["field_id"], $list);
     }
     
     return $html;
