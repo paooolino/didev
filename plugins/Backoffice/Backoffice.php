@@ -606,8 +606,12 @@ class Backoffice {
               $expire_datefield = '<input class="backoffice-datepicker" value="' . $item["expire_at"] . '" />';
             }
             
+            $scaduto_class="";
+            if (isset($item["scaduto"]) && $item["scaduto"] == 1) {
+              $scaduto_class = "scaduto";
+            }
             $tds = '';
-            $tds .= '<td>' . $item["title"] . '</td>';
+            $tds .= '<td class="' . $scaduto_class . '">' . $item["title"] . '</td>';
             $tds .= '<td style="width:160px;" data-field="level">' . $level_select . '</td>';
             $tds .= '<td style="white-space:nowrap;" data-field="expire_at">' . $expire_select . "<br>" . $expire_datefield . '</td>';
             return '<tr data-id="' . $item["main_id"] . '">' . $tds . '</tr>';

@@ -1627,16 +1627,19 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     } else {
       
       $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
       $Backoffice = $machine->plugin("Backoffice");
       $cities = $DB->getCities();
       $currentCity = $DB->getCurrentCity();
       
       $cat = $DB->getCatById($id_cat);
-      $endpoint = "#";
+      $zona = $DB->getZonaById($id_zone);
+      $endpoint = $Link->Get(["CATEGORIA_LOCALI_ORDERACTION", $id_cat]);
       $extern_table = "location_visibilities";
       $field_id = "id";
       $list = $DB->getListCategoriaLocaliZona($cat["seo_url"], $id_zone);
-      $html = $Backoffice->getHtmlOrderList($endpoint, $extern_table, $field_id, $list);
+      $html = '<br><a href="' . $Link->Get(["ADMIN_RECORD", "typo_btw_sites", $id_cat]) . '"><<< Torna a ' . $cat["title"] . '</a>'
+        . '<br><br>' . $Backoffice->getHtmlOrderList($endpoint, $extern_table, $field_id, $list);
       return [
         "template" => "admin_record.php",
         "data" => [
@@ -1648,7 +1651,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
           "navbanners" => [],
           "navtopitems" => $DB->getNavtopitems(),
           "linktopitems" => $App->getLinktopitems(),
-          "h2" => "Pannello di amministrazione / " . $id_cat . " / " . $id_zone,
+          "h2" => "Pannello di amministrazione / " 
+            . '<a href="' . $Link->Get(["ADMIN_RECORD", "typo_btw_sites", $id_cat]) . '">' . $cat["title"] . "</a> / " 
+            . $App->_zName($zona),
           "updateFormHtml" => $html
         ]
       ];

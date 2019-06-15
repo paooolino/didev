@@ -716,6 +716,15 @@ class DB {
     return $result[0];
   }
   
+  public function getZonaById($id) {
+    $query = "SELECT * FROM zones WHERE site_id = ? AND id = ?";
+    $result = $this->_getData($query, [
+      $this->_site,
+      $id
+    ]);
+    return $result[0];
+  }
+  
   public function getCatById($cat_id)
   {
     $query = "SELECT * FROM typo_btw_sites WHERE site_id = ? AND id = ?";
@@ -887,6 +896,7 @@ class DB {
         location_visibilities.expire_at as expire_at,
         location_visibilities.location_id,
         typo_btw_sites.title as typo_title,
+        location_visibilities.expire_at <= NOW() as scaduto,
         locations.*
       FROM
         location_visibilities
