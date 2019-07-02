@@ -12,6 +12,35 @@ App.backofficeDatepicker = {
     $('.backoffice-datetimepicker').fdatepicker('remove');
     $('.newdatebutton').off('click');
   },
+  moveEventDate: function(endpoint, variation) {
+    //console.log(endpoint, variation);
+    $(this).parent().append('<i class="cogspin fa fa-cog fa-spin"></i>');    
+    var dataTable = $(this).parents('table').data('table')
+      ? $(this).parents('table')
+      : $(this).parents('table').parents('table')
+    var dataTr = $(this).parents('tr').data('id')
+      ? $(this).parents('tr')
+      : $(this).parents('tr').parents('tr')
+      
+    App.removeEvents();
+    $.ajax({
+      url: endpoint,
+      method: 'POST',
+      data: {
+        table: dataTable.data('table'),
+        id: dataTr.data('id'),
+        variation: variation
+      },
+      dataType: 'json',
+      success: function(json) {
+        if (json["newrecord"]) {
+          dataTr.replaceWith(json["newrecord"]);
+          $('.cogspin').remove();
+          App.attachEvents();
+        }
+      }
+    });
+  },
   attachEvents: function() {
     $('.backoffice-datepicker').each(function() {
       if ($(this).val().indexOf('-') > -1) {
@@ -62,8 +91,16 @@ App.backofficeDatepicker = {
     $('.newdatebutton').on('click', function() {
       var el = $(this).parent().find('.backoffice-datepicker');
       if (el) {
-        var newdate = App.backofficeDatepicker.mysqldate_to_short($(this).data('new'));
-        $(el).val(newdate).trigger('changeDate');
+        if ($(this).data("endpoint") != "") {
+          // exception: for events change from and to
+          var endpoint = $(this).data("endpoint");
+          var variation = $(this).data("variation");
+          App.backofficeDatepicker.moveEventDate(endpoint, variation);
+        } else {
+          // normal flow... change date
+          var newdate = App.backofficeDatepicker.mysqldate_to_short($(this).data('new'));
+          $(el).val(newdate).trigger('changeDate');
+        }
       }
     });
     /*

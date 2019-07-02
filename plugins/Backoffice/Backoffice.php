@@ -466,9 +466,19 @@ class Backoffice {
           $minusdate = date("Y-m-d", strtotime("-7 days", $t));
           $plusdate = date("Y-m-d", strtotime("+7 days", $t));
           $fieldvalue = '<table><tr><td style="white-space:nowrap;">';
+          if ($opts["table"] == "events") {
+            $fieldvalue .= '<button class="newdatebutton double minibutton" data-variation="-7" data-endpoint="' 
+              . $this->_machine->plugin("Link")->Get('AJAX_MODIFY_EVENT_DATE') 
+              . '">-7</button>';
+          }
           $fieldvalue .= '<button class="newdatebutton minibutton" data-new="' . $minusdate . '">-7</button>';
           $fieldvalue .= '<input class="backoffice-datepicker" value="' . date("Y-m-d", $t) . '">';
           $fieldvalue .= '<button class="newdatebutton minibutton" data-new="' . $plusdate . '">+7</button>';
+          if ($opts["table"] == "events") {
+            $fieldvalue .= '<button data-variation="+7" class="newdatebutton double minibutton" data-endpoint="' 
+              . $this->_machine->plugin("Link")->Get('AJAX_MODIFY_EVENT_DATE') 
+              . '">+7</button>';
+          }
           $fieldvalue .= '</td><td>' . date("H:i", $t) . '</td></tr></table>';
         }
         $html .= $this->_machine->populateTemplate(

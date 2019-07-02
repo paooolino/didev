@@ -167,6 +167,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
   $Link->setRoute("ADMIN_DELETE", "/admin/delete/{table}/{id}");
   $Link->setRoute("AJAX_SAVE", "/ajax/save");
+  $Link->setRoute("AJAX_MODIFY_EVENT_DATE", "/ajax/modify-event-date");
   $Link->setRoute("SET_SITE_COOKIE", "/admin/set-site-cookie");
   
   $Link->setRoute("CHECK_IMAGES", "/tools/check-images");
@@ -1475,6 +1476,31 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
           $engine->plugin("Backoffice")->updateRecurrents($_POST["id"]);
         }
       }
+      
+      echo json_encode($result);
+      die();
+    }
+  });
+  
+  $machine->addAction($Link->getRoute("AJAX_MODIFY_EVENT_DATE"), "POST", function($engine) {
+    $engine->plugin("DB")->disable_cache = true;  
+    if (!$engine->plugin("App")->checkLogin()) {
+      die();
+    } else {
+      
+      $result = [];
+      
+      $result["saved"] = $engine->plugin("DB")->modify_event_date(
+        $engine->POST("table"),
+        $engine->POST("variation"),
+        $engine->POST("id")
+      );
+      
+      $result["newrecord"] = $engine->plugin("Backoffice")->getRecordHtml(
+        $engine->POST("table"),
+        $engine->POST("id"),
+        $engine->basepath . "/admin/" . $engine->POST("table") . "/{{id}}"
+      );
       
       echo json_encode($result);
       die();

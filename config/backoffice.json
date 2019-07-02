@@ -1003,12 +1003,12 @@
       },
       {
         "name": "on_home",
-        "label": "Metti in homepage nelle news a scorrimento",
+        "label": "Metti in hp news a scorr.",
         "type": "checkbox"
       },
       {
         "name": "special",
-        "label": "Evento speciale home (610x342)",
+        "label": "Ev. spec. home (610x342)",
         "type": "checkbox"
       },
       {

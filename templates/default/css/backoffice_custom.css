@@ -36,6 +36,7 @@ td > table {
 button.minibutton{
   padding:3px 8px;
 }
+.newdatebutton.double{background-color:#a08;margin-left:1px;font-style:italic;}
 
 span.red{display:block;background-color:red;color:white;}
 
