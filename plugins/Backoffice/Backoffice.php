@@ -737,6 +737,11 @@ class Backoffice {
     return $parts[2] . "/" . $parts[1] . "/" . $parts[0];
   }
   
+  public function shortDateToMysql($shortdate) {
+    $parts = explode("/", $shortdate);
+    return $parts[2] . "-" . $parts[1] . "-" . $parts[0];
+  }
+  
   public function expireSelectValue($mysqldate) {
     if ($mysqldate == "2100-01-01")
       return "2100-01-01";

@@ -1687,7 +1687,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addAction($Link->getRoute("ADMIN_NEWTABLE"), "POST", function($engine, $table) {
-    $machine->plugin("DB")->disable_cache = true;    
+    $engine->plugin("DB")->disable_cache = true;    
     
     $App = $engine->plugin("App");
     if (!$engine->plugin("App")->checkLogin()) {
@@ -1905,14 +1905,25 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       if (isset($r["POST"]["time_from_h"]) && isset($r["POST"]["time_from_m"])) {
         $fields[] = "time_from";
         $datefrom = isset($r["POST"]["time_from"]) ? $r["POST"]["time_from"] : date("Y-m-d");
-        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
+        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
       }
       if (isset($r["POST"]["time_to_h"]) && isset($r["POST"]["time_to_m"])) {
         $fields[] = "time_to";
         $datefrom = isset($r["POST"]["time_to"]) ? $r["POST"]["time_to"] : date("Y-m-d");
-        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
+        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
       }
       $field_id = $Backoffice->getFieldId($table);
+      
+      // rilevo le date short e le trasformo in date mysql
+      for ($i = 0; $i < count($values); $i++) {
+        if (strlen($values[$i]) == 10) {
+          $parts = explode("/", $values[$i]);
+          if (count($parts) == 3) {
+            $values[$i] = $Backoffice->shortDateToMysql($values[$i]);
+          }            
+        }
+      }
+      
       $DB->save($table, $fields, $values, $field_id, $id);
       
       // aggiorno i recurrents

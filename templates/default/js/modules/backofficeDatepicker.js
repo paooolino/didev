@@ -12,15 +12,16 @@ App.backofficeDatepicker = {
     $('.backoffice-datetimepicker').fdatepicker('remove');
     $('.newdatebutton').off('click');
   },
-  moveEventDate: function(endpoint, variation) {
+  moveEventDate: function($el, endpoint, variation) {
+    //console.log($(this)[0]);return;
     //console.log(endpoint, variation);
-    $(this).parent().append('<i class="cogspin fa fa-cog fa-spin"></i>');    
-    var dataTable = $(this).parents('table').data('table')
-      ? $(this).parents('table')
-      : $(this).parents('table').parents('table')
-    var dataTr = $(this).parents('tr').data('id')
-      ? $(this).parents('tr')
-      : $(this).parents('tr').parents('tr')
+    $el.parent().append('<i class="cogspin fa fa-cog fa-spin"></i>');    
+    var dataTable = $el.parents('table').data('table')
+      ? $el.parents('table')
+      : $el.parents('table').parents('table')
+    var dataTr = $el.parents('tr').data('id')
+      ? $el.parents('tr')
+      : $el.parents('tr').parents('tr')
       
     App.removeEvents();
     $.ajax({
@@ -91,11 +92,11 @@ App.backofficeDatepicker = {
     $('.newdatebutton').on('click', function() {
       var el = $(this).parent().find('.backoffice-datepicker');
       if (el) {
-        if ($(this).data("endpoint") != "") {
+        if ($(this).data("endpoint")) {
           // exception: for events change from and to
           var endpoint = $(this).data("endpoint");
           var variation = $(this).data("variation");
-          App.backofficeDatepicker.moveEventDate(endpoint, variation);
+          App.backofficeDatepicker.moveEventDate($(this), endpoint, variation);
         } else {
           // normal flow... change date
           var newdate = App.backofficeDatepicker.mysqldate_to_short($(this).data('new'));

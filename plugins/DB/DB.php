@@ -37,6 +37,23 @@ class DB {
     }
   }  
   
+  public function modify_event_date($table, $variation, $id) {
+    $query = "UPDATE $table SET
+      time_to = DATE_ADD(time_to , INTERVAL $variation DAY),
+      time_from = DATE_ADD(time_from , INTERVAL $variation DAY)
+      WHERE id = ?
+    ";
+    $sth = $this->_conn->prepare($query);
+    $result = $sth->execute([
+      $id
+    ]);
+    if (!$result) {
+      print_r($sth->errorInfo());
+      die("Save to database failed");
+    }
+    return $sth->rowCount();
+  }
+  
   public function saveOrder($table, $ids) {
     $query = "
       UPDATE $table SET $table.`order` =
