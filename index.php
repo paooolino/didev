@@ -657,6 +657,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "twitterTitle" => $evento["seo_title"],
         "twitterDescription" => $evento["seo_description"],
         "map" => $DB->getLocaleMap($evento["locations_id"]),
+        "calendar" => $App->getCalendar(),
         "ogImage" => $logo_img
       ])
     ];

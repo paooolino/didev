@@ -20,9 +20,11 @@
             <a title="prossimi eventi a <?php echo $currentCity; ?>" href="{{Link|Get|EVENTI}}">eventi <?php echo $currentCity; ?></a>
           </li>
           <?php } ?>
+          <?php if ($evento["locations_id"] != NULL) { ?>
           <li role="menuitem">
             <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
           </li>
+          <?php } ?>
           <li class="current" role="menuitem">
             <a title="<?php echo $evento["title"]; ?>"><?php echo $evento["title"]; ?></a>
           </li>
@@ -35,16 +37,26 @@
               <span class="summary">
                 <?php echo $evento["title_date"]; ?>
                  
+                <?php if ($evento["locations_id"] != NULL) { ?>
                 <span>presso</span>
                 <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
+                <?php } ?>
               </span>
               <h1 class="mainsummary"><?php echo $evento["title"]; ?></h1>
               <span class="address">
                 <i class="fa fa-map-marker color"></i>
-                <?php echo $evento["locations_address_way"]; ?>,
-                <?php echo $evento["locations_address_number"]; ?>
-                - <?php echo $evento["locations_address_city"]; ?>, 
-                <?php echo $evento["locations_address_zip"]; ?> - (<?php echo $evento["locations_address_province"]; ?>), IT
+                <?php if ($evento["locations_address_way"] != "") { ?> 
+                  <?php echo $evento["locations_address_way"]; ?>,
+                  <?php echo $evento["locations_address_number"]; ?>
+                  - <?php echo $evento["locations_address_city"]; ?>, 
+                  <?php echo $evento["locations_address_zip"]; ?> - (<?php echo $evento["locations_address_province"]; ?>), IT                  
+                <?php } elseif ($evento["address_way"] != "") { ?> 
+                  <?php echo $evento["address_way"]; ?>,
+                  <?php echo $evento["address_number"]; ?>
+                  - <?php echo $evento["address_city"]; ?>, 
+                  <?php echo $evento["address_zip"]; ?> - (<?php echo $evento["address_province"]; ?>), IT                  
+                <?php } ?>                
+
                 <?php if (count($map) == 1) { ?><a href="#map">vedi mappa</a><?php } ?>
               </span>
             </hgroup>
@@ -161,6 +173,11 @@
   </div>
 
   <aside class="show-for-large-up large-3 columns spaceT side_right">
+    <?php 
+    if (isset($calendar)) {
+      include("partials/calendar.php"); 
+    }
+    ?>
     <div class="show-for-large-up spaceT">
       <aside class="adsBanner responsive visible-for-large-up">
         <ins class="adsbygoogle" data-ad-client="ca-pub-6371727345571989" data-ad-format="vertical" data-ad-slot="7697964545" data-adsbygoogle-status="done" style="height: 600px;"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe width="300" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:300px;height:600px;"></iframe></ins></ins></ins>
