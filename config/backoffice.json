@@ -968,12 +968,13 @@
         "type": "simpletextarea"
       },
       {
-        "name": "cat_ids",
-        "type": "multiselect",
+        "name": "cat_ids[]",
+        "type": "manytomany",
         "label": "Categorie",
-        "extern_table": "cat_btw_sites",
-        "extern_field": "title",
-        "extern_id": "id"
+        "query": "SELECT * FROM cat_btw_sites WHERE site_id = ?",
+        "queryvalues": "SELECT cat_id FROM cat_btw_events WHERE cat_id = ?",
+        "select_key": "id",
+        "select_value": "title"
       },
       {
         "name": "location_ids",

@@ -285,6 +285,22 @@ class DB {
     ];
     $this->insert($query, $data);
   }
+  
+  private function insert_m2m_cat_ids($v, $main_id) {
+    $query = "INSERT INTO cat_btw_events (
+      site_id,
+      event_id,
+      cat_id
+    ) VALUES (
+      ?, ?, ?
+    )";
+    $data = [
+      $this->_site,
+      $main_id,
+      $v
+    ];
+    $this->insert($query, $data);
+  }
 
   private function delete_m2m_typo_ids($v, $main_id) {
     $query = "DELETE FROM typo_btw_locations WHERE 

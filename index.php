@@ -1808,6 +1808,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         $datefrom = isset($r["POST"]["time_to"]) ? $r["POST"]["time_to"] : date("Y-m-d");
         $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
       }
+
       $id = $DB->newRecord(
         $table,
         $fields,
