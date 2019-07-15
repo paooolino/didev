@@ -1801,12 +1801,12 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       if (isset($_POST["time_from_h"]) && isset($_POST["time_from_m"])) {
         $fields[] = "time_from";
         $datefrom = isset($r["POST"]["time_from"]) ? $r["POST"]["time_from"] : date("Y-m-d");
-        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
+        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
       }
       if (isset($_POST["time_to_h"]) && isset($_POST["time_to_m"])) {
         $fields[] = "time_to";
         $datefrom = isset($r["POST"]["time_to"]) ? $r["POST"]["time_to"] : date("Y-m-d");
-        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
+        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
       }
 
       $id = $DB->newRecord(

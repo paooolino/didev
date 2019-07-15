@@ -286,6 +286,36 @@ class DB {
     $this->insert($query, $data);
   }
   
+  private function insert_m2m_zones_ids($v, $main_id) {
+    $query = "INSERT INTO zone_btw_locations (
+      location_id,
+      zone_id
+    ) VALUES (
+      ?, ?
+    )";
+    $data = [
+      $main_id,
+      $v
+    ];
+    $this->insert($query, $data);
+  }
+  
+  private function insert_m2m_location_ids($v, $main_id) {
+    $query = "INSERT INTO event_btw_locations (
+      site_id,
+      event_id,
+      location_id
+    ) VALUES (
+      ?, ?, ?
+    )";
+    $data = [
+      $this->_site,
+      $main_id,
+      $v
+    ];
+    $this->insert($query, $data);
+  }
+  
   private function insert_m2m_cat_ids($v, $main_id) {
     $query = "INSERT INTO cat_btw_events (
       site_id,
@@ -301,10 +331,50 @@ class DB {
     ];
     $this->insert($query, $data);
   }
+  
+  private function insert_m2m_holiday_ids($v, $main_id) {
+    $query = "INSERT INTO holiday_btw_events (
+      site_id,
+      event_id,
+      holiday_id
+    ) VALUES (
+      ?, ?, ?
+    )";
+    $data = [
+      $this->_site,
+      $main_id,
+      $v
+    ];
+    $this->insert($query, $data);
+  }
 
   private function delete_m2m_typo_ids($v, $main_id) {
     $query = "DELETE FROM typo_btw_locations WHERE 
       typo_id = ? AND location_id = ? AND site_id = ?
+    ";
+    $data = [$v, $main_id, $this->_site];
+    $this->delete($query, $data);
+  }
+  
+  private function delete_m2m_cat_ids($v, $main_id) {
+    $query = "DELETE FROM cat_btw_events WHERE 
+      cat_id = ? AND event_id = ? AND site_id = ?
+    ";
+    $data = [$v, $main_id, $this->_site];
+    $this->delete($query, $data);
+  }
+  
+  private function delete_m2m_holiday_ids($v, $main_id) {
+    $query = "DELETE FROM holiday_btw_events WHERE 
+      holiday_id = ? AND event_id = ? AND site_id = ?
+    ";
+    $data = [$v, $main_id, $this->_site];
+    $this->delete($query, $data);
+  }
+  
+  private function delete_m2m_location_ids($v, $main_id) {
+    $query = "DELETE FROM event_btw_locations WHERE 
+      location_id = ? AND event_id = ? AND site_id = ?
     ";
     $data = [$v, $main_id, $this->_site];
     $this->delete($query, $data);

@@ -972,25 +972,27 @@
         "type": "manytomany",
         "label": "Categorie",
         "query": "SELECT * FROM cat_btw_sites WHERE site_id = ?",
-        "queryvalues": "SELECT cat_id FROM cat_btw_events WHERE cat_id = ?",
+        "queryvalues": "SELECT cat_id FROM cat_btw_events WHERE event_id = ?",
         "select_key": "id",
         "select_value": "title"
       },
       {
-        "name": "location_ids",
-        "type": "multiselect",
+        "name": "location_ids[]",
+        "type": "manytomany",
         "label": "Locali",
-        "extern_table": "locations",
-        "extern_field": "title",
-        "extern_id": "id"
+        "query": "SELECT * FROM locations WHERE site_id = ? ORDER BY title",
+        "queryvalues": "SELECT location_id FROM event_btw_locations WHERE event_id = ?",
+        "select_key": "id",
+        "select_value": "title"
       },
       {
-        "name": "holiday_ids",
-        "type": "multiselect",
+        "name": "holiday_ids[]",
+        "type": "manytomany",
         "label": "Festività",
-        "extern_table": "holiday_btw_sites",
-        "extern_field": "title",
-        "extern_id": "id"
+        "query": "SELECT * FROM holiday_btw_sites WHERE site_id = ?",
+        "queryvalues": "SELECT holiday_id FROM holiday_btw_events WHERE event_id = ?",
+        "select_key": "id",
+        "select_value": "title"
       },
       {
         "name": "time_from",
