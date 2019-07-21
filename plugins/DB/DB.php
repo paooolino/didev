@@ -428,6 +428,14 @@ class DB {
     $this->delete($query, $data);
   }
   
+  private function delete_m2m_zones_ids($v, $main_id) {
+    $query = "DELETE FROM zone_btw_locations WHERE 
+      zone_id = ? AND location_id = ?
+    ";
+    $data = [$v, $main_id];
+    $this->delete($query, $data);
+  }
+  
   public function saveManyToMany($arrm2m, $table, $main_id) {
     foreach ($arrm2m as $k => $values) {
       // ottengo i valori correnti in $current_value[]
