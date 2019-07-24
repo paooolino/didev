@@ -711,10 +711,10 @@ class Backoffice {
           $row[$f["name"]] = 0;
         }
         if ($f["name"] == "time_from") {
-          $row[$f["name"]] = date("Y-m-d");
+          $row[$f["name"]] = date("Y-m-d 22:00:00");
         }
         if ($f["name"] == "time_to") {
-          $row[$f["name"]] = date("Y-m-d", strtotime("+2 month"));
+          $row[$f["name"]] = date("Y-m-d 23:59:00", strtotime("+2 month"));
         }
       }
     }
@@ -821,7 +821,7 @@ class Backoffice {
           break;
         case "datetime":
           $value = $this->getValueForUpdateField($f, $opts, $row_values);
-          $fieldHtml = $this->getDatetimeFieldsHtml($f["name"], $value);
+          $fieldHtml = $this->getDatetimeFieldsHtml($f["name"], $value, true);
           $html .= $this->getHtmlForFormField($f["label"], $fieldHtml);
           break;
         case "select":
@@ -913,10 +913,46 @@ class Backoffice {
     return "" . $n;
   }
   
-  private function getDatetimeFieldsHtml($name, $value) {
+  public function daysSelect($name, $value) {
+    $opts = [];
+    for ($i = 1; $i <=31; $i++) {
+      $selected = $i == $value ? "selected" : "";
+      $opts[] = '<option ' . $selected . ' value="' .  $this->leadZero($i) . '">' . $i . '</option>';
+    }
+    return '<select name="' . $name . '_day">' . implode("", $opts) . '</select>';
+  }
+  
+  public function monthSelect($name, $value) {
+    $month = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+    $opts = [];
+    for ($i = 1; $i <=12; $i++) {
+      $selected = $i == $value ? "selected" : "";
+      $opts[] = '<option ' . $selected . ' value="' .  $this->leadZero($i) . '">' . $month[$i-1] . '</option>';
+    }
+    return '<select name="' . $name . '_month">' . implode("", $opts) . '</select>';
+  }
+  
+  public function yearSelect($name, $value) {
+    $opts = [];
+    $Y = date("Y");
+    for ($i = $Y-2; $i <= $Y+2; $i++) {
+      $selected = $i == $value ? "selected" : "";
+      $opts[] = '<option ' . $selected . ' value="' .  $i . '">' . $i . '</option>';
+    }
+    return '<select name="' . $name . '_year">' . implode("", $opts) . '</select>';
+  }
+  
+  private function getDatetimeFieldsHtml($name, $value, $separated=false) {
     $html = "";
     
-    $datepicker = '<input class="backoffice-datepicker" style="margin-bottom:0;" id="' . $name . '" type="text" value="' . date("Y-m-d", strtotime($value)) . '" name="' . $name . '">';
+    if ($separated) {
+      $d = date("d", strtotime($value));
+      $m = date("m", strtotime($value));
+      $Y = date("Y", strtotime($value));
+      $date_html = $this->daysSelect($name, $d) . $this->monthSelect($name, $m) . $this->yearSelect($name, $Y);
+    } else {
+      $date_html = '<input class="backoffice-datepicker" style="margin-bottom:0;" id="' . $name . '" type="text" value="' . date("Y-m-d", strtotime($value)) . '" name="' . $name . '">';
+    }
     
     $opts_h = "";
     for ($i = 0; $i < 24; $i++) {
@@ -936,7 +972,7 @@ class Backoffice {
       <table>
         <tr>
           <td>
-            ' . $datepicker. '
+            ' . $date_html. '
           </td>
           <td width="80">
             <select name="' . $name . '_h">

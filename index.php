@@ -1716,6 +1716,12 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         if ($k == "time_from_m") continue;
         if ($k == "time_to_h") continue;
         if ($k == "time_to_m") continue;
+        if ($k == "time_from_day") continue;
+        if ($k == "time_from_month") continue;
+        if ($k == "time_from_year") continue;
+        if ($k == "time_to_day") continue;
+        if ($k == "time_to_month") continue;
+        if ($k == "time_to_year") continue;
         if ($k == "ext_id") continue;
         if ($k == "encrypted_password") {
           if ($v == "") continue;
@@ -1798,15 +1804,28 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         return $item;
       }, array_values($data));
       // aggiungo eventualmente il time_from (usato nella tabella recurrents)
-      if (isset($_POST["time_from_h"]) && isset($_POST["time_from_m"])) {
+      if (isset($r["POST"]["time_from_h"]) && isset($r["POST"]["time_from_m"])) {
         $fields[] = "time_from";
-        $datefrom = isset($r["POST"]["time_from"]) ? $r["POST"]["time_from"] : date("Y-m-d");
-        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
+        if (isset($r["POST"]["time_from_day"]) && isset($r["POST"]["time_from_month"]) && isset($r["POST"]["time_from_year"])) {
+          $datefrom = $r["POST"]["time_from_year"]
+            . "-" . $r["POST"]["time_from_month"]
+            . "-" . $r["POST"]["time_from_day"];
+        } else {
+          $datefrom = isset($r["POST"]["time_from"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_from"]) : date("Y-m-d");
+        }
+        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
+        //print_r($values);die();
       }
-      if (isset($_POST["time_to_h"]) && isset($_POST["time_to_m"])) {
+      if (isset($r["POST"]["time_to_h"]) && isset($r["POST"]["time_to_m"])) {
         $fields[] = "time_to";
-        $datefrom = isset($r["POST"]["time_to"]) ? $r["POST"]["time_to"] : date("Y-m-d");
-        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
+        if (isset($r["POST"]["time_to_day"]) && isset($r["POST"]["time_to_month"]) && isset($r["POST"]["time_to_year"])) {
+          $datefrom = $r["POST"]["time_to_year"]
+            . "-" . $r["POST"]["time_to_month"]
+            . "-" . $r["POST"]["time_to_day"];
+        } else {
+          $datefrom = isset($r["POST"]["time_to"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_to"]) : date("Y-m-d");
+        }
+        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
       }
 
       $id = $DB->newRecord(
@@ -1877,6 +1896,12 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         if ($k == "time_to_m") continue;
         if ($k == "time_from_h") continue;
         if ($k == "time_from_m") continue;
+        if ($k == "time_from_day") continue;
+        if ($k == "time_from_month") continue;
+        if ($k == "time_from_year") continue;
+        if ($k == "time_to_day") continue;
+        if ($k == "time_to_month") continue;
+        if ($k == "time_to_year") continue;
         if ($k == "encrypted_password") {
           if ($v == "") continue;
           $post[$k] = md5(md5($v));
@@ -1906,13 +1931,25 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       // aggiungo eventualmente il time_from e time_to (usati nella tabella recurrents e nella tabella eventi)
       if (isset($r["POST"]["time_from_h"]) && isset($r["POST"]["time_from_m"])) {
         $fields[] = "time_from";
-        $datefrom = isset($r["POST"]["time_from"]) ? $r["POST"]["time_from"] : date("Y-m-d");
-        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
+        if (isset($r["POST"]["time_from_day"]) && isset($r["POST"]["time_from_month"]) && isset($r["POST"]["time_from_year"])) {
+          $datefrom = $r["POST"]["time_from_year"]
+            . "-" . $r["POST"]["time_from_month"]
+            . "-" . $r["POST"]["time_from_day"];
+        } else {
+          $datefrom = isset($r["POST"]["time_from"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_from"]) : date("Y-m-d");
+        }
+        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
       }
       if (isset($r["POST"]["time_to_h"]) && isset($r["POST"]["time_to_m"])) {
         $fields[] = "time_to";
-        $datefrom = isset($r["POST"]["time_to"]) ? $r["POST"]["time_to"] : date("Y-m-d");
-        $values[] = $Backoffice->shortDateToMysql($datefrom) . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
+        if (isset($r["POST"]["time_to_day"]) && isset($r["POST"]["time_to_month"]) && isset($r["POST"]["time_to_year"])) {
+          $datefrom = $r["POST"]["time_to_year"]
+            . "-" . $r["POST"]["time_to_month"]
+            . "-" . $r["POST"]["time_to_day"];
+        } else {
+          $datefrom = isset($r["POST"]["time_to"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_to"]) : date("Y-m-d");
+        }
+        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
       }
       $field_id = $Backoffice->getFieldId($table);
       
