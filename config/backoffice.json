@@ -423,6 +423,33 @@
         "name": "active",
         "label": "visibile",
         "type": "checkbox"
+      },
+      {
+        "name": "style",
+        "label": "stile grafico",
+        "type": "select",
+        "options": {
+          "0": "bianco default",
+          "1": "giallo",
+          "2": "scuro"
+        }
+      },
+      {
+        "name": "description",
+        "label": "testo esteso",
+        "type": "textarea"
+      },
+      {
+        "name": "title",
+        "label": "titolo"
+      },
+      {
+        "name": "title_tag",
+        "label": "tag title"
+      },
+      {
+        "name": "link",
+        "label": "url collegamento"
       }
     ]
   },  
