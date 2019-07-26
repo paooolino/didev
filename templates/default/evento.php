@@ -137,24 +137,22 @@
           </section>
           <?php } ?>
           
+          <?php
+            $u = "https:" . $Link->Get(["EVENTO", $evento["seo_url"]]);
+            $t = $evento["title"];
+          ?>
           <section class="sheet share_wrap" id="share">
             <ul class="button-group">
               <li>
-                <a class="button fb" href="http://www.facebook.com/share.php?u=http://www.discotechebrescia.it/evento/domenica-discoteca-qi-clubbing-erbusco-brescia&amp;title=La Domenica Sera del Qi Clubbing" target="_blank" title="Condividi su Facebook">
+                <a class="button fb" href="http://www.facebook.com/share.php?u=<?php echo $u; ?>&amp;title=<?php echo $t; ?>" target="_blank" title="Condividi su Facebook">
                   <i class="fa fa-facebook fa-lg"></i>
                   Condividi su Facebook
                 </a>
               </li>
               <li>
-                <a class="button tw" href="http://twitter.com/home?status=La+Domenica+Sera+del+Qi+Clubbing+http://www.discotechebrescia.it/evento/domenica-discoteca-qi-clubbing-erbusco-brescia" target="_blank" title="Condividi su Twitter">
+                <a class="button tw" href="http://twitter.com/home?status=<?php echo $t; ?>+<?php echo $u; ?>" target="_blank" title="Condividi su Twitter">
                   <i class="fa fa-twitter fa-lg"></i>
                   Condividi su Twitter
-                </a>
-              </li>
-              <li>
-                <a class="button gp" href="http://plus.google.com/share?url=http://www.discotechebrescia.it/evento/domenica-discoteca-qi-clubbing-erbusco-brescia" target="_blank" title="Condividi su Google Plus">
-                  <i class="fa fa-google-plus fa-lg"></i>
-                  Condividi su Google Plus
                 </a>
               </li>
             </ul>

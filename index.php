@@ -706,8 +706,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "twitterTitle" => "",
         "twitterDescription" => "",
         "canonical" => $App->getCurrentUrl(),
-        "no_calendar" => true,
         "enable_ajax" => true,
+        "calendar" => $App->getCalendar(),
         "next" => $App->getCurrentUrl() . "/2",
       ])
     ];

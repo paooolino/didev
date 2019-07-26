@@ -809,12 +809,13 @@ class App {
         "title" => "Zone",
         "iconclass" => "fa fa-table"
       ],
+      /*
       [
         "label" => "Scadenze visibilità locations",
         "url" => $this->_machine->plugin("Link")->Get("/admin/location_visibilities"),
         "title" => "Scadenze visibilità locations",
         "iconclass" => "fa fa-table"
-      ],
+      ],*/
       [
         "label" => "Boxes home",
         "url" => $this->_machine->plugin("Link")->Get("/admin/home_boxes"),

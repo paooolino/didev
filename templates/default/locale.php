@@ -304,24 +304,22 @@
       </section>
       <?php } ?>
       
+      <?php
+        $u = "https:" . $Link->Get(["LOCALE", $locale["seo_url"]]);
+        $t = $locale["title"];
+      ?>
       <section class="sheet share_wrap" id="share">
         <ul class="button-group">
           <li>
-            <a class="button fb" href="http://www.facebook.com/share.php?u=http://www.discotechebrescia.it/locale/disco-restaurant-al-convento-lonato&amp;title=Convento" target="_blank" title="Condividi su Facebook">
+            <a class="button fb" href="http://www.facebook.com/share.php?u=<?php echo $u; ?>&amp;title=<?php echo $t; ?>" target="_blank" title="Condividi su Facebook">
             <i class="fa fa-facebook fa-lg"></i>
               Condividi su Facebook
             </a>
           </li>
           <li>
-            <a class="button tw" href="http://twitter.com/home?status=Convento+http://www.discotechebrescia.it/locale/disco-restaurant-al-convento-lonato" target="_blank" title="Condividi su Twitter">
+            <a class="button tw" href="http://twitter.com/home?status=<?php echo $t; ?>+<?php echo $u; ?>" target="_blank" title="Condividi su Twitter">
               <i class="fa fa-twitter fa-lg"></i>
               Condividi su Twitter
-            </a>
-          </li>
-          <li>
-            <a class="button gp" href="http://plus.google.com/share?url=http://www.discotechebrescia.it/locale/disco-restaurant-al-convento-lonato" target="_blank" title="Condividi su Google Plus">
-              <i class="fa fa-google-plus fa-lg"></i>
-              Condividi su Google Plus
             </a>
           </li>
         </ul>
@@ -334,7 +332,7 @@
       <div id="subnav" style="margin-top: 0px;">
         <ul>
           <li class="description">
-            <a href="#desc" title="Convento" class="active">
+            <a href="#desc" title="<?php echo $locale["title"]; ?>" class="active">
             <i class="fa fa-align-justify fa-fw"></i>
               <?php echo $locale["title"]; ?>
             </a>
