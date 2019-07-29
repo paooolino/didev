@@ -48,8 +48,10 @@
             <i class="fa fa-phone"></i>
             <span itemprop="contactType">INFO E PRENOTAZIONI:</span>
             <span class="phone" itemprop="servicePhone"><?php echo $locale["phone"]; ?></span>
+            <?php if ($locale["mobile"] != "") { ?>
               - 
             <span class="phone" itemprop="servicePhone"><?php echo $locale["mobile"]; ?></span>
+            <?php } ?>
           </span>
           <?php if ($locale["email"] != "") { ?>
           <span>
@@ -73,10 +75,12 @@
             <i class="fa fa-phone"></i>
             <?php echo $locale["phone"]; ?>
           </a>
+          <?php if ($locale["mobile"] != "") { ?>
           <a class="bt rounded" href="tel:<?php echo $locale["mobile"]; ?>" title="">
             <i class="fa fa-phone"></i>
             <?php echo $locale["mobile"]; ?>
           </a>
+          <?php } ?>
         </div>
         <div class="address">
           <span class="adr" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
@@ -128,7 +132,9 @@
         </div>
         <div class="caption booking">
           <span>INFO E PRENOTAZIONI <?php echo $locale["title"]; ?>:</span>
-          <?php echo $locale["phone"]; ?> - <?php echo $locale["mobile"]; ?><?php if ($locale["email"] != "") { ?> - <a href="mailto:<?php echo $locale["email"]; ?>"><?php echo $locale["email"]; ?></a><?php } ?>
+          <?php echo $locale["phone"]; ?> 
+          <?php if ($locale["mobile"] != "") { ?> - <?php echo $locale["mobile"]; } ?>
+          <?php if ($locale["email"] != "") { ?> - <a href="mailto:<?php echo $locale["email"]; ?>"><?php echo $locale["email"]; ?></a><?php } ?>
         </div>
       </div>
       

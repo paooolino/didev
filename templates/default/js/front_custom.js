@@ -245,7 +245,7 @@ $(document).ready(function(){
     //toggleFormOnlist(pageLocation);
     locationSlideshow(pageLocation);
     //photoGallery(pageLocation);
-    //sideTabs(pageLocation);
+    sideTabs(pageLocation);
   }
 
   if (pageTypologyLocation.length) {

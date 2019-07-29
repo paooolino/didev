@@ -27,7 +27,14 @@
               </button>
               <ul aria-hidden class="f-dropdown choiceTenants" data-dropdown-content id="choiceTenant-small">
                 <?php foreach ($cities as $city) { ?>
-                  <li><a title="Discoteche, locali ed eventi a <?php echo $city["name"]; ?>" data-gavalue="<?php echo $city["name"]; ?>" data-galabel="Cambio_provincia" href="<?php echo $city["url"]; ?>"><?php echo $city["name"]; ?></a></li>
+                  <?php
+                  $url = "//" . $city["url"];
+                  $admin = (isset($sidebar_admin) && $sidebar_admin == true) ? "1" : "0";
+                  if (!$App->is_online) { //($admin) {
+                    $url = $Link->Get("SET_SITE_COOKIE") . "?admin=" . $admin . "&n_site=" . $city["id"];
+                  }
+                  ?>
+                  <li><a title="Discoteche, locali ed eventi a <?php echo $city["name"]; ?>" data-gavalue="<?php echo $city["name"]; ?>" data-galabel="Cambio_provincia" href="<?php echo $url; ?>"><?php echo $city["name"]; ?></a></li>
                 <?php } ?>
               </ul>
             </div>
@@ -35,15 +42,27 @@
         </div>
         <ul class="navMain" role="navigation">
           <?php foreach ($menuitems as $menuitem) { ?>
-            <?php if (!isset($menuitem["children"])) { ?>
-              <li>
-                <a href="<?php echo $menuitem["url"]; ?>" title="<?php echo $menuitem["title"]; ?>">
+            <?php if (!isset($menuitem["children"])) { 
+              $className = "";
+              if ($menuitem["url"] != "") {
+                //if (stristr($Link->Get($this->getCurrentPath()), $menuitem["url"]) !== false) {
+                if ($Link->Get($this->getCurrentPath()) == $menuitem["url"]) {
+                  $className = "active";
+                }
+              }
+              ?>
+              <li data-path="<?php echo $Link->Get($this->getCurrentPath()); ?>" class="<?php echo $className; ?>">
+                <a href="<?php echo str_replace(
+                    "http://www." . $DB->getCurrentCity()[0]["url"], 
+                    "//" . $_SERVER["HTTP_HOST"] . $this->basepath, 
+                    $menuitem["url"]
+                  ); ?>" title="<?php echo $menuitem["title"]; ?>">
                   <i class="fa <?php echo $menuitem["iconclass"]; ?>"></i>
                   <?php echo $menuitem["label"]; ?>
                 </a>
               </li>
             <?php } else { ?>
-              <li class="dropdown">
+              <li class="dropdown <?php echo isset($cat) ? "active" : ""; ?>">
                 <a href="#">
                   <i class="fa <?php echo $menuitem["iconclass"]; ?>"></i>
                   <?php echo $menuitem["label"]; ?>
@@ -51,7 +70,13 @@
                 </a>
                 <ul>
                   <?php foreach($menuitem["children"] as $submenuitem) { ?>
-                    <li><a title="<?php echo $submenuitem["title"]; ?>" href="<?php echo $submenuitem["url"]; ?>"><?php echo $submenuitem["label"]; ?></a></li>
+                    <?php 
+                    $class = "";
+                    if (isset($cat) && $cat["typo_id"] == $submenuitem["id"]) {
+                      $class = "active";
+                    }
+                    ?>
+                    <li class="<?php echo $class; ?>"><a title="<?php echo $submenuitem["title"]; ?>" href="{{Link|Get|CATEGORIA_LOCALI|<?php echo $submenuitem["url"]; ?>}}"><?php echo $submenuitem["label"]; ?></a></li>
                   <?php } ?>
                 </ul>
               </li>
