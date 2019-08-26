@@ -72,10 +72,6 @@ eventi-passati-festivita
 0.5
 weekly
 
-eventi
-1.0
-daily
-
 pagine genriche privacy, cntatti etc...
 0.3
 yearly
@@ -118,13 +114,13 @@ class SitemapPlugin {
       $sitemap->add($schema . $this->Link->Get(["CATEGORIA_LOCALI", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::DAILY, 0.9);
     }
     
-    // schede location
+    // scheda location
     $items = $this->getLocations();
     foreach ($items as $i) {
       $sitemap->add($schema . $this->Link->Get(["LOCALE", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.9);
     }
     
-    // eventi
+    // eventi (pagina)
     $sitemap->add($schema . $this->Link->Get("EVENTI"), date("Y-m-d"), ChangeFrequency::HOURLY, 0.9);
 
     // scheda evento
@@ -133,25 +129,53 @@ class SitemapPlugin {
       $sitemap->add($schema . $this->Link->Get(["EVENTO", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::NEVER, 0.8);
     }
     
-    // eventi passati locale
+    // eventi passati locale (pagina)
+    $items = $this->getLocationPastEvents();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["EVENTI_PASSATI", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::MONTHLY, 0.4);
+    }
     
-    // eventi weekend
+    // eventi weekend (pagina)
+    $sitemap->add($schema . $this->Link->Get("EVENTI_WEEKEND"), date("Y-m-d"), ChangeFrequency::DAILY, 0.7);
     
     // eventi periodo
+    $items = $this->getPeriodEvents();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["EVENTI_DATA", $y, $m, $d]), date("Y-m-d"), ChangeFrequency::DAILY, 0.4);
+    }
     
     // eventi festivita
+    $items = $this->getFestivita();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["FESTIVITA", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.8);
+    }
     
     // eventi passati festivita
-    
-    // eventi
-    
+    $items = $this->getFestivita();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["FESTIVITA_ARCHIVIO", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.5);
+    }
+        
     // pagine generiche privacy, contatti, etc
+    $items = $this->getSezioni();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["SEZIONE", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::YEARLY, 0.3);
+    }
     
     // staff
+    $sitemap->add($schema . $this->Link->Get("PAGINA", "staff"), date("Y-m-d"), ChangeFrequency::YEARLY, 0.4);
     
     // categorie eventi
+    $items = $this->getCategories();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["EVENTI_CATEGORIA", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::DAILY, 0.6);
+    }
     
     // categorie + zona geografica
+    $items = $this->getCategoriesZones();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["CATEGORIA_ZONA", $i["categoria"], $i["zona"]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.7);
+    }
     
     // Write it to a file
     file_put_contents($dir . "/" . $mapname . '.xml', (string) $sitemap);
@@ -165,6 +189,42 @@ class SitemapPlugin {
   
   private function getLocations() {
     $query = "SELECT id, seo_url FROM locations WHERE site_id = ? AND active = 1";
+    $result = $this->DB->select($query, [$this->DB->getSite()]);
+    return $result;
+  }
+  
+  private function getEvents() {
+  
+  }
+  
+  private function getLocationPastEvents() {
+  
+  }
+  
+  private function getPeriodEvents() {
+    
+  }
+  
+  private function getFestivita() {
+    $query = "SELECT id, seo_url FROM holiday_btw_sites WHERE site_id = ?";
+    $result = $this->DB->select($query, [$this->DB->getSite()]);
+    return $result;
+  }
+  
+  private function getSezioni() {
+    $query = "SELECT id, seo_url FROM sections WHERE site_id = ? AND sitemap = 1";
+    $result = $this->DB->select($query, [$this->DB->getSite()]);
+    return $result;
+  }
+  
+  private function getCategories() {
+    $query = "SELECT id, seo_url FROM cat_btw_sites WHERE site_id = ?";
+    $result = $this->DB->select($query, [$this->DB->getSite()]);
+    return $result;
+  }
+  
+  private function getCategoriesZones() {
+    $query = "SELECT id, seo_url FROM cat_btw_sites WHERE site_id = ?";
     $result = $this->DB->select($query, [$this->DB->getSite()]);
     return $result;
   }
