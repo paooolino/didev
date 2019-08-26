@@ -5,6 +5,29 @@ use Tackk\Cartographer\Sitemap;
 use Tackk\Cartographer\ChangeFrequency;
     
 /*
+attuale???
+home			always	1.0
+sezione/feste private 	daily	0.7
+sezione/scambio link	daily	0.6
+sezione/chi siamo	daily	0.6
+	cercasi pr
+	festa coscritti
+	addio al nub
+	faq
+	progetto scimmia
+	inserisci
+	newsletter eventi	daily 0.7
+	lavora con
+	mappa percorso
+	marco ciresola
+	mettersi in lista	0.7
+festivita 1.0
+sezione/contatti	daily	0.4
+
+
+
+
+
 PAGINA
 IMPORTANZA
 FREQUENZA AGGIORNAMENTO
@@ -85,21 +108,30 @@ class SitemapPlugin {
     $schema = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https:" : "http:";
     
     $sitemap = new Sitemap();
+    
     // home
     $sitemap->add($schema . $this->Link->Get("HOME"), date("Y-m-d"), ChangeFrequency::HOURLY, 1.0);
+    
     // categorie
     $items = $this->getCategories();
     foreach ($items as $i) {
       $sitemap->add($schema . $this->Link->Get(["CATEGORIA_LOCALI", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::DAILY, 0.9);
     }
-    // location
+    
+    // schede location
     $items = $this->getLocations();
     foreach ($items as $i) {
       $sitemap->add($schema . $this->Link->Get(["LOCALE", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.9);
     }
-    // eventi
     
-    // evento
+    // eventi
+    $sitemap->add($schema . $this->Link->Get("EVENTI"), date("Y-m-d"), ChangeFrequency::HOURLY, 0.9);
+
+    // scheda evento
+    $items = $this->getEvents();
+    foreach ($items as $i) {
+      $sitemap->add($schema . $this->Link->Get(["EVENTO", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::NEVER, 0.8);
+    }
     
     // eventi passati locale
     
