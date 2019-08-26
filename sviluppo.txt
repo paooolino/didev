@@ -1,3 +1,9 @@
+scheda giorno del calendario:
+manca LOCALI, DISCOTECHE, DISCO BAR, RISTORANTI E BIRRERIE DI BRESCIA APERTI 
+title date: di default la data per esteso (se vuoto) es. Sabato 19 settembre 2019
+
+
+
 Server HEROKU
 AWS_S3_BUCKET/S3_BUCKER: storage.discotecheitalia.it
 CDN_BASE_URL/STORAGE_BASE_URL: http://cdn.discotecheitalia.it

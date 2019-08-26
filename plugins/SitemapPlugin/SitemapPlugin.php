@@ -21,7 +21,7 @@ Schede location
 0.9
 weekly
 
-Eventi
+pagina Eventi
 0.9
 hourly
 
@@ -29,29 +29,25 @@ Scheda evento
 0.8
 never
 
-eventi-passati-locale
+eventi-passati-locale (singolo evento)
 0.4
 monthly
 
-eventi-weekend
+eventi-weekend (sotto calendario)
 0.7
 daily
 
-eventi-periodo
+eventi-periodo (singolo giorno)
 0.4
 daily
 
-eventi-festività
+eventi-festività (singola pagina festività)
 0.8
 weekly
 
-eventi-passati-festivita
+eventi-passati-festivita 
 0.5
 weekly
-
-eventi
-1.0
-daily
 
 pagine genriche privacy, cntatti etc...
 0.3
@@ -61,7 +57,7 @@ staff
 0.4
 yearly
 
-categorie eventi
+categorie eventi (live, karaoke, etc)
 0.6
 daily
 
