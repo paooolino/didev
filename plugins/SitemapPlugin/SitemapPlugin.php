@@ -130,7 +130,7 @@ class SitemapPlugin {
     }
     
     // eventi passati locale (pagina)
-    $items = $this->getLocationPastEvents();
+    $items = $this->getLocations();
     foreach ($items as $i) {
       $sitemap->add($schema . $this->Link->Get(["EVENTI_PASSATI", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::MONTHLY, 0.4);
     }
@@ -166,7 +166,7 @@ class SitemapPlugin {
     $sitemap->add($schema . $this->Link->Get("PAGINA", "staff"), date("Y-m-d"), ChangeFrequency::YEARLY, 0.4);
     
     // categorie eventi
-    $items = $this->getCategories();
+    $items = $this->getCategoriesEvents();
     foreach ($items as $i) {
       $sitemap->add($schema . $this->Link->Get(["EVENTI_CATEGORIA", $i["seo_url"]]), date("Y-m-d"), ChangeFrequency::DAILY, 0.6);
     }
@@ -174,7 +174,7 @@ class SitemapPlugin {
     // categorie + zona geografica
     $items = $this->getCategoriesZones();
     foreach ($items as $i) {
-      $sitemap->add($schema . $this->Link->Get(["CATEGORIA_ZONA", $i["categoria"], $i["zona"]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.7);
+      //$sitemap->add($schema . $this->Link->Get(["CATEGORIA_ZONA", $i["categoria"], $i["zona"]]), date("Y-m-d"), ChangeFrequency::WEEKLY, 0.7);
     }
     
     // Write it to a file
@@ -194,15 +194,39 @@ class SitemapPlugin {
   }
   
   private function getEvents() {
-  
-  }
-  
-  private function getLocationPastEvents() {
-  
+    $wherecond=""; 
+    $limitcond="";
+    $ordcond = 'time_to ASC';
+    $timecond = 'AND time_to > NOW()';
+    $query = "SELECT * FROM (SELECT 
+        events.id, events.seo_url
+      FROM events
+      LEFT JOIN event_btw_locations 
+        ON events.id = event_btw_locations.event_id
+      LEFT JOIN locations
+        ON event_btw_locations.location_id = locations.id
+      LEFT JOIN recurrents
+        ON events.recurrent_id = recurrents.id
+      WHERE
+        events.site_id = ?
+        $wherecond
+        $timecond
+      ORDER BY
+        events.$ordcond) AS A
+        
+      GROUP BY
+        A.seo_url
+      ORDER BY 
+        $ordcond
+      
+      $limitcond
+    ";
+    $result = $this->DB->select($query, [$this->DB->getSite()]);
+    return $result;
   }
   
   private function getPeriodEvents() {
-    
+    return [];
   }
   
   private function getFestivita() {
@@ -217,7 +241,7 @@ class SitemapPlugin {
     return $result;
   }
   
-  private function getCategories() {
+  private function getCategoriesEvents() {
     $query = "SELECT id, seo_url FROM cat_btw_sites WHERE site_id = ?";
     $result = $this->DB->select($query, [$this->DB->getSite()]);
     return $result;
