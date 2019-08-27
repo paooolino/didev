@@ -41,3 +41,5 @@ button.minibutton{
 span.red{display:block;background-color:red;color:white;}
 
 .backoffice-datepicker{text-align:center;}
+
+.formfield textarea{height:400px;font-family:"Lucida Console", Monaco, monospace}

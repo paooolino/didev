@@ -48,7 +48,7 @@
 <link rel="alternate" type="application/rss+xml" title="News ed Eventi" href="/rss/prossimi-eventi.xml" />
 
 <link rel="shortcut icon" type="image/x-icon" href="{{templatePath}}images/front/favicon.ico" />
-
+<?php echo $codeCustomHeader; ?>
 </head>
 <body class="front tenant-bs <?php echo $bodyclass; ?>">
 

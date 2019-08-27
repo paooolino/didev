@@ -77,7 +77,9 @@ class App {
       "topBannerImage" => $topBanner["image_file_name"],
       "imageUrl" => $this->img("banners", $topBanner["id"], 728, 90, $topBanner["image_file_name"]),
       "currentCity" => $currentCity[0]["name"],
-      "cities" => $cities
+      "cities" => $cities,
+      "codeCustomHeader" => $DB->getCodeCustomHeader(),
+      "codeCustomFooter" => $DB->getCodeCustomFooter()
     ];
   }   
   
@@ -820,6 +822,12 @@ class App {
         "label" => "Boxes home",
         "url" => $this->_machine->plugin("Link")->Get("/admin/home_boxes"),
         "title" => "Boxes home",
+        "iconclass" => "fa fa-table"
+      ],
+      [
+        "label" => "Opzioni Siti",
+        "url" => $this->_machine->plugin("Link")->Get("/admin/sites"),
+        "title" => "Opzioni Siti",
         "iconclass" => "fa fa-table"
       ]
     ]);

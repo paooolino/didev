@@ -8,6 +8,27 @@
   "typos": {
     "field_id": "id"
   },
+  "sites": {
+    "field_id": "id",
+    "featured": ["id", "title_small"],
+    "orderBy": "title_small",
+    "fields": [
+      {
+        "name": "title_small",
+        "label": "titolo"
+      },
+      {
+        "name": "custom_html_header",
+        "label": "codice custom HEADER",
+        "type": "simpletextarea"
+      },
+      {
+        "name": "custom_html_footer",
+        "label": "codice custom FOOTER",
+        "type": "simpletextarea"
+      }
+    ]
+  },
   "administrators": {
     "field_id": "id",
     "featured": ["id", "name","email", "role"],

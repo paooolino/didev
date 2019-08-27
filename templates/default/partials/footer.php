@@ -61,5 +61,6 @@ var AJAX_LOAD_EVENTS_ENDPOINT = '<?php echo $Link->Get("AJAX_LOAD_EVENTS"); ?>';
 <script src="{{templatePath}}js/modules/formvalidators.js"></script>
 <script src="{{templatePath}}js/modules/fancybox.js"></script>
 
+<?php echo $codeCustomFooter; ?>
 </body>
 </html>

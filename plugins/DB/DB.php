@@ -1542,4 +1542,16 @@ class DB {
     
     return $events;
   }
+  
+  public function getCodeCustomHeader() {
+    $query = "SELECT * FROM sites WHERE id = ?";
+    $site = $this->_getData($query, [$this->_site]);
+    return $site[0]["custom_html_header"];
+  }
+  
+  public function getCodeCustomFooter() {
+    $query = "SELECT * FROM sites WHERE id = ?";
+    $site = $this->_getData($query, [$this->_site]);
+    return $site[0]["custom_html_footer"];
+  }
 }
