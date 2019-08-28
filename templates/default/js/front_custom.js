@@ -206,7 +206,7 @@ $(document).ready(function(){
   navMainActive();
 
   // cookie notice
-  (function() {
+  /*(function() {
     if (getCookie('cookie_notice') != 'true') {
       var html = '\
         <div class="cookiesNotice alert-box secondary" data-alert>\
@@ -229,7 +229,7 @@ $(document).ready(function(){
         $('.cookiesNotice').slideUp("slow");
       });
     }
-  })();
+  })();*/
 
   if (page_home.length) {
     homeSlideshow(page_home);
