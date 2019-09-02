@@ -122,6 +122,7 @@
 
     <?php if (isset($showaperti) && $showaperti === true) { ?>
     
+      <br><br>
       <div class="locations">
         <section class="row">
           <div class="small-12 columns">
