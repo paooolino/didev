@@ -184,5 +184,8 @@ Se la richiesta è urgente, contattaci telefonicamente o su WhatsApp al numero '
     } catch (Exception $e) {
       echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
     }
+    
+    if (isset($data["email"]) && isset($data["name"]))
+      $this->send_to_user($data["email"], $data["name"]);
   }
 }
