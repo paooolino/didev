@@ -127,7 +127,7 @@
           <div class="small-12 columns">
           <article class="boxed spaceB notehead">
           <div>
-          <h2 class="summary">Locali, discoteche, disco bar, ristoranti e birrerie di Brescia aperti Lunedì 02 Settembre 2019</h2>
+          <h2 class="summary">{{aperti_summary}}</h2>
           <div class="description">discotechebrescia.it vi consiglia comunque di contattare il locale per verificare la reale apertura in quanto può capitare che i gestori dei locali non ci avvisino sempre sulle variazioni dei giorni di apertura</div>
           </div>
           </article>

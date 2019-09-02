@@ -564,7 +564,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "calendar" => $App->getCalendar(),
         "disableEventsArchive" => true,
         "disableEventlistHeader" => true,
-        "showaperti" => true
+        "showaperti" => true,
+        "aperti_summary" => "Locali, discoteche, disco bar, ristoranti e birrerie di $cityname aperti " . strftime("%A %e %B %Y", $day1->getTimestamp())
       ])
     ];
   });
