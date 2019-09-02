@@ -120,6 +120,30 @@
     </div>
     <?php } ?>
 
+    <?php if (isset($showaperti) && $showaperti === true) { ?>
+    
+      <div class="locations">
+        <section class="row">
+          <div class="small-12 columns">
+          <article class="boxed spaceB notehead">
+          <div>
+          <h2 class="summary">Locali, discoteche, disco bar, ristoranti e birrerie di Brescia aperti Lunedì 02 Settembre 2019</h2>
+          <div class="description">discotechebrescia.it vi consiglia comunque di contattare il locale per verificare la reale apertura in quanto può capitare che i gestori dei locali non ci avvisino sempre sulle variazioni dei giorni di apertura</div>
+          </div>
+          </article>
+          </div>
+        </section>
+        <section>
+          <div class="items">
+
+          </div>
+        </section>
+      </div>    
+    <?php } ?>
+  
+  
+  
+  
   </section>
   <aside class="show-for-large-up large-3 columns spaceT side_right">
     <?php 

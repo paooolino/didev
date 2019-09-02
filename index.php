@@ -563,7 +563,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "h3" => "Eventi " . strftime("%A %e %B %Y", $day1->getTimestamp()),
         "calendar" => $App->getCalendar(),
         "disableEventsArchive" => true,
-        "disableEventlistHeader" => true
+        "disableEventlistHeader" => true,
+        "showaperti" => true
       ])
     ];
   });
