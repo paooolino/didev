@@ -197,7 +197,7 @@ class DB {
   }
   
   public function getCurrentCity() {
-    return $this->_getData("SELECT id, title_small AS name, title_big, domain AS url FROM sites WHERE id = ?", [$this->_site]);
+    return $this->_getData("SELECT id, title_small AS name, title_big, domain AS url, code FROM sites WHERE id = ?", [$this->_site]);
   }
   
   public function select($query, $data)

@@ -2069,10 +2069,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   // GENERATE SITEMAP
   $machine->addPage($Link->getRoute("GENERATE_SITEMAP"), function($machine) {
-    $machine->plugin("DB")->disable_cache = true;
-    $Sitemap = $machine->addPlugin("SitemapPlugin");
+    $DB = $machine->plugin("DB");
+    $DB->disable_cache = true;
     
-    $Sitemap->generate(__DIR__ . "/sitemaps", "test");
+    $Sitemap = $machine->addPlugin("SitemapPlugin");
+    $currentCity = $DB->getCurrentCity();
+    $code = $currentCity[0]["code"];
+    
+    $Sitemap->generate(__DIR__ . "/sitemaps", "sitemap.$code");
   });
   
   $machine->run();
