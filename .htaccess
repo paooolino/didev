@@ -1,10 +1,7 @@
 RewriteEngine On
 
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteRule ^robots.txt /%1/robots.php [L]
 
-RewriteCond %{HTTP_HOST} ^www\.example\.([a-z\.]+)$
-RewriteRule ^robots.txt /%1/robots.txt [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
