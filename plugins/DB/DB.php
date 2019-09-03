@@ -1176,7 +1176,7 @@ class DB {
 		  zones
 		  ON zone_btw_locations.zone_id = zones.id
       WHERE
-        location_visibilities.site_id = ?
+        zones.site_id = ?
         AND location_visibilities.type = "LocationVisibilityTypo"
         AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
         AND typo_btw_sites.seo_url = ?
