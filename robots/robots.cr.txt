@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /sezione/organizzare-feste-private-laurea-compleanno-celibato-nubilato-a-cremona
+Disallow: /locali/ristoranti-e-locali-etnici-a-cremona
+Sitemap: https://www.discotechecremona.it/sitemaps/sitemap.cr.xml

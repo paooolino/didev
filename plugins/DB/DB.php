@@ -1460,7 +1460,9 @@ class DB {
       AND site_id = ?
     ";
     $result = $this->_getData($query, [$slug, $this->_site]);
-    return $result[0];
+    if (isset($result[0]))
+      return $result[0];
+    return false;
   }
   
   public function getEventsFromDBbyCategory($cat_id) {

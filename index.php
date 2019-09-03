@@ -181,6 +181,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("FORM_CONTACT", "/form/contatti");
   $Link->setRoute("FORM_PARTY", "/form/organizzare-feste");
   $Link->setRoute("SEND_OK", "/form/send-ok");
+  
+  
    
   /**
    *  Home page
@@ -226,7 +228,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       ])
     ];
   });
-
+  
   $machine->addPage($Link->getRoute("SEARCH"), function($machine) {
     $machine->plugin("DB")->disable_cache = true;
         
@@ -1980,6 +1982,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
     $section = $DB->getSection($slug_sezione);
+    if (!$section) {
+      die("Not found");
+    }
     $result = [
       "template" => "sezione.php",
       "data" => array_merge($App->getCommonData(), [
