@@ -1,5 +1,8 @@
 RewriteEngine On
 
+RewriteCond %{SERVER_PORT} !^443$
+RewriteRule http://www.discotechecremona.it/eventi https://www.discotechecremona.it/eventi [L,R=301]
+
 RewriteRule ^robots\.txt$ robots.php [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
