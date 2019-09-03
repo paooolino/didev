@@ -1,6 +1,6 @@
 RewriteEngine On
 
-RewriteRule ^robots.txt /%1/robots.php [L]
+RewriteRule ^robots\.txt$ robots.php [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
