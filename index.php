@@ -415,7 +415,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "h3" => $section["seo_footer"],
         "calendar" => $App->getCalendar(),
         "canonical" => $App->getCurrentUrl(),
-        "disableEventlistHeader" => true
+        "disableEventlistHeader" => true,
+        "disableEventsArchive" => true
       ])
     ];
   });
