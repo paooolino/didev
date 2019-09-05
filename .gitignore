@@ -4,3 +4,4 @@ uploads
 /docker/mysql/data/
 logs
 cache
+note.txt
