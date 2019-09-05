@@ -102,12 +102,12 @@ class UploadS3 {
   public function put($path, $image) {
     //var_dump($image->stream()->detach());die();
     //$result = $this->s3->upload($this->bucketName, $path, $image, 'public-read');
-    $result = $this->s3->putObject(
+    $result = $this->s3->putObject([
       'Bucket' => $this->bucketName,
       'Key' => $path,
       'SourceFile' => $image,
       'ACL' => 'public-read'
-    );
+    ]);
     return $result;
   }
   
