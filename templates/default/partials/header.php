@@ -51,6 +51,14 @@
 <?php echo $codeCustomHeader; ?>
 </head>
 <body class="front tenant-bs <?php echo $bodyclass; ?>">
+<!-- adsense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6371727345571989",
+          enable_page_level_ads: true
+     });
+</script>
 
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap" data-equalizer>
