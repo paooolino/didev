@@ -52,12 +52,12 @@
 </head>
 <body class="front tenant-bs <?php echo $bodyclass; ?>">
 <!-- adsense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async="async" defer="defer"></script>
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-6371727345571989",
-          enable_page_level_ads: true
-     });
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6371727345571989",
+    enable_page_level_ads: true
+  });
 </script>
 
 <div class="off-canvas-wrap" data-offcanvas>
