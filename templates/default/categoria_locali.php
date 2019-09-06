@@ -163,8 +163,17 @@
     <div class="show-for-large-up spaceT">
 
       <aside class="adsBanner responsive visible-for-large-up">
-        <ins class="adsbygoogle" data-ad-client="ca-pub-6371727345571989" data-ad-format="vertical" data-ad-slot="7697964545"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Annuncio responsive -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6371727345571989"
+             data-ad-slot="7697964545"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </aside>
     </div>
   </aside>
