@@ -103,6 +103,20 @@
               </span>
             <?php } ?>
             <?php echo $evento["description"]; ?>
+            
+<?php if (isset($evento["ads"]) && $evento["ads"] == 0) {} else { ?>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Annuncio responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6371727345571989"
+     data-ad-slot="7697964545"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<?php } ?>
 
             <?php
             $arrinfo = array_filter([$evento["locations_phone"], $evento["locations_mobile"]]);
