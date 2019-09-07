@@ -35,14 +35,10 @@
         <label class="select required control-label" for="form_onlist_location"><abbr title="campo obbligatorio">*</abbr> discoteca</label>
         <select class="select required" name="form_onlist[location]" id="form_onlist_location">
           <option value="">scegli locale:</option>
-          <option value="Coco Beach">Coco Beach</option>
-          <option value="Circus Beat Club">Circus Beat Club</option>
-          <option value="Red Clubbing">Red Clubbing</option>
-          <option value="Biblò by Be Club">Biblò by Be Club</option>
-          <option value="Qi Clubbing">Qi Clubbing</option>
-          <option value="Teatro Alberti">Teatro Alberti</option>
-          <option value="Florida">Florida</option>
-          <option value="Matilda The Club 13.5">Matilda The Club 13.5</option>
+          <?php $list = $DB->getLocationsForList();?>
+          <?php foreach ($list as $item) { ?>
+            <option><?php echo $item["title"]; ?></option>
+          <?php } ?>
         </select>
         <small class="error">devi scegliere il locale</small>
       </div>
@@ -99,7 +95,7 @@
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <div class="input_wrapper boolean optional form_onlist_newsletter"><input name="form_onlist[newsletter]" type="hidden" value="0" /><input class="boolean optional" type="checkbox" value="1" checked="checked" name="form_onlist[newsletter]" id="form_onlist_newsletter" /><label class="boolean optional control-label" for="form_onlist_newsletter">Voglio essere aggiornato sui migliori eventi di Brescia</label></div>
+      <div class="input_wrapper boolean optional form_onlist_newsletter"><input name="form_onlist[newsletter]" type="hidden" value="0" /><input class="boolean optional" type="checkbox" value="1" checked="checked" name="form_onlist[newsletter]" id="form_onlist_newsletter" /><label class="boolean optional control-label" for="form_onlist_newsletter">Voglio essere aggiornato sui migliori eventi di <?php echo $currentCity; ?></label></div>
       <div class="input_wrapper boolean optional form_onlist_privacy">
         <input name="form_onlist[privacy]" type="hidden" value="0" />
         <input class="boolean optional required" type="checkbox" value="1" name="form_onlist[privacy]" id="form_onlist_privacy" />

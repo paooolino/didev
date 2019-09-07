@@ -1033,6 +1033,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "ogDescription" => "Eventi e info di discoteche, locali, ristoranti (etnici, giapponesi...), birrerie e pub a " . $currentCity[0]["name"] . " e provincia. Discoteche" . $currentCity[0]["name"] . " organizza feste e eventi a " . $currentCity[0]["name"] . " dall′aperitivo alla discoteca.",
         "ogUrl" => $App->getCurrentUrl(),
         "ogSiteName" => $currentCity[0]["title_big"],
+        "currentCity" => $currentCity[0]["name"],
         "canonical" => $App->getCurrentUrl(),
         "h3" => $section["seo_footer"],
         "bodyclass" => "sections section",

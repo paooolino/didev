@@ -1545,6 +1545,37 @@ class DB {
     return $events;
   }
   
+  public function getLocationsForList() {
+    $visibility_condition = ' AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) ';
+    
+    $sql = '
+      SELECT
+        locations.title
+      FROM
+        location_visibilities
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      WHERE
+        location_visibilities.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        ' . $visibility_condition . '
+        AND locations.active = 1
+        AND locations.on_list = 1
+      GROUP BY
+        locations.title
+      ORDER BY
+        locations.title
+    ';
+    return $this->_getData($sql, [$this->_site]);
+  }
+
+  public function getDiscoCode() {
+    $query = "SELECT * FROM sites WHERE id = ?";
+    $site = $this->_getData($query, [$this->_site]);
+    return strtoupper($site[0]["code"]);
+  }
+  
   public function getCodeCustomHeader() {
     $query = "SELECT * FROM sites WHERE id = ?";
     $site = $this->_getData($query, [$this->_site]);

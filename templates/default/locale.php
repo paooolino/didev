@@ -92,7 +92,7 @@
             <span class="country-name" itemprop="addressCountry">, IT</span>
           </span>
            - 
-          <a title="" class="show-map" href="#maps">vedi mappa</a>
+          <a title="" class="show-map" href="#" onclick="jQuery('html,body').animate({scrollTop: $('#maps').offset().top},'slow');">vedi mappa</a>
         </div>
         <div class="hide-for-large-up not-large">
           <?php if ($locale["email"] != "") { ?>
@@ -128,7 +128,11 @@
     <div class="small-12 medium-12 large-9 columns" id="wrapper">
       <div class="sheet">
         <div class="spaceT" id="social_tab">
-          <div class="facebook"><div class="fb-like" data-width="button_count"></div></div>
+          <div class="twitter">
+            <a class="twitter-share-button" data-count="none" data-via="Discoteche<?php echo $DB->getDiscoCode(); ?>" data-related="condividi su twitter" href="http://twitter.com/share">Tweet</a>
+            <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+          </div>
+          <div class="facebook"><div class="fb-like" data-width="button_count"></div>
         </div>
         <div class="caption booking">
           <span>INFO E PRENOTAZIONI <?php echo $locale["title"]; ?>:</span>
@@ -174,6 +178,7 @@
       </section>
       <?php } ?>
       
+      <?php if (count($locale_events) > 0) { ?>
       <div class="sheet next_events" id="events">
         <h2 class="toggle">
           Eventi <?php echo $locale["title"]; ?>
@@ -234,7 +239,17 @@
           </p>
         </div>
       </div>
-      
+      <?php } else { ?>
+      <div class="sheet next_events" id="events">      
+          <p class="sheet past_events" id="events">
+            <a href="{{Link|Get|EVENTI_PASSATI|<?php echo $locale["seo_url"]; ?>}}">
+              <i class="fa fa-calendar"></i>
+              Archivio eventi e serate del <?php echo $locale["title"]; ?>
+            </a>
+          </p>
+        </div>
+      </div>
+      <?php } ?>
       <?php if ($locale["prices"] != "") { ?>
       <div class="sheet prices" id="prices">
           <h3 class="toggle">
@@ -366,12 +381,14 @@
             </a>
           </li>
           <?php } ?>
+          <?php if (count($locale_events) > 0) { ?>
           <li class="events">
             <a href="#events" title="Eventi" class="">
               <i class="fa fa-calendar fa-fw"></i>
               Eventi
             </a>
           </li>
+          <?php } ?>
           <?php if ($locale["prices"] != "") { ?>
           <li class="prices">
             <a href="#prices" title="Prezzi" class="">
