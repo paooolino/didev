@@ -1556,4 +1556,10 @@ class DB {
     $site = $this->_getData($query, [$this->_site]);
     return $site[0]["custom_html_footer"];
   }
+  
+  public function getDomain($id) {
+    $query = "SELECT * FROM sites WHERE id = ?";
+    $site = $this->_getData($query, [$id]);
+    return $site[0]["domain"];
+  }
 }

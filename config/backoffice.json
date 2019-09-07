@@ -579,7 +579,7 @@
   },
   "locations": {
     "field_id": "id",
-    "featured": ["id", "typo_id", "title", "address_city", "on_home"],
+    "featured": ["id", "typo_id", "title", "address_city", "on_home", "ads"],
     "orderBy": "title",
     "sitefield": "site_id",
     "fields": [
@@ -964,7 +964,7 @@
   },
   "events": {
     "field_id" : "id",
-    "featured": ["id", "title", "special", "on_home", "time_to", "active"],
+    "featured": ["id", "title", "special", "on_home", "time_to", "active", "ads"],
     "orderBy": "time_to DESC",
     "sitefield": "site_id",
     "wherepart": "AND recurrent_id IS NULL",
@@ -1111,6 +1111,11 @@
         "name": "document_file_name",
         "label": "Documento allegato",
         "type": "file"
+      },
+      {
+        "name": "ads",
+        "label": "banner pubblicitari",
+        "type": "checkbox"
       }
     ]
   },

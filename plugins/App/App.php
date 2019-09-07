@@ -98,6 +98,12 @@ class App {
       $infopren = '<p class="booking">INFO E PRENOTAZIONI: ' . implode(" - ", $arrinfo) . '</p>';
     }
     
+    $href = $this->_machine->plugin("Link")->Get(["LOCALE", $item["seo_url"]]);
+    // se la location appartiene ad un altro sito, salta al sito
+    if ($item["site_id"] != $this->DB->getSite()) {
+      $domain = $this->DB->getDomain($item["site_id"]);
+      $href = 'http://' . $domain . '/locale/' . $item["seo_url"] ;
+    }
     $html = '
       <div class="item ' . $level_names[$item["level"]] . ' row collapse">
         ' . (
@@ -105,7 +111,7 @@ class App {
             ? '<div class="thumbnail columns hide-for-small medium-3 large-2">'
             : '<div class="thumbnail columns hide-for-small medium-4 large-3">'
           ) . '
-          <a class="thumb" title="' . $item["title"] . '" href="{{Link|Get|LOCALE|' . $item["seo_url"] . '}}">
+          <a class="thumb" title="' . $item["title"] . '" href="' . $href . '">
             <img alt="' . $item["title"] . '" 
               data-interchange="
                 [' . $imgurl . ', (default)], 
@@ -127,7 +133,7 @@ class App {
             : '<div class="info small-12 medium-8 large-9 columns">'
           ) . '
           <div class="desc">
-            <a class="summary" title="' . $item["title"] . '" href="{{Link|Get|LOCALE|' . $item["seo_url"] . '}}">
+            <a class="summary" title="' . $item["title"] . '" href="' . $href . '">
               ' . $item["title"] . '
             </a>
             <span class="address">' . $item["typo_title"] . ' - ' . $item["address_way"] . ', ' . $item["address_number"] . ' - ' . $item["address_city"] . ', ' . $item["address_zip"] . ' - (' . $item["address_province"] . '), IT</span>
