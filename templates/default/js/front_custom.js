@@ -68,10 +68,10 @@ var masonryBoxes = function(body) {
 
 // used on location sheet:
 var toggleFormOnlist = function(body) {
-  body.find('.form-onlist-wrapper').hide();
+  body.find('.onlistwrapper').hide();
   return body.find(".for-onlist-toggler").click(function(event) {
     event.preventDefault();
-    body.find(".form-onlist-wrapper").slideToggle("slow", function() {
+    body.find(".onlistwrapper").slideToggle("slow", function() {
       foundationReflow(0);
     });
   });
@@ -242,7 +242,7 @@ $(document).ready(function(){
   }
 
   if (pageLocation.length) {
-    //toggleFormOnlist(pageLocation);
+    toggleFormOnlist(pageLocation);
     locationSlideshow(pageLocation);
     //photoGallery(pageLocation);
     sideTabs(pageLocation);

@@ -136,7 +136,7 @@
               <a class="twitter-share-button" data-count="none" data-via="Discoteche<?php echo $DB->getDiscoCode(); ?>" data-related="condividi su twitter" href="http://twitter.com/share">Tweet</a>
               <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
             </div>
-            <div class="facebook"><div class="fb-like" data-width="button_count"></div>
+            <div class="facebook"><div class="fb-like" data-width="button_count"></div></div>
           </div>
           
           <?php if (count($map) == 1) { ?>
@@ -146,7 +146,7 @@
             </h3>
             <div class="contentToggle">
               <p><?php echo $map[0]["address"]; ?></p>
-              <div class="show-for-medium-up">
+              <div class="">
                 <div class="geoMapWrap">
                   <iframe width="100%" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo urlencode($map[0]["address"]); ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                 </div>

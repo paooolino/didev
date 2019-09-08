@@ -887,8 +887,49 @@
     "field_id" : "id",
     "featured": ["id", "title", "updated_at"],
     "sitefield": "site_id",
-    "fields": {
-    }
+    "fields": [
+      {
+        "type": "openbox",
+        "label": "campi SEO"
+      },
+        {
+          "name": "seo_title",
+          "label": "Titolo SEO"
+        },
+        {
+          "name": "seo_description",
+          "label": "Descrizione SEO"
+        },
+        {
+          "name": "seo_keyword",
+          "label": "Parole chiave SEO"
+        },
+        {
+          "name": "seo_footer",
+          "label": "Footer SEO"
+        },
+      {
+        "type": "closebox"
+      },
+      {
+        "name": "title",
+        "label": "Titolo principale"
+      },
+      {
+        "name": "description",
+        "label": "Testo principale",
+        "type": "textarea"
+      },
+      {
+        "name": "promo_title",
+        "label": "Titolo promo"
+      },
+      {
+        "name": "promo_description",
+        "label": "Testo promo",
+        "type": "textarea"
+      }
+    ]
   },
   "cat_btw_sites": {
     "field_id" : "id",

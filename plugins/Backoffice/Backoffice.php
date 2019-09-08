@@ -173,6 +173,10 @@ class Backoffice {
       $opts["orderby"]
     );
     
+    if (empty($data)) {
+      return "Nessun dato inserito.";
+    }
+    
     $fields_names = array_keys($data[0]);
     
     // get labels from config

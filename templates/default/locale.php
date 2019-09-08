@@ -132,7 +132,7 @@
             <a class="twitter-share-button" data-count="none" data-via="Discoteche<?php echo $DB->getDiscoCode(); ?>" data-related="condividi su twitter" href="http://twitter.com/share">Tweet</a>
             <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
           </div>
-          <div class="facebook"><div class="fb-like" data-width="button_count"></div>
+          <div class="facebook"><div class="fb-like" data-width="button_count"></div></div>
         </div>
         <div class="caption booking">
           <span>INFO E PRENOTAZIONI <?php echo $locale["title"]; ?>:</span>
@@ -241,18 +241,15 @@
       </div>
       <?php } else { ?>
       <div class="sheet next_events" id="events">      
-          <p class="sheet past_events" id="events">
-            <a href="{{Link|Get|EVENTI_PASSATI|<?php echo $locale["seo_url"]; ?>}}">
-              <i class="fa fa-calendar"></i>
-              Archivio eventi e serate del <?php echo $locale["title"]; ?>
-            </a>
-          </p>
-        </div>
+        <a href="{{Link|Get|EVENTI_PASSATI|<?php echo $locale["seo_url"]; ?>}}">
+          <i class="fa fa-calendar"></i>
+          Archivio eventi e serate del <?php echo $locale["title"]; ?>
+        </a>
       </div>
       <?php } ?>
       <?php if ($locale["prices"] != "") { ?>
       <div class="sheet prices" id="prices">
-          <h3 class="toggle">
+        <h3 class="toggle">
           Prezzi <?php echo $locale["title"]; ?>
           <i class="fa fa-angle-down"></i>
         </h3>
@@ -282,8 +279,20 @@
               </div>
             </div>
           </div>
+          <?php if ($locale["on_list"] == 1) { ?>
+          <div>
+            <div class="onlist_wrap">
+              <p>
+                <a class="bt for-onlist-toggler" href="#">Mettiti in lista o prenota tavolo</a>
+              </p>
+            </div>
+          </div>
+          <?php } ?>
         </div>
       </section>
+      <div class="onlistwrapper">
+        <?php include("partials/fixed/onlist.php"); ?>
+      </div>
       <?php } ?>
       
       <?php if (count($photos) > 0) { ?>
@@ -331,7 +340,7 @@
         </h3>
         <div class="contentToggle">
           <p><?php echo $map[0]["address"]; ?></p>
-          <div class="show-for-medium-up">
+          <div class="">
             <div class="geoMapWrap">
               <iframe width="100%" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo urlencode($map[0]["address"]); ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             </div>
@@ -364,6 +373,7 @@
         </p>
       </section>
     </div>
+    
     <div class="show-for-large-up large-3 columns box_subnav" id="boxsubnav">
       <div id="subnav" style="margin-top: 0px;">
         <ul>

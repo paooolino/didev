@@ -812,6 +812,12 @@ class App {
         "iconclass" => "fa fa-table"
       ],
       [
+        "label" => "Contenuti home",
+        "url" => $this->_machine->plugin("Link")->Get("/admin/homes"),
+        "title" => "Contenuti home",
+        "iconclass" => "fa fa-table"
+      ],
+      [
         "label" => "Zone",
         "url" => $this->_machine->plugin("Link")->Get("/admin/zones"),
         "title" => "Zone",
