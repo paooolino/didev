@@ -131,13 +131,6 @@
             ?>
             
           </article>
-          <div id="social_tab">
-            <div class="twitter">
-              <a class="twitter-share-button" data-count="none" data-via="Discoteche<?php echo $DB->getDiscoCode(); ?>" data-related="condividi su twitter" href="http://twitter.com/share">Tweet</a>
-              <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-            </div>
-            <div class="facebook"><div class="fb-like" data-width="button_count"></div></div>
-          </div>
           
           <?php if (count($map) == 1) { ?>
           <section class="sheet" id="map">

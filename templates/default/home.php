@@ -142,6 +142,18 @@
         </div>
         <div class="row" id="masonry">
           <div class="grid-sizer"></div>
+            <div class="masonrybox columns small-12 medium-6 large-3">
+              <!-- Annuncio responsive -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-6371727345571989"
+                   data-ad-slot="7697964545"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>
+              <script>
+                   (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
             <?php foreach ($hboxes as $box) { ?>
               <?php if ($box["size"] == 1) { ?>
                 <div class="masonrybox columns small-12 medium-6 large-3">

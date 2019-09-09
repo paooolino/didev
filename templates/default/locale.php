@@ -127,13 +127,6 @@
   <div class="row collapse innerwrap">
     <div class="small-12 medium-12 large-9 columns" id="wrapper">
       <div class="sheet">
-        <div class="spaceT" id="social_tab">
-          <div class="twitter">
-            <a class="twitter-share-button" data-count="none" data-via="Discoteche<?php echo $DB->getDiscoCode(); ?>" data-related="condividi su twitter" href="http://twitter.com/share">Tweet</a>
-            <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-          </div>
-          <div class="facebook"><div class="fb-like" data-width="button_count"></div></div>
-        </div>
         <div class="caption booking">
           <span>INFO E PRENOTAZIONI <?php echo $locale["title"]; ?>:</span>
           <?php echo $locale["phone"]; ?> 
