@@ -80,36 +80,6 @@
         </div>
       <?php } ?>
     </div>
-    <div class="paginate_number">
-      <ul aria-label="Pagination" class="pagination" role="menubar">
-
-        <li class="current">
-          <a href="/locali/aperitivi-bar-happy-hours-brescia">1</a>
-        </li>
-
-        <li>
-          <a rel="next" href="/locali/aperitivi-bar-happy-hours-brescia/2">2</a>
-        </li>
-
-        <li>
-          <a href="/locali/aperitivi-bar-happy-hours-brescia/3">3</a>
-        </li>
-
-        <li>
-          <a href="/locali/aperitivi-bar-happy-hours-brescia/4">4</a>
-        </li>
-
-        <li aria-disabled="true" class="unavailable">
-        ...
-        </li>
-
-        <li class="arrow">
-          <a rel="next" href="/locali/aperitivi-bar-happy-hours-brescia/2">Succ. »</a>
-        </li>
-
-      </ul>
-      <p class="empty"></p>
-    </div>
   </section>
   <aside class="show-for-large-up large-3 columns spaceT side_right">
     <?php include("partials/calendar.php"); ?>

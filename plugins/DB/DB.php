@@ -846,6 +846,16 @@ class DB {
     return $result[0];
   }
   
+  public function getCatBySlug($slug)
+  {
+    $query = "SELECT * FROM typo_btw_sites WHERE site_id = ? AND seo_url = ?";
+    $result = $this->_getData($query, [
+      $this->_site,
+      $slug
+    ]);
+    return $result[0];
+  }
+  
   public function getRecords($tablename) {
     $query = "SELECT * FROM $tablename";
     $result = $this->_getData($query, []);
@@ -1012,11 +1022,11 @@ class DB {
       FROM
         location_visibilities
       LEFT JOIN
+        typo_btw_sites 
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      LEFT JOIN
         locations
         ON location_visibilities.location_id = locations.id
-      LEFT JOIN
-        typo_btw_sites 
-        ON locations.typo_id = typo_btw_sites.id
       WHERE
         location_visibilities.site_id = ?
         AND location_visibilities.type = "LocationVisibilityTypo"
@@ -1103,7 +1113,7 @@ class DB {
         location_visibilities.site_id = ?
         AND location_visibilities.type = "LocationVisibilityTypoZone"
         AND zone_id = ?
-		  AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
+        AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
         AND typo_btw_sites.seo_url = ?
         AND locations.active = 1
       ORDER BY
@@ -1118,7 +1128,36 @@ class DB {
       $zona,
       $slug_categoria
     ]);
-    return $result;  
+    
+    // poi ci possono essere locali associati a zona che non sono ancora presenti
+    // nella tabella location_visibilities
+    $cat = $this->getCatBySlug($slug_categoria); 
+    $query = "
+      SELECT
+        0 as level,
+        locations.*
+          
+      FROM
+        typo_btw_locations
+      LEFT JOIN
+        zone_btw_locations
+        ON zone_btw_locations.location_id = typo_btw_locations.location_id
+      LEFT JOIN
+        locations
+        ON locations.id = zone_btw_locations.location_id
+        
+      WHERE
+        typo_btw_locations.site_id = ?
+        AND typo_btw_locations.typo_id = ?
+        AND zone_btw_locations.zone_id = ?
+      ";
+    $result2 = $this->_getData($query, [
+      $this->_site,
+      $cat["id"],
+      $zona
+    ]);
+    
+    return array_merge($result, $result2);  
   }
   
   // nel backoffice c'è la lista dei locali per zona, non filtrata per categoria
