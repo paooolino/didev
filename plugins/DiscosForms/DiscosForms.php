@@ -60,15 +60,19 @@ class DiscosForms {
     return $html;
   }
   
-  public function send_to_user($to, $name, $number="338.45.13.917") {
+  public function send_to_user($to, $name, $number="338.45.13.917", $body) {
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
     
-    $html = '
+    if ($body != "") {
+      $html = str_replace("{{NOME}}", $nome, $body);
+    } else {
+      $html = '
 Ciao ' . $name . ',<br><br>
 grazie per averci contattato.<br><br>
 Abbiamo ricevuto la tua richiesta. A breve verrai ricontattato dal nostro team.<br><br>
 Se la richiesta è urgente, contattaci telefonicamente o su WhatsApp al numero ' . $number . '<br><br>
-    ';
+      ';
+    }
     
     $firma = '
 <div style="display: table; margin: 25px 0; text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important;">
@@ -119,7 +123,7 @@ Se la richiesta è urgente, contattaci telefonicamente o su WhatsApp al numero '
     }
   }
   
-  public function send($title, $data) {
+  public function send($title, $data, $bodyresp="") {
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
     try {
       //Server settings
@@ -186,6 +190,6 @@ Se la richiesta è urgente, contattaci telefonicamente o su WhatsApp al numero '
     }
     
     if (isset($data["email"]) && isset($data["name"]))
-      $this->send_to_user($data["email"], $data["name"]);
+      $this->send_to_user($data["email"], $data["name"], $bodyresp);
   }
 }

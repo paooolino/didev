@@ -1627,6 +1627,12 @@ class DB {
     return $site[0]["custom_html_footer"];
   }
   
+  public function getCodeCustomMail() {
+    $query = "SELECT * FROM sites WHERE id = ?";
+    $site = $this->_getData($query, [$this->_site]);
+    return $site[0]["custom_html_mail"];
+  }
+  
   public function getDomain($id) {
     $query = "SELECT * FROM sites WHERE id = ?";
     $site = $this->_getData($query, [$id]);

@@ -1068,7 +1068,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 
     $machine->plugin("DiscosForms")->send(
       "Mettiti in lista",
-      $_POST["form_onlist"]
+      $_POST["form_onlist"],
+      $machine->plugin("DB")->getCodeCustomMail()
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
@@ -1078,7 +1079,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 
     $machine->plugin("DiscosForms")->send(
       "Inserisci locale",
-      $_POST["form_location_suggest"]
+      $_POST["form_location_suggest"],
+      $machine->plugin("DB")->getCodeCustomMail()
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
@@ -1088,7 +1090,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
     $machine->plugin("DiscosForms")->send(
       "Contatti",
-      $_POST["form_contact"]
+      $_POST["form_contact"],
+      $machine->plugin("DB")->getCodeCustomMail()
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
@@ -1098,7 +1101,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     
     $machine->plugin("DiscosForms")->send(
       "Organizza festa",
-      $_POST["form_party"]
+      $_POST["form_party"],
+      $machine->plugin("DB")->getCodeCustomMail()
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });

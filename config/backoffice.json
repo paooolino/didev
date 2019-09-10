@@ -26,6 +26,11 @@
         "name": "custom_html_footer",
         "label": "codice custom FOOTER",
         "type": "simpletextarea"
+      },
+      {
+        "name": "custom_html_mail",
+        "label": "testo della mail di risposta inviata al cliente",
+        "type": "simpletextarea"
       }
     ]
   },
