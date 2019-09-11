@@ -685,6 +685,7 @@ class DB {
         ON events.recurrent_id = recurrents.id
       WHERE
         events.site_id = ?
+        AND (events.recurrent_id IS NULL OR (events.recurrent_id IS NOT NULL AND recurrents.id IS NOT NULL AND recurrents.active = 1))
         $wherecond
         $timecond
       ORDER BY
