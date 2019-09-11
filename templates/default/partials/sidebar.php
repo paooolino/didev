@@ -29,7 +29,7 @@
               <ul aria-hidden class="f-dropdown choiceTenants" data-dropdown-content id="choiceTenant-large">
                 <?php foreach ($cities as $city) { ?>
                   <?php
-                  $url = "//" . $city["url"];
+                  $url = "http://" . $city["url"];
                   $admin = (isset($sidebar_admin) && $sidebar_admin == true) ? "1" : "0";
                   if (!$App->is_online) { //($admin) {
                     $url = $Link->Get("SET_SITE_COOKIE") . "?admin=" . $admin . "&n_site=" . $city["id"];
