@@ -1095,6 +1095,65 @@ class DB {
   
   // lato front le zone sono filtrate per categoria
   public function getListCategoriaLocaliZona($slug_categoria, $zona) {
+    // prima controllo se ci sono dei locali associati a zona che non sono
+    // ancora presenti nella tabella location_visibilities, e in caso li
+    // inserisco
+    $cat = $this->getCatBySlug($slug_categoria); 
+    $query = "
+      SELECT
+        typo_btw_locations.*,
+        location_visibilities.id AS location_visibilities_id
+          
+      FROM
+        typo_btw_locations
+      LEFT JOIN
+        zone_btw_locations
+        ON zone_btw_locations.location_id = typo_btw_locations.location_id
+      LEFT JOIN
+        locations
+        ON locations.id = zone_btw_locations.location_id
+      LEFT JOIN location_visibilities
+      	ON location_visibilities.typo_id = typo_btw_locations.typo_id 
+			AND location_visibilities.location_id = typo_btw_locations.location_id
+			AND location_visibilities.type = 'LocationVisibilityTypoZone'
+      WHERE
+        typo_btw_locations.site_id = ?
+        AND typo_btw_locations.typo_id = ?
+        AND zone_btw_locations.zone_id = ?
+      ";
+    $result2 = $this->_getData($query, [
+      $this->_site,
+      $cat["id"],
+      $zona
+    ]);
+    foreach ($result2 as $r) {
+      if ($r["location_visibilities_id"] == null) {
+        $query = "INSERT INTO location_visibilities (
+          site_id,
+          location_id,
+          typo_id,
+          zone_id,
+          `level`,
+          created_at,
+          updated_at,
+          `type`,
+          `order`
+        ) VALUES (?,?,?,?,?,?,?,?,?)";
+        $data = [
+          $this->_site,
+          $r["location_id"],
+          $cat["id"],
+          $zona,
+          0,
+          date("Y-m-d H:i:s"),
+          date("Y-m-d H:i:s"),
+          'LocationVisibilityTypoZone',
+          0
+        ];
+        $this->insert($query, $data);
+      }
+    }
+    
     $query = '
       SELECT
         location_visibilities.id as main_id,
@@ -1131,6 +1190,7 @@ class DB {
     
     // poi ci possono essere locali associati a zona che non sono ancora presenti
     // nella tabella location_visibilities
+    /*
     $cat = $this->getCatBySlug($slug_categoria); 
     $query = "
       SELECT
@@ -1156,8 +1216,9 @@ class DB {
       $cat["id"],
       $zona
     ]);
+    */
     
-    return array_merge($result, $result2);  
+    return array_merge($result);  
   }
   
   // nel backoffice c'è la lista dei locali per zona, non filtrata per categoria
