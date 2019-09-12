@@ -1001,6 +1001,56 @@ class DB {
   }
   
   public function getListCategoriaLocaliByTypoId($typo_id, $all=false, $pag=1, $nopagination=false) {
+    // prima controllo se ci sono dei locali associati a categoria che non sono
+    // ancora presenti nella tabella location_visibilities, e in caso li
+    // inserisco
+    $query = "
+      SELECT
+        typo_btw_locations.*,
+        location_visibilities.id AS location_visibilities_id
+      FROM
+        typo_btw_locations
+      LEFT JOIN
+        locations
+        ON locations.id = typo_btw_locations.location_id
+      LEFT JOIN location_visibilities
+      	ON location_visibilities.typo_id = typo_btw_locations.typo_id 
+			AND location_visibilities.location_id = typo_btw_locations.location_id
+			AND location_visibilities.type = 'LocationVisibilityTypo'
+      WHERE
+        typo_btw_locations.site_id = ?
+        AND typo_btw_locations.typo_id = ?
+      ";
+    $result2 = $this->_getData($query, [
+      $this->_site,
+      $typo_id
+    ]);
+    foreach ($result2 as $r) {
+      if ($r["location_visibilities_id"] == null) {
+        $query = "INSERT INTO location_visibilities (
+          site_id,
+          location_id,
+          typo_id,
+          `level`,
+          created_at,
+          updated_at,
+          `type`,
+          `order`
+        ) VALUES (?,?,?,?,?,?,?,?)";
+        $data = [
+          $this->_site,
+          $r["location_id"],
+          $typo_id,
+          0,
+          date("Y-m-d H:i:s"),
+          date("Y-m-d H:i:s"),
+          'LocationVisibilityTypo',
+          0
+        ];
+        $this->insert($query, $data);
+      }
+    }
+    
     $limitcond = '';
     if (!$nopagination) {
       $items_per_page = 10;
