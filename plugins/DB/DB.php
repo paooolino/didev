@@ -1555,6 +1555,25 @@ class DB {
     return $result;
   }
   
+  public function getLocalizzazioni($type, $id) {
+    $query = "
+      SELECT
+        *
+      FROM
+        maps
+      WHERE
+        site_id = ?
+        AND mapable_type = ?
+        AND mapable_id = ?
+    ";
+    $result = $this->_getData($query, [
+      $this->_site,
+      $type,
+      $id
+    ]);
+    return $result;
+  }
+  
   public function getLocaleMap($id_locale)
   {
     $query = "

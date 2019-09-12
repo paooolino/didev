@@ -25,6 +25,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     "ADMIN_GENERATE_THUMBNAILS",
     "ADMIN_TABLE",
     "ADMIN_NEWTABLE_EXT",
+    "ADMIN_RECORD_NEWMAP",
     "ADMIN_NEWTABLE",
     "AJAX_SAVE",
     "ADMIN_RITAGLIO",
@@ -163,6 +164,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_NEWTABLE", "/admin/new/{table}");
   $Link->setRoute("ADMIN_NEWTABLE_EXT", "/admin/new/{table}/ext");
   $Link->setRoute("ADMIN_RECORD", "/admin/{table}/{id}");
+  $Link->setRoute("ADMIN_RECORD_NEWMAP", "/admin/{table}/{id}/new/maps");
   $Link->setRoute("ADMIN_CAT_ZONA_ORDINAMENTO", "/admin/{id_cat}/{id_zone}/order");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
   $Link->setRoute("ADMIN_DELETE", "/admin/delete/{table}/{id}");
@@ -1649,6 +1651,52 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
             "table" => $table,
             "field_id" => $Backoffice->getFieldId($table),
             "id" => $id
+          ])
+        ]
+      ];
+    }
+  });
+  
+  $machine->addPage($Link->getRoute("ADMIN_RECORD_NEWMAP"), function($machine, $original_table, $id_location) {
+    $table = "maps";
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();   
+      
+      $joinPart = $machine->plugin("Backoffice")->getJoinPart($table);
+      $ext_id = 0;
+      if ($joinPart != "") {
+        if (!isset($_GET["ext_id"])) {
+          $machine->redirect($Link->Get(["ADMIN_NEWTABLE_EXT", $table]));
+        } else {
+          $ext_id = $_GET["ext_id"];
+        }
+      }
+      
+      return [
+        "template" => "admin_newrecord.php",
+        "data" => [
+          "table" => $table,
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",    
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $cities,
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(), 
+          "h2" => "Pannello di amministrazione / Nuovo / " . $table,
+          "newFormHtml" => $Backoffice->getNewFormHtml([
+            "table" => $table
           ])
         ]
       ];

@@ -694,6 +694,35 @@ class Backoffice {
       $html .= $this->getHtmlOrderList($endpoint, $f["listalocali"]["extern_table"], $f["listalocali"]["field_id"], $list);
     }
     
+    // per le location o gli eventi aggiunge la lista delle localizzazioni
+    if ($table == "locations" || $table == "events") {
+      if ($table == "locations") $type = "Location";
+      if ($table == "events") $type = "Event";
+      
+      $locals = $DB->getLocalizzazioni($type, $id);
+      
+      $html .= '<div>';
+      $html .= '<b>Mappa localizzazioni geografiche</b><br>';
+      $html .= '<a href="' . $Link->Get(['ADMIN_RECORD_NEWMAP', $table, $id]) . '">Nuova localizzazione</a>';
+      $html .= '<table>';
+      $html .= '  <tr>';
+      $html .= '    <th>didascalia</th>';
+      $html .= '    <th>latitudine</th>';
+      $html .= '    <th>longitudine</th>';
+      $html .= '    <th>&nbsp;</th>';
+      $html .= '  </tr>';
+      foreach ($locals as $l) {
+        $html .= '<tr>';
+        $html .= '  <td>' . $l["title"] . '</td>';
+        $html .= '  <td>' . $l["lat"] . '</td>';
+        $html .= '  <td>' . $l["lng"] . '</td>';
+        $html .= '  <td>-</td>';
+        $html .= '</tr>';
+      }
+      $html .= '</table>';
+      $html .= '</div>';
+    }
+    
     return $html;
   }
   
