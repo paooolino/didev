@@ -34,6 +34,33 @@
       }
     ]
   },
+  "maps": {
+    "field_id": "id",
+    "featured": [],
+    "orderBy": "id",
+    "fields" : [
+      {
+        "name": "title",
+        "label": "didascalia"
+      },
+      {
+        "name": "address",
+        "label": "indirizzo completo"
+      },
+      {
+        "name": "lat",
+        "label": "latitudine"
+      },
+      {
+        "name": "lng",
+        "label": "longitudine"
+      },
+      {
+        "name": "position",
+        "label": "priorità (0=massima)"
+      }
+    ]
+  },
   "administrators": {
     "field_id": "id",
     "featured": ["id", "name","email", "role"],

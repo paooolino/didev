@@ -656,8 +656,12 @@ class Backoffice {
     // lista di campi
     $fo = $this->_config[$table]["fields"];
     
+    $link_action = $Link->Get(['/admin/{table}/{id}', $table, $id]);
+    if (isset($opts["link_action"])) {
+      $link_action = $opts["link_action"];
+    }
     $html = '';
-    $html .= '<form action="' . $Link->Get(['/admin/{table}/{id}', $table, $id]) . '" method="post" enctype="multipart/form-data" class="form_inner">';
+    $html .= '<form action="' . $link_action . '" method="post" enctype="multipart/form-data" class="form_inner">';
     $html .= $this->getHtmlFromConfigFields($fo, $row, $opts);
     $html .= '  <div class="form_footer">';
     $html .= '    <button type="submit">Invia</button>';
@@ -709,6 +713,7 @@ class Backoffice {
       $html .= '    <th>didascalia</th>';
       $html .= '    <th>latitudine</th>';
       $html .= '    <th>longitudine</th>';
+      $html .= '    <th>priorità</th>';
       $html .= '    <th>&nbsp;</th>';
       $html .= '  </tr>';
       foreach ($locals as $l) {
@@ -716,7 +721,11 @@ class Backoffice {
         $html .= '  <td>' . $l["title"] . '</td>';
         $html .= '  <td>' . $l["lat"] . '</td>';
         $html .= '  <td>' . $l["lng"] . '</td>';
-        $html .= '  <td>-</td>';
+        $html .= '  <td>' . $l["position"] . '</td>';
+        $html .= '  <td>
+          <a href="' . $Link->Get(["ADMIN_RECORD_MAP", $table, $id, $l["id"]]) . '">modifica</a> |
+          <a onclick="return confirm(\'Sei sicuro?\');" href="' . $Link->Get(["ADMIN_RECORD_MAP_DELETE", $table, $id, $l["id"]]) . '">elimina</a>
+        </td>';
         $html .= '</tr>';
       }
       $html .= '</table>';
@@ -754,7 +763,11 @@ class Backoffice {
     }
     
     $html = '';
-    $html .= '<form action="' . $this->_machine->plugin("Link")->Get(['/admin/new/{table}', $table]) . '" method="post" enctype="multipart/form-data" class="form_inner">';
+    $link_action = $this->_machine->plugin("Link")->Get(['/admin/new/{table}', $table]);
+    if (isset($opts["link_action"])) {
+      $link_action = $opts["link_action"];
+    }
+    $html .= '<form action="' . $link_action . '" method="post" enctype="multipart/form-data" class="form_inner">';
     if (isset($_GET["ext_id"]) && $_GET["ext_id"] != "0") {
       $html .= '<input type="hidden" name="ext_id" value="' . $_GET["ext_id"] . '">';
     }

@@ -1593,6 +1593,73 @@ class DB {
     return $result;
   }
   
+  public function saveMap($id, $type, $title, $address, $lat, $lng, $pos) {
+    $query = "INSERT INTO maps (
+      site_id,
+      mapable_id,
+      mapable_type,
+      title,
+      address,
+      lat,
+      lng,
+      position,
+      created_at,
+      updated_at
+    ) VALUES (
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    )";
+    $data = [
+      $this->_site,
+      $id,
+      $type, 
+      $title, 
+      $address, 
+      $lat, 
+      $lng, 
+      $pos,
+      date("Y-m-d H:i:s"),
+      date("Y-m-d H:i:s")
+    ];
+    $this->insert($query, $data);
+  }
+  
+  public function updateMap($id, $title, $address, $lat, $lng, $pos) {
+    $query = "UPDATE maps SET
+        title = ?,
+        address = ?,
+        lat = ?,
+        lng = ?,
+        position = ?,
+        updated_at = ?
+      WHERE
+        id = ?
+    ";
+    $data = [  
+      $title, 
+      $address, 
+      $lat, 
+      $lng, 
+      $pos,
+      date("Y-m-d H:i:s"),
+      $id
+    ];
+    $sth = $this->_conn->prepare($query);
+    $result = $sth->execute($data);
+    if (!$result) {
+      print_r($sth->errorInfo());
+      die("Save to database failed");
+    }
+    return $sth->rowCount();
+  }
+  
+  public function deleteMap($id) {
+    $query = "DELETE FROM maps WHERE 
+      id = ?
+    ";
+    $data = [$id];
+    $this->delete($query, $data);
+  }
+  
   public function getEvento($slug)
   {
     $query = "

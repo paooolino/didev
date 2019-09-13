@@ -26,6 +26,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     "ADMIN_TABLE",
     "ADMIN_NEWTABLE_EXT",
     "ADMIN_RECORD_NEWMAP",
+    "ADMIN_RECORD_MAP",
     "ADMIN_NEWTABLE",
     "AJAX_SAVE",
     "ADMIN_RITAGLIO",
@@ -165,6 +166,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_NEWTABLE_EXT", "/admin/new/{table}/ext");
   $Link->setRoute("ADMIN_RECORD", "/admin/{table}/{id}");
   $Link->setRoute("ADMIN_RECORD_NEWMAP", "/admin/{table}/{id}/new/maps");
+  $Link->setRoute("ADMIN_RECORD_MAP", "/admin/{table}/{id}/maps/{id_map}");
+  $Link->setRoute("ADMIN_RECORD_MAP_DELETE", "/admin/{table}/{id}/maps/{id_map}/delete");
   $Link->setRoute("ADMIN_CAT_ZONA_ORDINAMENTO", "/admin/{id_cat}/{id_zone}/order");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
   $Link->setRoute("ADMIN_DELETE", "/admin/delete/{table}/{id}");
@@ -1657,6 +1660,87 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
   
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_MAP_DELETE"), "GET", function($machine, $original_table, $id_location, $id_map) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      
+      $DB->deleteMap(
+        $id_map
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
+    }
+  });
+  
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_MAP"), "POST", function($machine, $original_table, $id_location, $id_map) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      // salva 
+      $r = $machine->getRequest();
+      
+      $DB->updateMap(
+        $id_map,
+        $r["POST"]["title"],
+        $r["POST"]["address"],
+        $r["POST"]["lat"],
+        $r["POST"]["lng"],
+        $r["POST"]["position"]
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
+    }
+  });
+  
+  $machine->addPage($Link->getRoute("ADMIN_RECORD_MAP"), function($machine, $original_table, $id_location, $id_map) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();
+      return [
+        "template" => "admin_record.php",
+        "data" => [
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $DB->getCities(),
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(),
+          "h2" => "Pannello di amministrazione / " . $original_table . " / " . $id_location . " / Maps / " . $id_map,
+          "updateFormHtml" => $Backoffice->getUpdateFormHtml([
+            "table" => "maps",
+            "field_id" => $Backoffice->getFieldId("maps"),
+            "link_action" => $Link->Get(["ADMIN_RECORD_MAP", $original_table, $id_location, $id_map]),
+            "id" => $id_map
+          ])
+        ]
+      ];
+    }
+  });
+  
   $machine->addPage($Link->getRoute("ADMIN_RECORD_NEWMAP"), function($machine, $original_table, $id_location) {
     $table = "maps";
     $machine->plugin("DB")->disable_cache = true;    
@@ -1696,10 +1780,39 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
           "linktopitems" => $App->getLinktopitems(), 
           "h2" => "Pannello di amministrazione / Nuovo / " . $table,
           "newFormHtml" => $Backoffice->getNewFormHtml([
-            "table" => $table
+            "table" => $table,
+            "link_action" => $Link->Get(["ADMIN_RECORD_NEWMAP", $original_table, $id_location])
           ])
         ]
       ];
+    }
+  });
+  
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_NEWMAP"), "POST", function($machine, $original_table, $id_location) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      // salva 
+      $r = $machine->getRequest();
+      
+      $type = $original_table == "locations" ? "Location" : "Event";
+      $DB->saveMap(
+        $id_location,
+        $type,
+        $r["POST"]["title"],
+        $r["POST"]["address"],
+        $r["POST"]["lat"],
+        $r["POST"]["lng"],
+        $r["POST"]["position"]
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
     }
   });
   
