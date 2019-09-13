@@ -325,7 +325,7 @@
       </section>
       <?php } ?>
 
-      <?php if (count($map) == 1) { ?>
+      <?php if (count($map) > 0) { ?>
       <section class="sheet" id="maps">
         <h3 class="toggle">
           dove siamo
@@ -424,7 +424,7 @@
             </a>
           </li>
           <?php } ?>
-          <?php if (count($map) == 1) { ?>
+          <?php if (count($map) > 0) { ?>
           <li class="maps">
             <a href="#maps" title="Mappa" class="">
               <i class="fa fa-calendar fa-fw"></i>
