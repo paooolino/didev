@@ -68,7 +68,6 @@ class App {
     curl_setopt($req, CURLOPT_POST, true);
     curl_setopt($req, CURLOPT_POSTFIELDS, json_encode($consent_data));
     $response = curl_exec($req);
-    echo $response;die();
   }
   
   public function checkLogin() {

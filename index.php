@@ -185,6 +185,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("FORM_LOCATION_SUGGEST", "/form/inserisci-locale");
   $Link->setRoute("FORM_CONTACT", "/form/contatti");
   $Link->setRoute("FORM_PARTY", "/form/organizzare-feste");
+  $Link->setRoute("FORM_NEWSLETTER", "/form/newsletter");
   $Link->setRoute("SEND_OK", "/form/send-ok");
   
   
@@ -1071,11 +1072,11 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_ONLIST"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
 
-    /*$machine->plugin("DiscosForms")->send(
+    $machine->plugin("DiscosForms")->send(
       "Mettiti in lista",
       $_POST["form_onlist"],
       $machine->plugin("DB")->getCodeCustomMail()
-    );*/
+    );
     $machine->plugin("App")->iubenda_register_consent(
       $_POST["form_onlist"]["email"], 
       $_POST["form_onlist"]["name"], 
@@ -1095,6 +1096,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $_POST["form_location_suggest"],
       $machine->plugin("DB")->getCodeCustomMail()
     );
+    $machine->plugin("App")->iubenda_register_consent(
+      $_POST["form_location_suggest"]["email"], 
+      $_POST["form_location_suggest"]["name"], 
+      $_POST["form_location_suggest"]["surname"], 
+      "form_location_suggest", 
+      json_encode($_POST["form_location_suggest"]), 
+      $_POST["form_location_suggest"]["newsletter"]
+    );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
   
@@ -1106,6 +1115,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $_POST["form_contact"],
       $machine->plugin("DB")->getCodeCustomMail()
     );
+    $machine->plugin("App")->iubenda_register_consent(
+      $_POST["form_contact"]["email"], 
+      $_POST["form_contact"]["name"], 
+      $_POST["form_contact"]["surname"], 
+      "form_contact", 
+      json_encode($_POST["form_contact"]), 
+      $_POST["form_contact"]["newsletter"]
+    );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
   
@@ -1116,6 +1133,33 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       "Organizza festa",
       $_POST["form_party"],
       $machine->plugin("DB")->getCodeCustomMail()
+    );
+    $machine->plugin("App")->iubenda_register_consent(
+      $_POST["form_party"]["email"], 
+      $_POST["form_party"]["name"], 
+      $_POST["form_party"]["surname"], 
+      "form_party", 
+      json_encode($_POST["form_party"]), 
+      $_POST["form_party"]["newsletter"]
+    );
+    $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
+  });
+
+  $machine->addAction($Link->getRoute("FORM_NEWSLETTER"), "POST", function($machine) {
+    $machine->plugin("DB")->disable_cache = true;
+    
+    $machine->plugin("DiscosForms")->send(
+      "Iscrizione alla Newsletter",
+      $_POST["form_newsletter_subscription"],
+      $machine->plugin("DB")->getCodeCustomMail()
+    );
+    $machine->plugin("App")->iubenda_register_consent(
+      $_POST["form_newsletter_subscription"]["email"], 
+      $_POST["form_newsletter_subscription"]["name"], 
+      $_POST["form_newsletter_subscription"]["surname"], 
+      "form_newsletter_subscription", 
+      json_encode($_POST["form_party"]), 
+      true
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });
