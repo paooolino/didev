@@ -60,7 +60,7 @@ class DiscosForms {
     return $html;
   }
   
-  public function send_to_user($to, $name, $number="338.45.13.917", $body) {
+  public function send_to_user($to, $name, $number="338.45.13.917", $body="") {
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
     
     if ($body != "") {
@@ -190,6 +190,6 @@ Se la richiesta è urgente, contattaci telefonicamente o su WhatsApp al numero '
     }
     
     if (isset($data["email"]) && isset($data["name"]))
-      $this->send_to_user($data["email"], $data["name"], $bodyresp);
+      $this->send_to_user($data["email"], $data["name"], null, $bodyresp);
   }
 }

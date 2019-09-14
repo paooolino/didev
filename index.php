@@ -1071,10 +1071,18 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_ONLIST"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
 
-    $machine->plugin("DiscosForms")->send(
+    /*$machine->plugin("DiscosForms")->send(
       "Mettiti in lista",
       $_POST["form_onlist"],
       $machine->plugin("DB")->getCodeCustomMail()
+    );*/
+    $machine->plugin("App")->iubenda_register_consent(
+      $_POST["form_onlist"]["email"], 
+      $_POST["form_onlist"]["name"], 
+      $_POST["form_onlist"]["surname"], 
+      "form_onlist", 
+      json_encode($_POST["form_onlist"]), 
+      $_POST["form_onlist"]["newsletter"]
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
   });

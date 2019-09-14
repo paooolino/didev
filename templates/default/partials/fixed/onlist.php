@@ -99,7 +99,7 @@
       <div class="input_wrapper boolean optional form_onlist_privacy">
         <input name="form_onlist[privacy]" type="hidden" value="0" />
         <input class="boolean optional required" type="checkbox" value="1" name="form_onlist[privacy]" id="form_onlist_privacy" />
-        <label class="boolean optional control-label" for="form_onlist_privacy">Ho Letto l'Informativa sulla <a data-reveal-id="privacyPopup" href="#">privacy</a> ed Accetto le Condizioni.</label>
+        <label class="boolean optional control-label" for="form_onlist_privacy">Ho Letto l'Informativa sulla <?php echo $App->iubenda_privacy_link(); ?> ed Accetto le Condizioni.</label>
         <small class="error">devi confermare l' informativa sulla privacy per inviare il messaggio</small>
       </div>
       <div class="input_wrapper hidden form_onlist_front_conditions"><input value="true" class="hidden" type="hidden" name="form_onlist[front_conditions]" id="form_onlist_front_conditions" /></div>
@@ -112,13 +112,6 @@
     </div>
   </div>
 </form>
-<div aria-hidden aria-labelledby="modalTitle" class="reveal-modal" data-reveal id="privacyPopup" role="dialog">
-<h2 id="modalTitle">Privacy</h2>
-<div>
-<?php include("informativa.php"); ?>
-</div>
-<a aria-label="Close" class="close-reveal-modal">&#215;</a>
-</div>
 
 </div>
 </div>

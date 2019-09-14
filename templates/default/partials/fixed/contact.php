@@ -41,7 +41,7 @@
   <div class="row">
     <div class="large-12 columns">
       <div class="input_wrapper boolean optional form_contact_newsletter"><input name="form_contact[newsletter]" type="hidden" value="0" /><input class="boolean optional" type="checkbox" value="1" name="form_contact[newsletter]" id="form_contact_newsletter" /><label class="boolean optional control-label" for="form_contact_newsletter">Voglio essere aggiornato sui migliori eventi di Brescia</label></div>
-      <div class="input_wrapper boolean optional form_contact_privacy"><input name="form_contact[privacy]" type="hidden" value="0" /><input class="boolean optional required" type="checkbox" value="1" name="form_contact[privacy]" id="form_contact_privacy" /><label class="boolean optional control-label" for="form_contact_privacy">Ho Letto l'Informativa sulla <a data-reveal-id="privacyPopup" href="#">privacy</a> ed Accetto le Condizioni.</label>
+      <div class="input_wrapper boolean optional form_contact_privacy"><input name="form_contact[privacy]" type="hidden" value="0" /><input class="boolean optional required" type="checkbox" value="1" name="form_contact[privacy]" id="form_contact_privacy" /><label class="boolean optional control-label" for="form_contact_privacy">Ho Letto l'Informativa sulla <?php echo $App->iubenda_privacy_link(); ?> ed Accetto le Condizioni.</label>
         <small class="error">devi confermare l' informativa sulla privacy per inviare il messaggio</small>
       </div>
       <div class="input_wrapper hidden form_contact_front_conditions"><input value="true" class="hidden" type="hidden" name="form_contact[front_conditions]" id="form_contact_front_conditions" /></div>
@@ -56,13 +56,6 @@
     </div>
   </div>
 </form>
-<div aria-hidden aria-labelledby="modalTitle" class="reveal-modal" data-reveal id="privacyPopup" role="dialog">
-<h2 id="modalTitle">Privacy</h2>
-<div>
-<?php include("informativa.php"); ?>
-</div>
-<a aria-label="Close" class="close-reveal-modal">&#215;</a>
-</div>
 
 </div>
 </div>

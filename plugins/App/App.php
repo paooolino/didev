@@ -32,6 +32,45 @@ class App {
       . $this->_machine->basepath . $this->_machine->getCurrentPath();
   }
   
+  public function iubenda_privacy_link() {
+    return '<a href="https://www.iubenda.com/privacy-policy/77450896" class="iubenda-nostyle no-brand iubenda-embed" title="Privacy">Privacy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>';
+  }
+  
+  public function iubenda_register_consent($email, $first_name, $last_name, $identifier, $content, $newsletter) {
+    $consent_data = array(
+        "subject" => array(
+            "email" => $email,
+            "first_name" => $first_name,
+            "last_name" => $last_name
+        ),
+        "legal_notices" => array(
+            array(
+                "identifier" => $identifier
+            )
+        ),
+        "proofs" => array(
+            array(
+                "content" => $content
+            )
+        ),
+        "preferences" => array(
+            "newsletter" => $newsletter
+        )
+    );
+
+    $req = curl_init();
+    curl_setopt($req, CURLOPT_URL, 'https://consent.iubenda.com/consent');
+    curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($req, CURLOPT_HTTPHEADER, array(
+        'ApiKey: ybGNqHOIWFCwZyN55RYIUUlDpvs5kiE2',
+        'Content-Type: application/json'
+    ));
+    curl_setopt($req, CURLOPT_POST, true);
+    curl_setopt($req, CURLOPT_POSTFIELDS, json_encode($consent_data));
+    $response = curl_exec($req);
+    echo $response;die();
+  }
+  
   public function checkLogin() {
     $result = $this->DB->select("SELECT * FROM administrators", []);
     $cookie = isset($_COOKIE["auth"]) ? $_COOKIE["auth"] : "";
