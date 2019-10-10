@@ -984,13 +984,13 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $n_events = count($events);
     $currentCity = $DB->getCurrentCity();
     
-    $description = '<a class="button radius" title="' . $festivita["title"] . '" href="' . $Link->Get(["FESTIVITA", $slug_festivita]) . '">Accedi agli eventi ' . $festivita["title"] . ' aggiornati</a>';
+    $description = '<a class="button radius" title="' . $festivita["title"] . ' a ' . $currentCity[0]["name"] . '" href="' . $Link->Get(["FESTIVITA", $slug_festivita]) . '">Accedi agli eventi ' . $festivita["title"] . ' a ' . $currentCity[0]["name"] . ' aggiornati</a>';
     return [
       "template" => "eventi.php",
       "data" => array_merge($App->getCommonData(), [
         "bodyclass" => "events next_events",
         "h2" => "Questi eventi riguardano gli anni scorsi!",
-        "mainSummary" => "Archivio eventi passati " . $festivita["title"];// . " a " . $currentCity[0]["name"], 
+        "mainSummary" => "Archivio eventi passati " . $festivita["title"] . " a " . $currentCity[0]["name"], 
         "seoTitle" => $festivita["seo_title"] . " " . date("Y") . ".",
         "title" => $festivita["seo_title"],
         "seoDescription" => $festivita["seo_description"],
