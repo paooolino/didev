@@ -332,12 +332,15 @@
           <i class="fa fa-angle-down"></i>
         </h3>
         <div class="contentToggle">
-          <p><?php echo $map[0]["address"]; ?></p>
+          <?php foreach ($map as $m) { ?>
+          <p><?php echo $m["address"]; ?></p>
           <div class="">
             <div class="geoMapWrap">
-              <iframe width="100%" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo urlencode($map[0]["address"]); ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+              <iframe width="100%" height="400" src="https://maps.google.com/maps?q=<?php echo urlencode($m["address"]); ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             </div>
           </div>
+          <br><br>
+          <?php } ?>
         </div>
       </section>
       <?php } ?>

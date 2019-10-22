@@ -733,7 +733,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $list = $DB->getListCategoriaLocaliByTypoId($cat["id"], false, $_POST["page"]);
     $html = '';
     foreach ($list as $item) {
-      $html .= $App->printLocaleItem($item);
+      $html .= $machine->populateTemplate($App->printLocaleItem($item), []);
     }
     echo $html;
     die();
@@ -751,7 +751,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     );
     $html = '';
     foreach ($list as $event) {
-      $html .= $App->printEvento($event);
+      $html .= $machine->populateTemplate($App->printEvento($event), []);
     }
     echo $html;
     die();
@@ -2125,6 +2125,16 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         if ($k == "time_to_day") continue;
         if ($k == "time_to_month") continue;
         if ($k == "time_to_year") continue;
+        if ($k == "recurrence_to_day") continue;
+        if ($k == "recurrence_to_month") continue;
+        if ($k == "recurrence_to_year") continue;
+        if ($k == "recurrence_to_h") continue;
+        if ($k == "recurrence_to_m") continue;
+        if ($k == "recurrence_from_day") continue;
+        if ($k == "recurrence_from_month") continue;
+        if ($k == "recurrence_from_year") continue;
+        if ($k == "recurrence_from_m") continue;
+        if ($k == "recurrence_from_h") continue;
         if ($k == "encrypted_password") {
           if ($v == "") continue;
           $post[$k] = md5(md5($v));
@@ -2152,28 +2162,22 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         return $item;
       }, array_values($post));
       // aggiungo eventualmente il time_from e time_to (usati nella tabella recurrents e nella tabella eventi)
-      if (isset($r["POST"]["time_from_h"]) && isset($r["POST"]["time_from_m"])) {
-        $fields[] = "time_from";
-        if (isset($r["POST"]["time_from_day"]) && isset($r["POST"]["time_from_month"]) && isset($r["POST"]["time_from_year"])) {
-          $datefrom = $r["POST"]["time_from_year"]
-            . "-" . $r["POST"]["time_from_month"]
-            . "-" . $r["POST"]["time_from_day"];
-        } else {
-          $datefrom = isset($r["POST"]["time_from"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_from"]) : date("Y-m-d");
+      // e recurrence_from e recurrence_to
+      $checks = ["time_from", "time_to", "recurrence_from", "recurrence_to"];
+      foreach ($checks as $c) {
+        if (isset($r["POST"][$c . "_h"]) && isset($r["POST"][$c . "_m"])) {
+          $fields[] = $c;
+          if (isset($r["POST"][$c . "_day"]) && isset($r["POST"][$c . "_month"]) && isset($r["POST"][$c . "_year"])) {
+            $datefrom = $r["POST"][$c . "_year"]
+              . "-" . $r["POST"][$c . "_month"]
+              . "-" . $r["POST"][$c . "_day"];
+          } else {
+            $datefrom = isset($r["POST"][$c]) ? $Backoffice->shortDateToMysql($r["POST"][$c]) : date("Y-m-d");
+          }
+          $values[] = $datefrom . " " . $r["POST"][$c . "_h"] . ":" . $r["POST"][$c . "_m"] . ":00";
         }
-        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
       }
-      if (isset($r["POST"]["time_to_h"]) && isset($r["POST"]["time_to_m"])) {
-        $fields[] = "time_to";
-        if (isset($r["POST"]["time_to_day"]) && isset($r["POST"]["time_to_month"]) && isset($r["POST"]["time_to_year"])) {
-          $datefrom = $r["POST"]["time_to_year"]
-            . "-" . $r["POST"]["time_to_month"]
-            . "-" . $r["POST"]["time_to_day"];
-        } else {
-          $datefrom = isset($r["POST"]["time_to"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_to"]) : date("Y-m-d");
-        }
-        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
-      }
+      
       $field_id = $Backoffice->getFieldId($table);
       
       // rilevo le date short e le trasformo in date mysql
