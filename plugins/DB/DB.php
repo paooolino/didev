@@ -691,8 +691,8 @@ class DB {
       ORDER BY
         events.$ordcond) AS A
         
-      GROUP BY
-        A.seo_url
+      /*GROUP BY
+        A.seo_url*/
       ORDER BY 
         $ordcond
       
