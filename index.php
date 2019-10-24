@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+//error_reporting(E_ALL);
+ini_set("display_errors", 0);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
 //var_dump($result);
@@ -635,50 +635,56 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("EVENTO"), function($machine, $slug) {
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
     $topBanner = $DB->getRandomTopBanner();
     $evento = $DB->getEvento($slug);
-    $currentCity = $DB->getCurrentCity();  
     
-    $logo_img = $App->img("locations", $evento["locations_id"], "W", 155, $evento["locations_logo_file_name"], "logos");
-    $event_image = "";
-    if (is_null($evento["recurrent_id"]) && $evento["image_file_name"] != "") {
-      $event_image = $App->img(
-        "events", $evento["id"], 315, 177,
-        $evento["image_file_name"]
-      );
-    } else {
-      if ($evento["recurrent_image"] != "") {
+    if ($evento !== null) {
+      $currentCity = $DB->getCurrentCity();  
+      
+      $logo_img = $App->img("locations", $evento["locations_id"], "W", 155, $evento["locations_logo_file_name"], "logos");
+      $event_image = "";
+      if (is_null($evento["recurrent_id"]) && $evento["image_file_name"] != "") {
         $event_image = $App->img(
-          "recurrents", $evento["recurrent_id"], 315, 177,
-          $evento["recurrent_image"]
+          "events", $evento["id"], 315, 177,
+          $evento["image_file_name"]
         );
+      } else {
+        if (isset($evento["recurrent_image"]) && $evento["recurrent_image"] != "") {
+          $event_image = $App->img(
+            "recurrents", $evento["recurrent_id"], 315, 177,
+            $evento["recurrent_image"]
+          );
+        }
       }
+      
+      return [
+        "template" => "evento.php",
+        "data" => array_merge($App->getCommonData(), [
+          "bodyclass" => "events event",
+          "seoTitle" => $evento["seo_title"],
+          "logo_img" => $logo_img,
+          "event_image" => $event_image,
+          "evento" => $evento,
+          "h3" => $evento["seo_footer"],
+          "seoDescription" => $evento["seo_description"],
+          "seoKeywords" => $evento["seo_keyword"],
+          "ogTitle" => $evento["title"],
+          "ogDescription" => $evento["seo_description"],
+          "ogUrl" => $App->getCurrentUrl(),
+          "ogSiteName" => $currentCity[0]["title_big"],
+          "currentCity" => $currentCity[0]["name"],
+          "canonical" => $App->getCurrentUrl(),
+          "twitterTitle" => $evento["seo_title"],
+          "twitterDescription" => $evento["seo_description"],
+          "map" => $DB->getLocaleMap($evento["locations_id"]),
+          "calendar" => $App->getCalendar(),
+          "ogImage" => $logo_img
+        ])
+      ];
+    } else {
+      $machine->redirect($Link->Get(["HOME"]));
     }
-    
-    return [
-      "template" => "evento.php",
-      "data" => array_merge($App->getCommonData(), [
-        "bodyclass" => "events event",
-        "seoTitle" => $evento["seo_title"],
-        "logo_img" => $logo_img,
-        "event_image" => $event_image,
-        "evento" => $evento,
-        "h3" => $evento["seo_footer"],
-        "seoDescription" => $evento["seo_description"],
-        "seoKeywords" => $evento["seo_keyword"],
-        "ogTitle" => $evento["title"],
-        "ogDescription" => $evento["seo_description"],
-        "ogUrl" => $App->getCurrentUrl(),
-        "ogSiteName" => $currentCity[0]["title_big"],
-        "currentCity" => $currentCity[0]["name"],
-        "canonical" => $App->getCurrentUrl(),
-        "twitterTitle" => $evento["seo_title"],
-        "twitterDescription" => $evento["seo_description"],
-        "map" => $DB->getLocaleMap($evento["locations_id"]),
-        "calendar" => $App->getCalendar(),
-        "ogImage" => $logo_img
-      ])
-    ];
   });
   
   /**

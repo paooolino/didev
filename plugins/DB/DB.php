@@ -1685,9 +1685,12 @@ class DB {
         ON event_btw_locations.location_id = locations.id
 
       WHERE events.seo_url = ?
+      ORDER BY time_to DESC
     ";
     $result = $this->_getData($query, [$slug]);
-    return $result[0];
+    if (count($result) > 0) {
+      return $result[0];
+    }
   }
   
   public function getSection($slug) {
