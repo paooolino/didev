@@ -1438,7 +1438,7 @@ class DB {
       WHERE L.site_id = ?
       AND L.location_id = ?
       AND time_to > NOW()
-      ORDER BY time_to DESC
+      ORDER BY time_from
     ";
     $result = $this->_getData($query, [
       $this->_site,
