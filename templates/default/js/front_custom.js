@@ -122,7 +122,8 @@ var calendarSwitcher = function(calendar){
 
 var calendarStyle = function(calendar){
   calendar.find("table .today:not(:has(a))").each(function( i ) {
-    $(this).wrapInner("<span></span>");
+    if ($(this).find('span').length == 0)
+      $(this).wrapInner("<span></span>");
   });
 };
 

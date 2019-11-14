@@ -1,4 +1,4 @@
-
+// ITEMS
 (function() {
   function scroll_handler() {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
@@ -34,6 +34,7 @@
   });
 })();
 
+// EVENTS
 (function() {
   function scroll_handler() {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {

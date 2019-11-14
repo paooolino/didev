@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+//error_reporting(E_ALL);
+ini_set("display_errors", 0);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
 //var_dump($result);
@@ -493,6 +493,13 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $data = [$id];
     $DB->delete($query, $data);
 
+    // delete recurrents
+    if ($table == "recurrents") {
+      $query = "DELETE FROM events WHERE recurrent_id = ?";
+      $data = [$id];
+      $DB->delete($query, $data);
+    }
+    
     // redirect
     $machine->redirect($Link->Get(["ADMIN_TABLE", $table]));
   });
@@ -628,50 +635,56 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("EVENTO"), function($machine, $slug) {
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
     $topBanner = $DB->getRandomTopBanner();
     $evento = $DB->getEvento($slug);
-    $currentCity = $DB->getCurrentCity();  
     
-    $logo_img = $App->img("locations", $evento["locations_id"], "W", 155, $evento["locations_logo_file_name"], "logos");
-    $event_image = "";
-    if (is_null($evento["recurrent_id"]) && $evento["image_file_name"] != "") {
-      $event_image = $App->img(
-        "events", $evento["id"], 315, 177,
-        $evento["image_file_name"]
-      );
-    } else {
-      if ($evento["recurrent_image"] != "") {
+    if ($evento !== null) {
+      $currentCity = $DB->getCurrentCity();  
+      
+      $logo_img = $App->img("locations", $evento["locations_id"], "W", 155, $evento["locations_logo_file_name"], "logos");
+      $event_image = "";
+      if (is_null($evento["recurrent_id"]) && $evento["image_file_name"] != "") {
         $event_image = $App->img(
-          "recurrents", $evento["recurrent_id"], 315, 177,
-          $evento["recurrent_image"]
+          "events", $evento["id"], 315, 177,
+          $evento["image_file_name"]
         );
+      } else {
+        if (isset($evento["recurrent_image"]) && $evento["recurrent_image"] != "") {
+          $event_image = $App->img(
+            "recurrents", $evento["recurrent_id"], 315, 177,
+            $evento["recurrent_image"]
+          );
+        }
       }
+      
+      return [
+        "template" => "evento.php",
+        "data" => array_merge($App->getCommonData(), [
+          "bodyclass" => "events event",
+          "seoTitle" => $evento["seo_title"],
+          "logo_img" => $logo_img,
+          "event_image" => $event_image,
+          "evento" => $evento,
+          "h3" => $evento["seo_footer"],
+          "seoDescription" => $evento["seo_description"],
+          "seoKeywords" => $evento["seo_keyword"],
+          "ogTitle" => $evento["title"],
+          "ogDescription" => $evento["seo_description"],
+          "ogUrl" => $App->getCurrentUrl(),
+          "ogSiteName" => $currentCity[0]["title_big"],
+          "currentCity" => $currentCity[0]["name"],
+          "canonical" => $App->getCurrentUrl(),
+          "twitterTitle" => $evento["seo_title"],
+          "twitterDescription" => $evento["seo_description"],
+          "map" => $DB->getLocaleMap($evento["locations_id"]),
+          "calendar" => $App->getCalendar(),
+          "ogImage" => $logo_img
+        ])
+      ];
+    } else {
+      $machine->redirect($Link->Get(["HOME"]));
     }
-    
-    return [
-      "template" => "evento.php",
-      "data" => array_merge($App->getCommonData(), [
-        "bodyclass" => "events event",
-        "seoTitle" => $evento["seo_title"],
-        "logo_img" => $logo_img,
-        "event_image" => $event_image,
-        "evento" => $evento,
-        "h3" => $evento["seo_footer"],
-        "seoDescription" => $evento["seo_description"],
-        "seoKeywords" => $evento["seo_keyword"],
-        "ogTitle" => $evento["title"],
-        "ogDescription" => $evento["seo_description"],
-        "ogUrl" => $App->getCurrentUrl(),
-        "ogSiteName" => $currentCity[0]["title_big"],
-        "currentCity" => $currentCity[0]["name"],
-        "canonical" => $App->getCurrentUrl(),
-        "twitterTitle" => $evento["seo_title"],
-        "twitterDescription" => $evento["seo_description"],
-        "map" => $DB->getLocaleMap($evento["locations_id"]),
-        "calendar" => $App->getCalendar(),
-        "ogImage" => $logo_img
-      ])
-    ];
   });
   
   /**
@@ -733,7 +746,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $list = $DB->getListCategoriaLocaliByTypoId($cat["id"], false, $_POST["page"]);
     $html = '';
     foreach ($list as $item) {
-      $html .= $App->printLocaleItem($item);
+      $html .= $machine->populateTemplate($App->printLocaleItem($item), []);
     }
     echo $html;
     die();
@@ -751,7 +764,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     );
     $html = '';
     foreach ($list as $event) {
-      $html .= $App->printEvento($event);
+      $html .= $machine->populateTemplate($App->printEvento($event), []);
     }
     echo $html;
     die();
@@ -1945,6 +1958,16 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         if ($k == "time_to_day") continue;
         if ($k == "time_to_month") continue;
         if ($k == "time_to_year") continue;
+        if ($k == "recurrence_to_day") continue;
+        if ($k == "recurrence_to_month") continue;
+        if ($k == "recurrence_to_year") continue;
+        if ($k == "recurrence_to_h") continue;
+        if ($k == "recurrence_to_m") continue;
+        if ($k == "recurrence_from_day") continue;
+        if ($k == "recurrence_from_month") continue;
+        if ($k == "recurrence_from_year") continue;
+        if ($k == "recurrence_from_m") continue;
+        if ($k == "recurrence_from_h") continue;
         if ($k == "ext_id") continue;
         if ($k == "encrypted_password") {
           if ($v == "") continue;
@@ -2026,29 +2049,21 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         }
         return $item;
       }, array_values($data));
-      // aggiungo eventualmente il time_from (usato nella tabella recurrents)
-      if (isset($r["POST"]["time_from_h"]) && isset($r["POST"]["time_from_m"])) {
-        $fields[] = "time_from";
-        if (isset($r["POST"]["time_from_day"]) && isset($r["POST"]["time_from_month"]) && isset($r["POST"]["time_from_year"])) {
-          $datefrom = $r["POST"]["time_from_year"]
-            . "-" . $r["POST"]["time_from_month"]
-            . "-" . $r["POST"]["time_from_day"];
-        } else {
-          $datefrom = isset($r["POST"]["time_from"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_from"]) : date("Y-m-d");
+      // aggiungo eventualmente il time_from e time_to (usati nella tabella recurrents e nella tabella eventi)
+      // e recurrence_from e recurrence_to
+      $checks = ["time_from", "time_to", "recurrence_from", "recurrence_to"];
+      foreach ($checks as $c) {
+        if (isset($r["POST"][$c . "_h"]) && isset($r["POST"][$c . "_m"])) {
+          $fields[] = $c;
+          if (isset($r["POST"][$c . "_day"]) && isset($r["POST"][$c . "_month"]) && isset($r["POST"][$c . "_year"])) {
+            $datefrom = $r["POST"][$c . "_year"]
+              . "-" . $r["POST"][$c . "_month"]
+              . "-" . $r["POST"][$c . "_day"];
+          } else {
+            $datefrom = isset($r["POST"][$c]) ? $Backoffice->shortDateToMysql($r["POST"][$c]) : date("Y-m-d");
+          }
+          $values[] = $datefrom . " " . $r["POST"][$c . "_h"] . ":" . $r["POST"][$c . "_m"] . ":00";
         }
-        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
-        //print_r($values);die();
-      }
-      if (isset($r["POST"]["time_to_h"]) && isset($r["POST"]["time_to_m"])) {
-        $fields[] = "time_to";
-        if (isset($r["POST"]["time_to_day"]) && isset($r["POST"]["time_to_month"]) && isset($r["POST"]["time_to_year"])) {
-          $datefrom = $r["POST"]["time_to_year"]
-            . "-" . $r["POST"]["time_to_month"]
-            . "-" . $r["POST"]["time_to_day"];
-        } else {
-          $datefrom = isset($r["POST"]["time_to"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_to"]) : date("Y-m-d");
-        }
-        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
       }
 
       $id = $DB->newRecord(
@@ -2125,6 +2140,16 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         if ($k == "time_to_day") continue;
         if ($k == "time_to_month") continue;
         if ($k == "time_to_year") continue;
+        if ($k == "recurrence_to_day") continue;
+        if ($k == "recurrence_to_month") continue;
+        if ($k == "recurrence_to_year") continue;
+        if ($k == "recurrence_to_h") continue;
+        if ($k == "recurrence_to_m") continue;
+        if ($k == "recurrence_from_day") continue;
+        if ($k == "recurrence_from_month") continue;
+        if ($k == "recurrence_from_year") continue;
+        if ($k == "recurrence_from_m") continue;
+        if ($k == "recurrence_from_h") continue;
         if ($k == "encrypted_password") {
           if ($v == "") continue;
           $post[$k] = md5(md5($v));
@@ -2152,28 +2177,22 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         return $item;
       }, array_values($post));
       // aggiungo eventualmente il time_from e time_to (usati nella tabella recurrents e nella tabella eventi)
-      if (isset($r["POST"]["time_from_h"]) && isset($r["POST"]["time_from_m"])) {
-        $fields[] = "time_from";
-        if (isset($r["POST"]["time_from_day"]) && isset($r["POST"]["time_from_month"]) && isset($r["POST"]["time_from_year"])) {
-          $datefrom = $r["POST"]["time_from_year"]
-            . "-" . $r["POST"]["time_from_month"]
-            . "-" . $r["POST"]["time_from_day"];
-        } else {
-          $datefrom = isset($r["POST"]["time_from"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_from"]) : date("Y-m-d");
+      // e recurrence_from e recurrence_to
+      $checks = ["time_from", "time_to", "recurrence_from", "recurrence_to"];
+      foreach ($checks as $c) {
+        if (isset($r["POST"][$c . "_h"]) && isset($r["POST"][$c . "_m"])) {
+          $fields[] = $c;
+          if (isset($r["POST"][$c . "_day"]) && isset($r["POST"][$c . "_month"]) && isset($r["POST"][$c . "_year"])) {
+            $datefrom = $r["POST"][$c . "_year"]
+              . "-" . $r["POST"][$c . "_month"]
+              . "-" . $r["POST"][$c . "_day"];
+          } else {
+            $datefrom = isset($r["POST"][$c]) ? $Backoffice->shortDateToMysql($r["POST"][$c]) : date("Y-m-d");
+          }
+          $values[] = $datefrom . " " . $r["POST"][$c . "_h"] . ":" . $r["POST"][$c . "_m"] . ":00";
         }
-        $values[] = $datefrom . " " . $r["POST"]["time_from_h"] . ":" . $r["POST"]["time_from_m"] . ":00";
       }
-      if (isset($r["POST"]["time_to_h"]) && isset($r["POST"]["time_to_m"])) {
-        $fields[] = "time_to";
-        if (isset($r["POST"]["time_to_day"]) && isset($r["POST"]["time_to_month"]) && isset($r["POST"]["time_to_year"])) {
-          $datefrom = $r["POST"]["time_to_year"]
-            . "-" . $r["POST"]["time_to_month"]
-            . "-" . $r["POST"]["time_to_day"];
-        } else {
-          $datefrom = isset($r["POST"]["time_to"]) ? $Backoffice->shortDateToMysql($r["POST"]["time_to"]) : date("Y-m-d");
-        }
-        $values[] = $datefrom . " " . $r["POST"]["time_to_h"] . ":" . $r["POST"]["time_to_m"] . ":00";
-      }
+      
       $field_id = $Backoffice->getFieldId($table);
       
       // rilevo le date short e le trasformo in date mysql
