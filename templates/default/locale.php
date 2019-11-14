@@ -262,14 +262,9 @@
           <?php echo $locale["info"]; ?>
           <div class="reports_wrap spaceB">
             <div class="spaceB">
-              <div>
-                Roberto
-                320.05.66.704 oppure <a title="invia una email a Pubbliche relazioni e responsabile commerciale Roberto Sottini" class="email" href="mailto:r.sottini@discotechebrescia.it">r.sottini@discotechebrescia.it</a>
-              </div>
-              <div>
-                Alessandro "minimale"
-                349.46.25.654 oppure <a title="invia una email a Pubbliche relazioni discoteche brescia Alessandro &quot;minimale&quot; Gavazzi" class="email" href="mailto:a.gavazzi@discotechebrescia.it">a.gavazzi@discotechebrescia.it</a>
-              </div>
+              <?php echo $locale["phone"]; ?> 
+              <?php if ($locale["mobile"] != "") { ?> - <?php echo $locale["mobile"]; } ?>
+              <?php if ($locale["email"] != "") { ?> - <a href="mailto:<?php echo $locale["email"]; ?>"><?php echo $locale["email"]; ?></a><?php } ?>
             </div>
           </div>
           <?php if ($locale["on_list"] == 1) { ?>
