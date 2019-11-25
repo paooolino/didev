@@ -694,8 +694,13 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("CATEGORIA_LOCALI"), function($machine, $slug_categoria) {
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
     $cat = $DB->getCategoriaLocali($slug_categoria);
-
+    if ($cat === NULL) {
+      $machine->redirect($Link->Get("HOME"));
+      return;
+    }
+    
     $current_page = 1;
     //$tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
     $tutti = $DB->getListCategoriaLocaliByTypoId($cat["id"], false, 1, true);
@@ -844,9 +849,14 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addPage($Link->getRoute("CATEGORIA_ZONA"), function($machine, $slug_categoria, $slug_zona) {
     $App = $machine->plugin("App");
     $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     $zona = $DB->getZona($slug_zona);
-
+    if ($zona === NULL) {
+      $machine->redirect($Link->Get("HOME"));
+      return;
+    }
+    
     return [
       "template" => "categoria_locali-zona.php",
       "data" => array_merge($App->getCommonData(), [
