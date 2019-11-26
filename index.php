@@ -697,8 +697,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $Link = $machine->plugin("Link");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     if ($cat === NULL) {
-      $machine->redirect($Link->Get("HOME"));
-      return;
+      //$machine->redirect($Link->Get("HOME"));
+      header("HTTP/1.0 404 Not Found");
+      die();
     }
     
     $current_page = 1;
@@ -853,8 +854,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     $zona = $DB->getZona($slug_zona);
     if ($zona === NULL) {
-      $machine->redirect($Link->Get("HOME"));
-      return;
+      //$machine->redirect($Link->Get("HOME"));
+      header("HTTP/1.0 404 Not Found");
+      die();
     }
     
     return [
