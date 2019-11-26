@@ -1374,6 +1374,7 @@ class DB {
 		  ON zone_btw_locations.zone_id = zones.id
       WHERE
         location_visibilities.site_id = ?
+        AND zones.site_id = ?
         AND location_visibilities.type = "LocationVisibilityTypo"
         AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
         AND typo_btw_sites.seo_url = ?
@@ -1383,6 +1384,7 @@ class DB {
         town
     ';
     $result = $this->_getData($query, [
+      $this->_site,
       $this->_site,
       $slug_categoria
     ]);

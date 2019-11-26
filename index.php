@@ -697,9 +697,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $Link = $machine->plugin("Link");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     if ($cat === NULL) {
-      //$machine->redirect($Link->Get("HOME"));
-      header("HTTP/1.0 404 Not Found");
-      die();
+      $machine->redirect($Link->Get("HOME"));
+      return;
     }
     
     $current_page = 1;
@@ -810,7 +809,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     list($z1, $z2) = $DB->getZonesListForCategoriaLocaliLettera($slug_categoria, $lettera);
-    
     $tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
     $empty_letters = $App->getEmptyLetters(array_map(function($item) {
       return $item["title"];
@@ -854,9 +852,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     $zona = $DB->getZona($slug_zona);
     if ($zona === NULL) {
-      //$machine->redirect($Link->Get("HOME"));
-      header("HTTP/1.0 404 Not Found");
-      die();
+      $machine->redirect($Link->Get("HOME"));
+      return;
     }
     
     return [
