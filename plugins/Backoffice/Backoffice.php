@@ -346,7 +346,7 @@ class Backoffice {
       } else {
         $wherePart .= " WHERE ";
       }
-      $wherePart .= "events.time_to > DATE_ADD(NOW(), INTERVAL -6 MONTH)";
+      $wherePart .= "events.time_to > DATE_ADD(NOW(), INTERVAL -1 YEAR)";
     }
     
     $activeCondition = isset($this->_config[$table]["activeCondition"])
