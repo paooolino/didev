@@ -809,7 +809,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     list($z1, $z2) = $DB->getZonesListForCategoriaLocaliLettera($slug_categoria, $lettera);
-    
     $tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
     $empty_letters = $App->getEmptyLetters(array_map(function($item) {
       return $item["title"];
