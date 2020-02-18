@@ -121,7 +121,7 @@
                   <div class="small-12 medium-9 large-8 columns">
                     <div class="desc">
                       <span><?php echo $hevent["title_date"]; ?></span>
-                      <a title="<?php echo $hevent["title"]; ?>" class="p-name summary" data-gavalue="<?php echo $hevent["title"]; ?>" data-galabel="Eventi_speciali_HP" href="<?php echo $hevent["url"]; ?>"><?php echo $hevent["title"]; ?></a>
+                      <a title="<?php echo $hevent["title"]; ?>" class="p-name summary" data-gavalue="<?php echo $hevent["title"]; ?>" data-galabel="Eventi_speciali_HP" href="{{Link|Get|EVENTO|<?php echo $hevent["seo_url"]; ?>}}"><?php echo $hevent["title"]; ?></a>
                       <time class="dt-start dtstart" datetime="<?php echo $hevent["time_from"]; ?>" title="<?php echo $hevent["time_from"]; ?>"><?php echo $hevent["time_from"]; ?></time>
                       <time class="dt-end dtend" datetime="<?php echo $hevent["time_to"]; ?>" title="<?php echo $hevent["time_to"]; ?>"><?php echo $hevent["time_to"]; ?></time>
                       <span class="location p-location" title="<?php echo $hevent["locations_title"]; ?>"><?php echo $hevent["locations_title"]; ?></span>
