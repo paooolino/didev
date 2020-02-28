@@ -27,6 +27,10 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     "ADMIN_NEWTABLE_EXT",
     "ADMIN_RECORD_NEWMAP",
     "ADMIN_RECORD_MAP",
+    "ADMIN_RECORD_NEWSHOWCASE",
+    "ADMIN_RECORD_SHOWCASE",
+    "ADMIN_RECORD_NEWPHOTO",
+    "ADMIN_RECORD_PHOTO",
     "ADMIN_NEWTABLE",
     "AJAX_SAVE",
     "ADMIN_RITAGLIO",
@@ -165,9 +169,19 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_NEWTABLE", "/admin/new/{table}");
   $Link->setRoute("ADMIN_NEWTABLE_EXT", "/admin/new/{table}/ext");
   $Link->setRoute("ADMIN_RECORD", "/admin/{table}/{id}");
+  
   $Link->setRoute("ADMIN_RECORD_NEWMAP", "/admin/{table}/{id}/new/maps");
   $Link->setRoute("ADMIN_RECORD_MAP", "/admin/{table}/{id}/maps/{id_map}");
   $Link->setRoute("ADMIN_RECORD_MAP_DELETE", "/admin/{table}/{id}/maps/{id_map}/delete");
+  
+  $Link->setRoute("ADMIN_RECORD_NEWSHOWCASE", "/admin/{table}/{id}/new/showcase");
+  $Link->setRoute("ADMIN_RECORD_SHOWCASE", "/admin/{table}/{id}/showcase/{id_showcase}");
+  $Link->setRoute("ADMIN_RECORD_SHOWCASE_DELETE", "/admin/{table}/{id}/showcase/{id_showcase}/delete");
+
+  $Link->setRoute("ADMIN_RECORD_NEWPHOTO", "/admin/{table}/{id}/new/photo");
+  $Link->setRoute("ADMIN_RECORD_PHOTO", "/admin/{table}/{id}/photo/{id_showcase}");
+  $Link->setRoute("ADMIN_RECORD_PHOTO_DELETE", "/admin/{table}/{id}/photo/{id_showcase}/delete");
+
   $Link->setRoute("ADMIN_CAT_ZONA_ORDINAMENTO", "/admin/{id_cat}/{id_zone}/order");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
   $Link->setRoute("ADMIN_DELETE", "/admin/delete/{table}/{id}");

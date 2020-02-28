@@ -698,6 +698,68 @@ class Backoffice {
       $html .= $this->getHtmlOrderList($endpoint, $f["listalocali"]["extern_table"], $f["listalocali"]["field_id"], $list);
     }
     
+    // per le location aggiunge la lista delle immagini showcase
+    if ($table == "locations") {
+      $showcase = $DB->getShowcase($id);
+      
+      $html .= '<div>';
+      $html .= '<b>Immagini vetrina</b><br>';
+      $html .= '<a href="' . $Link->Get(['ADMIN_RECORD_NEWSHOWCASE', $table, $id]) . '">Nuova immagine vetrina</a>';
+      $html .= '<table>';
+      $html .= '  <tr>';
+      $html .= '    <th>immagine</th>';
+      $html .= '    <th>titolo</th>';
+      $html .= '    <th>posizione</th>';
+      $html .= '    <th>&nbsp;</th>';
+      $html .= '  </tr>';
+      foreach ($showcase as $s) {
+        $html .= '<tr>';
+        $html .= '  <td>' . $s["image_file_name"] . '</td>';
+        $html .= '  <td>' . $s["title"] . '</td>';
+        $html .= '  <td>' . $s["disposition"] . '</td>';
+        $html .= '  <td>
+          <a href="' . $Link->Get(["ADMIN_RECORD_SHOWCASE", $table, $id, $s["id"]]) . '">modifica</a> |
+          <a onclick="return confirm(\'Sei sicuro?\');" href="' . $Link->Get(["ADMIN_RECORD_SHOWCASE_DELETE", $table, $id, $s["id"]]) . '">elimina</a>
+        </td>';
+        $html .= '</tr>';
+      }
+      $html .= '</table>';
+      $html .= '</div>';
+    }
+    
+    // per le location o eventi aggiunge la lista delle immagini
+    if ($table == "locations" || $table == "events") {
+      if ($table == "locations")
+        $photos = $DB->getLocalePhotos($id);
+      
+      if ($table == "events")
+        $photos = []; // to do    
+      
+      $html .= '<div>';
+      $html .= '<b>Galleria immagini</b><br>';
+      $html .= '<a href="' . $Link->Get(['ADMIN_RECORD_NEWPHOTO', $table, $id]) . '">Nuova immagine galleria</a>';
+      $html .= '<table>';
+      $html .= '  <tr>';
+      $html .= '    <th>immagine</th>';
+      $html .= '    <th>titolo</th>';
+      $html .= '    <th>posizione</th>';
+      $html .= '    <th>&nbsp;</th>';
+      $html .= '  </tr>';
+      foreach ($photos as $s) {
+        $html .= '<tr>';
+        $html .= '  <td>' . $s["image_file_name"] . '</td>';
+        $html .= '  <td>' . $s["title"] . '</td>';
+        $html .= '  <td>' . $s["position"] . '</td>';
+        $html .= '  <td>
+          <a href="' . $Link->Get(["ADMIN_RECORD_PHOTO", $table, $id, $s["id"]]) . '">modifica</a> |
+          <a onclick="return confirm(\'Sei sicuro?\');" href="' . $Link->Get(["ADMIN_RECORD_PHOTO_DELETE", $table, $id, $s["id"]]) . '">elimina</a>
+        </td>';
+        $html .= '</tr>';
+      }
+      $html .= '</table>';
+      $html .= '</div>';
+    }
+    
     // per le location o gli eventi aggiunge la lista delle localizzazioni
     if ($table == "locations" || $table == "events") {
       if ($table == "locations") $type = "Location";
