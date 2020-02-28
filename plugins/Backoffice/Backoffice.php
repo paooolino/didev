@@ -713,8 +713,14 @@ class Backoffice {
       $html .= '    <th>&nbsp;</th>';
       $html .= '  </tr>';
       foreach ($showcase as $s) {
+        $src = $this->getImageSrcForUpdateField(null, [
+          "table" => "location_showcases",
+          "id" => $s["id"]
+        ], null, $s["image_fingerprint"] . "-" . $s["image_file_name"]);
+        $img = '<img src="' . $src . '" />';
+        
         $html .= '<tr>';
-        $html .= '  <td>' . $s["image_file_name"] . '</td>';
+        $html .= '  <td>' . $img . '</td>';
         $html .= '  <td>' . $s["title"] . '</td>';
         $html .= '  <td>' . $s["disposition"] . '</td>';
         $html .= '  <td>
@@ -746,8 +752,14 @@ class Backoffice {
       $html .= '    <th>&nbsp;</th>';
       $html .= '  </tr>';
       foreach ($photos as $s) {
+        $src = $this->getImageSrcForUpdateField(null, [
+          "table" => "photos",
+          "id" => $s["id"]
+        ], null, $s["image_file_name"]);
+        $img = '<img src="' . $src . '" />';
+        
         $html .= '<tr>';
-        $html .= '  <td>' . $s["image_file_name"] . '</td>';
+        $html .= '  <td>' . $img . '</td>';
         $html .= '  <td>' . $s["title"] . '</td>';
         $html .= '  <td>' . $s["position"] . '</td>';
         $html .= '  <td>

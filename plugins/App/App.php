@@ -308,11 +308,14 @@ class App {
     
     // ritorna la thumb se esiste.
     $thumb_url = "uploads/$table/$w" . "_" . "$h/$filename";
-    if (!$this->generate_thumbs)
-      return $UploadS3->get($thumb_url); 
+    if (!$this->generate_thumbs) {
+      $url = $UploadS3->get($thumb_url);
+      return $url;
+    }
     
     if ($UploadS3->file_exists_in_bucket($thumb_url)) {
-      return $UploadS3->get($thumb_url); 
+      $url = $UploadS3->get($thumb_url); 
+      return $url;
     }
     
     // se non esiste, cerca l'originale e genera la thumb.
@@ -329,6 +332,7 @@ class App {
     $dir3 = substr($idstr, 6, 3);
     //$cdn_url = "//cdn.discotecheitalia.it/uploads/$table/$section/$dir1/$dir2/$dir3/original/" . $filename;
     $cdn_url = "uploads/$table/$section/$dir1/$dir2/$dir3/original/" . $filename;
+
     //if ($this->file_exists_remote("http:" . $cdn_url)) {
     if ($UploadS3->file_exists_in_old_bucket($cdn_url)) {
       // prima...
