@@ -224,21 +224,25 @@
           </div>
           <?php } ?>
 
+          <?php if (count($past_events) > 0) { ?>
           <p class="sheet past_events" id="events">
             <a href="{{Link|Get|EVENTI_PASSATI|<?php echo $locale["seo_url"]; ?>}}">
               <i class="fa fa-calendar"></i>
               Archivio eventi e serate del <?php echo $locale["title"]; ?>
             </a>
           </p>
+          <?php } ?>
         </div>
       </div>
       <?php } else { ?>
-      <div class="sheet next_events" id="events">      
-        <a href="{{Link|Get|EVENTI_PASSATI|<?php echo $locale["seo_url"]; ?>}}">
-          <i class="fa fa-calendar"></i>
-          Archivio eventi e serate del <?php echo $locale["title"]; ?>
-        </a>
-      </div>
+        <?php if (count($past_events) > 0) { ?>
+          <div class="sheet next_events" id="events">      
+            <a href="{{Link|Get|EVENTI_PASSATI|<?php echo $locale["seo_url"]; ?>}}">
+              <i class="fa fa-calendar"></i>
+              Archivio eventi e serate del <?php echo $locale["title"]; ?>
+            </a>
+          </div>
+        <?php } ?>
       <?php } ?>
       <?php if ($locale["prices"] != "") { ?>
       <div class="sheet prices" id="prices">

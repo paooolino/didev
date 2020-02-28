@@ -455,6 +455,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "calendar" => $App->getCalendar(),
         "catevents" => $DB->getCatEvents(),
         "disableEventlistHeader" => true,
+        "disableEventsArchive" => true,
         "breadcrumbitems" => [
           [
             "title" => "Archivio eventi e serate",
@@ -887,6 +888,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
     
     $locale_events = $DB->getEventsForLocale($locale["id"]);
+    $past_events = $DB->getEventsForLocalePast($locale["id"]);
     
     $currentCity = $DB->getCurrentCity(); 
     
@@ -901,6 +903,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
         "showcase" => $showcase,
         "canonical" => $App->getCurrentUrl(),
         "locale_events" => $locale_events,
+        "past_events" => $past_events,
         "photos" => $DB->getLocalePhotos($locale["id"]),
         "map" => $DB->getLocaleMap($locale["id"]),
         "h3" => $locale["seo_footer"],
