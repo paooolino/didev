@@ -2016,6 +2016,52 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
   
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_NEWSHOWCASE"), "POST", function($machine, $original_table, $id_location) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      // salva 
+      $r = $machine->getRequest();
+      
+      $DB->saveShowcase(
+        $id_location,
+        $r["POST"]["title"],
+        $r["POST"]["position"]
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
+    }
+  });
+  
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_NEWPHOTO"), "POST", function($machine, $original_table, $id_location) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      // salva 
+      $r = $machine->getRequest();
+      
+      $DB->savePhoto(
+        $id_location,
+        $r["POST"]["title"],
+        $r["POST"]["position"]
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
+    }
+  });
+  
   $machine->addPage($Link->getRoute("ADMIN_CAT_ZONA_ORDINAMENTO"), function($machine, $id_cat, $id_zone) {
     $machine->plugin("DB")->disable_cache = true;    
     
