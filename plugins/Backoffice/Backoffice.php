@@ -717,10 +717,12 @@ class Backoffice {
           "table" => "location_showcases",
           "id" => $s["id"]
         ], null, $s["image_fingerprint"] . "-" . $s["image_file_name"]);
-        $img = '<img src="' . $src . '" />';
+        $img_html = '<a href="' . $this->_machine->plugin("Link")->Get(["ADMIN_RITAGLIO", "location_showcases", $s["id"], $s["image_fingerprint"] . "-" . $s["image_file_name"]]) . '">'; 
+        $img_html .= '<img src="' . $src . '" />';
+        $img_html .= '</a>';
         
         $html .= '<tr>';
-        $html .= '  <td>' . $img . '</td>';
+        $html .= '  <td>' . $img_html . '</td>';
         $html .= '  <td>' . $s["title"] . '</td>';
         $html .= '  <td>' . $s["disposition"] . '</td>';
         $html .= '  <td>
@@ -756,10 +758,12 @@ class Backoffice {
           "table" => "photos",
           "id" => $s["id"]
         ], null, $s["image_file_name"]);
-        $img = '<img src="' . $src . '" />';
+        $img_html = '<a href="' . $this->_machine->plugin("Link")->Get(["ADMIN_RITAGLIO", "photos", $s["id"], $s["image_file_name"]]) . '">'; 
+        $img_html .= '<img src="' . $src . '" />';
+        $img_html .= '</a>';
         
         $html .= '<tr>';
-        $html .= '  <td>' . $img . '</td>';
+        $html .= '  <td>' . $img_html . '</td>';
         $html .= '  <td>' . $s["title"] . '</td>';
         $html .= '  <td>' . $s["position"] . '</td>';
         $html .= '  <td>

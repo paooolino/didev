@@ -174,13 +174,13 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("ADMIN_RECORD_MAP", "/admin/{table}/{id}/maps/{id_map}");
   $Link->setRoute("ADMIN_RECORD_MAP_DELETE", "/admin/{table}/{id}/maps/{id_map}/delete");
   
-  $Link->setRoute("ADMIN_RECORD_NEWSHOWCASE", "/admin/{table}/{id}/new/showcase");
-  $Link->setRoute("ADMIN_RECORD_SHOWCASE", "/admin/{table}/{id}/showcase/{id_showcase}");
-  $Link->setRoute("ADMIN_RECORD_SHOWCASE_DELETE", "/admin/{table}/{id}/showcase/{id_showcase}/delete");
+  $Link->setRoute("ADMIN_RECORD_NEWSHOWCASE", "/admin/{table}/{id}/new/location_showcases");
+  $Link->setRoute("ADMIN_RECORD_SHOWCASE", "/admin/{table}/{id}/location_showcases/{id_showcase}");
+  $Link->setRoute("ADMIN_RECORD_SHOWCASE_DELETE", "/admin/{table}/{id}/location_showcases/{id_showcase}/delete");
 
-  $Link->setRoute("ADMIN_RECORD_NEWPHOTO", "/admin/{table}/{id}/new/photo");
-  $Link->setRoute("ADMIN_RECORD_PHOTO", "/admin/{table}/{id}/photo/{id_showcase}");
-  $Link->setRoute("ADMIN_RECORD_PHOTO_DELETE", "/admin/{table}/{id}/photo/{id_showcase}/delete");
+  $Link->setRoute("ADMIN_RECORD_NEWPHOTO", "/admin/{table}/{id}/new/photos");
+  $Link->setRoute("ADMIN_RECORD_PHOTO", "/admin/{table}/{id}/photos/{id_showcase}");
+  $Link->setRoute("ADMIN_RECORD_PHOTO_DELETE", "/admin/{table}/{id}/photos/{id_showcase}/delete");
 
   $Link->setRoute("ADMIN_CAT_ZONA_ORDINAMENTO", "/admin/{id_cat}/{id_zone}/order");
   $Link->setRoute("ADMIN_RITAGLIO", "/admin/ritaglio/{table}/{id}/{fieldname}");
@@ -1832,6 +1832,78 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
   
+  $machine->addPage($Link->getRoute("ADMIN_RECORD_SHOWCASE"), function($machine, $original_table, $id_location, $id_showcase) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();
+      return [
+        "template" => "admin_record.php",
+        "data" => [
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $DB->getCities(),
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(),
+          "h2" => "Pannello di amministrazione / " . $original_table . " / " . $id_location . " / SHOWCASES / " . $id_showcase,
+          "updateFormHtml" => $Backoffice->getUpdateFormHtml([
+            "table" => "location_showcases",
+            "field_id" => $Backoffice->getFieldId("location_showcases"),
+            "link_action" => $Link->Get(["ADMIN_RECORD_SHOWCASE", $original_table, $id_location, $id_showcase]),
+            "id" => $id_showcase
+          ])
+        ]
+      ];
+    }
+  });
+  
+  $machine->addPage($Link->getRoute("ADMIN_RECORD_PHOTO"), function($machine, $original_table, $id_location, $id_photo) {
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();
+      return [
+        "template" => "admin_record.php",
+        "data" => [
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $DB->getCities(),
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(),
+          "h2" => "Pannello di amministrazione / " . $original_table . " / " . $id_location . " / PHOTOS / " . $id_photo,
+          "updateFormHtml" => $Backoffice->getUpdateFormHtml([
+            "table" => "photos",
+            "field_id" => $Backoffice->getFieldId("photos"),
+            "link_action" => $Link->Get(["ADMIN_RECORD_PHOTO", $original_table, $id_location, $id_photo]),
+            "id" => $id_photo
+          ])
+        ]
+      ];
+    }
+  });
+  
   $machine->addPage($Link->getRoute("ADMIN_RECORD_NEWMAP"), function($machine, $original_table, $id_location) {
     $table = "maps";
     $machine->plugin("DB")->disable_cache = true;    
@@ -1873,6 +1945,43 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
           "newFormHtml" => $Backoffice->getNewFormHtml([
             "table" => $table,
             "link_action" => $Link->Get(["ADMIN_RECORD_NEWMAP", $original_table, $id_location])
+          ])
+        ]
+      ];
+    }
+  });
+  
+  $machine->addPage($Link->getRoute("ADMIN_RECORD_NEWSHOWCASE"), function($machine, $original_table, $id_location) {
+    $table = "location_showcases";
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();   
+      
+      return [
+        "template" => "admin_newrecord.php",
+        "data" => [
+          "table" => $table,
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",    
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $cities,
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(), 
+          "h2" => "Pannello di amministrazione / Nuovo / " . $table,
+          "newFormHtml" => $Backoffice->getNewFormHtml([
+            "table" => $table,
+            "link_action" => $Link->Get(["ADMIN_RECORD_NEWSHOWCASE", $original_table, $id_location])
           ])
         ]
       ];

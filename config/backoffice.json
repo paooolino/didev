@@ -61,6 +61,36 @@
       }
     ]
   },
+  "photos": {
+    "field_id": "id",
+    "featured": [],
+    "orderBy": "id",
+    "fields": [
+      {
+        "name": "title",
+        "label": "titolo"
+      },
+      {
+        "name": "position",
+        "label": "posizione"
+      }
+    ]
+  },
+  "location_showcases": {
+    "field_id": "id",
+    "featured": [],
+    "orderBy": "id",
+    "fields": [
+      {
+        "name": "title",
+        "label": "titolo"
+      },
+      {
+        "name": "position",
+        "label": "posizione"
+      }
+    ]
+  },
   "administrators": {
     "field_id": "id",
     "featured": ["id", "name","email", "role"],
