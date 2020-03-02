@@ -1595,6 +1595,26 @@ class DB {
     return $result;
   }
   
+  public function saveShowcase($location_id, $title, $disposition) {
+    $query = "INSERT INTO location_showcases (
+      site_id, location_id, title, disposition
+    ) VALUES (
+      ?, ?, ?, ?
+    )";
+    $data = [$this->_site, $location_id, $title, $disposition];
+    $this->insert($query, $data);
+  }
+  
+  public function savePhoto($photoable_id, $type, $title, $position) {
+    $query = "INSERT INTO photos (
+      site_id, photoable_id, photoable_type, title, position
+    ) VALUES (
+      ?, ?, ?, ?, ?
+    )";
+    $data = [$this->_site, $photoable_id, $type, $title, $position];
+    $this->insert($query, $data);
+  }
+  
   public function saveMap($id, $type, $title, $address, $lat, $lng, $pos) {
     $query = "INSERT INTO maps (
       site_id,
@@ -1656,6 +1676,22 @@ class DB {
   
   public function deleteMap($id) {
     $query = "DELETE FROM maps WHERE 
+      id = ?
+    ";
+    $data = [$id];
+    $this->delete($query, $data);
+  }
+  
+  public function deleteShowcase($id) {
+    $query = "DELETE FROM location_showcases WHERE 
+      id = ?
+    ";
+    $data = [$id];
+    $this->delete($query, $data);
+  }
+  
+  public function deletePhoto($id) {
+    $query = "DELETE FROM photos WHERE 
       id = ?
     ";
     $data = [$id];

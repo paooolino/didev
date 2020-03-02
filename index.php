@@ -1770,6 +1770,44 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
   
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_SHOWCASE_DELETE"), "GET", function($machine, $original_table, $id_location, $id_showcase) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      
+      $DB->deleteShowcase(
+        $id_showcase
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
+    }
+  });
+  
+  $machine->addAction($Link->getRoute("ADMIN_RECORD_PHOTO_DELETE"), "GET", function($machine, $original_table, $id_location, $id_photo) {
+    $machine->plugin("DB")->disable_cache = true;  
+    $App = $machine->plugin("App");
+    $DB = $machine->plugin("DB");
+    $Link = $machine->plugin("Link");
+    
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {    
+      
+      $DB->deletePhoto(
+        $id_photo
+      );
+      
+      // redirect alla singola location
+      $machine->redirect($Link->Get(["ADMIN_RECORD", $original_table, $id_location]));
+    }
+  });
+  
   $machine->addAction($Link->getRoute("ADMIN_RECORD_MAP"), "POST", function($machine, $original_table, $id_location, $id_map) {
     $machine->plugin("DB")->disable_cache = true;  
     $App = $machine->plugin("App");
@@ -1988,6 +2026,43 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     }
   });
   
+  $machine->addPage($Link->getRoute("ADMIN_RECORD_NEWPHOTO"), function($machine, $original_table, $id_location) {
+    $table = "photos";
+    $machine->plugin("DB")->disable_cache = true;    
+    
+    $App = $machine->plugin("App");
+    if (!$machine->plugin("App")->checkLogin()) {
+      $machine->redirect($machine->plugin("Link")->Get("ADMIN_LOGIN"));
+    } else {
+      
+      $DB = $machine->plugin("DB");
+      $Link = $machine->plugin("Link");
+      $Backoffice = $machine->plugin("Backoffice");
+      $cities = $DB->getCities();
+      $currentCity = $DB->getCurrentCity();   
+      
+      return [
+        "template" => "admin_newrecord.php",
+        "data" => [
+          "table" => $table,
+          "bodyclass" => "",
+          "seoTitle" => "Pannello di amministrazione",    
+          "currentCity" => $currentCity[0]["name"],
+          "cities" => $cities,
+          "menuitems" => $App->getAdminMenuitems(),
+          "navbanners" => [],
+          "navtopitems" => $DB->getNavtopitems(),
+          "linktopitems" => $App->getLinktopitems(), 
+          "h2" => "Pannello di amministrazione / Nuovo / " . $table,
+          "newFormHtml" => $Backoffice->getNewFormHtml([
+            "table" => $table,
+            "link_action" => $Link->Get(["ADMIN_RECORD_NEWPHOTO", $original_table, $id_location])
+          ])
+        ]
+      ];
+    }
+  });
+  
   $machine->addAction($Link->getRoute("ADMIN_RECORD_NEWMAP"), "POST", function($machine, $original_table, $id_location) {
     $machine->plugin("DB")->disable_cache = true;  
     $App = $machine->plugin("App");
@@ -2031,7 +2106,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $DB->saveShowcase(
         $id_location,
         $r["POST"]["title"],
-        $r["POST"]["position"]
+        $r["POST"]["disposition"]
       );
       
       // redirect alla singola location
@@ -2053,6 +2128,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       
       $DB->savePhoto(
         $id_location,
+        "Location",
         $r["POST"]["title"],
         $r["POST"]["position"]
       );
