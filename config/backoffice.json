@@ -166,7 +166,7 @@
   },
   "holiday_btw_sites": {
     "field_id": "id",
-    "featured": ["id", "title", "active"],
+    "featured": ["id", "title", "active", "position"],
     "orderBy": "position",
     "sitefield": "site_id",
     "activeCondition": "active = 1",
@@ -263,6 +263,10 @@
         "name": "active",
         "type": "checkbox",
         "label": "attivo"
+      },
+      {
+        "name": "position",
+        "label": "posizione"
       }
     ]
   },
