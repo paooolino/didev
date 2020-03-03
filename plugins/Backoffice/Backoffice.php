@@ -720,11 +720,14 @@ class Backoffice {
         //$img_html = '<a href="' . $this->_machine->plugin("Link")->Get(["ADMIN_RITAGLIO", "location_showcases", $s["id"], $s["image_fingerprint"] . "-" . $s["image_file_name"]]) . '">'; 
         //$img_html .= '<img src="' . $src . '" />';
         //$img_html .= '</a>';
+        $image_name = $s["image_file_name"];
+        if (is_string($s["image_fingerprint"]))
+          $image_name = $s["image_fingerprint"] . "-" . $s["image_file_name"];
         $img_html = $this->_getHtmlImage(
           "location_showcases", 
           $s["id"],
           "image_file_name",
-          $s["image_fingerprint"] . "-" . $s["image_file_name"]
+          $image_name
         );
           
         $html .= '<tr>';

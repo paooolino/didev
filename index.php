@@ -2546,6 +2546,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $field_id = $Backoffice->getFieldId($table);
       $name = end(explode("/", $result["filename"]));
       $DB->save($table, [$fieldname], [$name], $field_id, $id);
+      if ($table == "location_showcases")
+        $DB->save($table, ["image_fingerprint"], [null], $field_id, $id);
     }
     
     // back to referrer
