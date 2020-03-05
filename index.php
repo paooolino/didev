@@ -1209,7 +1209,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("ADMIN_LOGIN"), "POST", function($machine) {
     ini_set("display_errors", E_ALL);
     ini_set("max_execution_time", 10);
-    die("debug");
     $machine->plugin("DB")->disable_cache = true;
     
     $App = $machine->plugin("App");
@@ -1225,7 +1224,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     if (count($result) == 1) {
       $machine->setCookie("auth", md5($username . $App->AUTH_SALT . $password), 0, "/");
     }
-    
+    print_r($result);die();
     $machine->redirect($Link->Get("ADMIN"));
   });
     
