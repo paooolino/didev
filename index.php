@@ -1149,8 +1149,15 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_CONTACT"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
     
-    if (isset($_POST["surname"]) && $_POST["surname"] != "")
+    if (isset($_POST["form_contact"]["nickname"]) && $_POST["form_contact"]["nickname"] != "")
       die("Sorry, You have been identified as spam.");
+    
+    if (
+      stripos($_POST["form_contact"]["info"], "http://") !== false
+      || stripos($_POST["form_contact"]["info"], "https://") !== false
+    ) {
+      die("Sorry, the message can not contain links.");
+    }
 
     $machine->plugin("DiscosForms")->send(
       "Contatti",

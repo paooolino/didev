@@ -2,8 +2,7 @@
 <div class="contentx">
 <div class="form-wrapper top-form-enabled">
 <form validate="true" class="simple_form contact-form" novalidate="novalidate" id="new_form_contact" enctype="multipart/form-data" action="{{Link|Get|FORM_CONTACT}}" accept-charset="UTF-8" data-remote="true" method="post">
-  <input name="utf8" type="hidden" value="&#x2713;" />
-  <input type="hidden" name="surname" value="">
+  <input name="utf8" type="hidden" value="&#x2713;" /> 
   <div class="row error">
     <div class="large-12 columns">
       <p class="alert-box alert radius error_message" data-alert="">Il seguente modulo non puo essere inviato a causa di alcuni campi mancanti o incorretti, completa correttamente tutti i dati mancanti o incorretti e poi ritenta l'invio</p>
@@ -28,6 +27,14 @@
     <div class="large-6 columns">
       <div class="input_wrapper email required form_contact_email"><label class="email required control-label" for="form_contact_email"><abbr title="campo obbligatorio">*</abbr> email</label><input size="20" maxlength="100" class="string email required" type="email" name="form_contact[email]" id="form_contact_email" />
         <small class="error">inserisci un indirizzo email valido</small>
+      </div>
+    </div>
+    <div class="large-6 columns form_contact_nickname">
+      <div class="input_wrapper string form_contact_name">
+        <label class="string control-label" for="form_contact_name">
+          nickname
+        </label>
+        <input size="20" maxlength="50" class="string" type="text" name="form_contact[nickname]" id="form_contact_nickname" />
       </div>
     </div>
   </div>
