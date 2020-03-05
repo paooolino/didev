@@ -103,6 +103,14 @@ class App {
   public function getCommonData() {
     $DB = $this->DB;
     $topBanner = $DB->getRandomTopBanner();
+    if ($topBanner == null) {
+      $topBanner = [
+        "title" => "",
+        "url" => "",
+        "image_file_name" => "",
+        "id" => ""
+      ];
+    };
     $cities = $DB->getCities();
     $currentCity = $DB->getCurrentCity();  
     return [
@@ -113,7 +121,7 @@ class App {
       "topBannerTitle" => $topBanner["title"],
       "topBannerUrl" => $topBanner["url"],
       "topBannerImage" => $topBanner["image_file_name"],
-      "imageUrl" => $this->img("banners", $topBanner["id"], 728, 90, $topBanner["image_file_name"]),
+      "imageUrl" => $topBanner["id"] != "" ? $this->img("banners", $topBanner["id"], 728, 90, $topBanner["image_file_name"]) : "",
       "currentCity" => $currentCity[0]["name"],
       "cities" => $cities,
       "codeCustomHeader" => $DB->getCodeCustomHeader(),

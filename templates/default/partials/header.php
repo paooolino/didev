@@ -51,6 +51,7 @@
 <?php echo $codeCustomHeader; ?>
 </head>
 <body class="front tenant-bs <?php echo $bodyclass; ?>">
+<?php if (isset($locale) && isset($locale["ads"]) && $locale["ads"] == 0) {} else { ?>
 <!-- adsense -->
 <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async="async" defer="defer"></script>
 <script>
@@ -59,6 +60,7 @@
     enable_page_level_ads: true
   });
 </script>
+<?php } ?>
 
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap" data-equalizer>
