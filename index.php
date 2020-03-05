@@ -1207,6 +1207,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    *  Backoffice home
    */
   $machine->addAction($Link->getRoute("ADMIN_LOGIN"), "POST", function($machine) {
+    ini_set("display_errors", E_ALL);
+    ini_set("max_execution_time", 10);
     die("debug");
     $machine->plugin("DB")->disable_cache = true;
     
