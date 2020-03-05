@@ -1207,8 +1207,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
    *  Backoffice home
    */
   $machine->addAction($Link->getRoute("ADMIN_LOGIN"), "POST", function($machine) {
-    ini_set("display_errors", E_ALL);
-    ini_set("max_execution_time", 10);
     $machine->plugin("DB")->disable_cache = true;
     
     $App = $machine->plugin("App");
@@ -1224,7 +1222,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     if (count($result) == 1) {
       $machine->setCookie("auth", md5($username . $App->AUTH_SALT . $password), 0, "/");
     }
-    print_r($result);die();
     $machine->redirect($Link->Get("ADMIN"));
   });
     
@@ -1238,6 +1235,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN"), function($machine) {
+    ini_set("display_errors", E_ALL);
+    ini_set("max_execution_time", 20);
     $machine->plugin("DB")->disable_cache = true;
     
     if (!$machine->plugin("App")->checkLogin()) {
