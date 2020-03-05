@@ -1149,6 +1149,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_CONTACT"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
     
+    if (isset($_POST["surname"]) && $_POST["surname"] != "")
+      die("Sorry, You have been identified as spam.");
+
     $machine->plugin("DiscosForms")->send(
       "Contatti",
       $_POST["form_contact"],
