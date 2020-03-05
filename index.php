@@ -1235,8 +1235,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   });
   
   $machine->addPage($Link->getRoute("ADMIN"), function($machine) {
-    ini_set("display_errors", E_ALL);
-    ini_set("max_execution_time", 20);
     $machine->plugin("DB")->disable_cache = true;
     
     if (!$machine->plugin("App")->checkLogin()) {
