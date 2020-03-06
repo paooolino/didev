@@ -2,6 +2,15 @@
 <div class="contentx">
 <div class="form-wrapper top-form-enabled">
 <form validate="true" class="simple_form contact-form" novalidate="novalidate" id="new_form_newsletter_subscription" enctype="multipart/form-data" action="/form/newsletter" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><div class="row">
+<input name="form_newsletter_subscription[site_title]" type="hidden" value="<?php echo $ogSiteName; ?>" /> 
+<div class="large-6 columns form_contact_nickname">
+  <div class="input_wrapper string form_contact_name">
+    <label class="string control-label" for="form_contact_name">
+      nickname
+    </label>
+    <input size="20" maxlength="50" class="string" type="text" name="form_newsletter_subscription[nickname]" id="form_contact_nickname" />
+  </div>
+</div>
 <div class="large-6 columns">
 <div class="input_wrapper string required form_newsletter_subscription_name"><label class="string required control-label" for="form_newsletter_subscription_name"><abbr title="campo obbligatorio">*</abbr> nome</label><input size="20" maxlength="50" class="string required" type="text" name="form_newsletter_subscription[name]" id="form_newsletter_subscription_name" /></div>
 </div>

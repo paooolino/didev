@@ -3,9 +3,18 @@
 <div class="form-wrapper top-form-enabled">
 <form validate="true" class="simple_form contact-form" novalidate="novalidate" id="new_form_location_suggest" enctype="multipart/form-data" action="{{Link|Get|FORM_LOCATION_SUGGEST}}" accept-charset="UTF-8" data-remote="true" method="post">
   <input name="utf8" type="hidden" value="&#x2713;" />
-  <div class="row error">
+  <input name="form_location_suggest[site_title]" type="hidden" value="<?php echo $ogSiteName; ?>" /> 
+    <div class="row error">
     <div class="large-12 columns">
       <p class="alert-box alert radius error_message" data-alert="">Il seguente modulo non puo essere inviato a causa di alcuni campi mancanti o incorretti, completa correttamente tutti i dati mancanti o incorretti e poi ritenta l'invio</p>
+    </div>
+  </div>
+  <div class="large-6 columns form_contact_nickname">
+    <div class="input_wrapper string form_contact_name">
+      <label class="string control-label" for="form_contact_name">
+        nickname
+      </label>
+      <input size="20" maxlength="50" class="string" type="text" name="form_location_suggest[nickname]" id="form_contact_nickname" />
     </div>
   </div>
   <div class="row">

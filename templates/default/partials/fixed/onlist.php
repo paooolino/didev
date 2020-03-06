@@ -3,6 +3,7 @@
 <div class="form-wrapper top-form-enabled">
 <form class="simple_form onlist_form" novalidate="novalidate" id="new_form_onlist" enctype="multipart/form-data" action="{{Link|Get|FORM_ONLIST}}" accept-charset="UTF-8" data-remote="true" method="post">
   <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="form_onlist[site_title]" type="hidden" value="<?php echo $ogSiteName; ?>" /> 
   <div class="row error">
     <div class="large-12 columns">
       <p class="alert-box alert radius error_message" data-alert="">Il seguente modulo non puo essere inviato a causa di alcuni campi mancanti o incorretti, completa correttamente tutti i dati mancanti o incorretti e poi ritenta l'invio</p>
@@ -26,6 +27,14 @@
     <div class="large-6 columns">
       <div class="input_wrapper string required form_onlist_surname"><label class="string required control-label" for="form_onlist_surname"><abbr title="campo obbligatorio">*</abbr> cognome</label><input size="20" maxlength="50" class="string required" type="text" name="form_onlist[surname]" id="form_onlist_surname" />
         <small class="error">inserisci il tuo cognome</small>
+      </div>
+    </div>
+    <div class="large-6 columns form_contact_nickname">
+      <div class="input_wrapper string form_contact_name">
+        <label class="string control-label" for="form_contact_name">
+          nickname
+        </label>
+        <input size="20" maxlength="50" class="string" type="text" name="form_onlist[nickname]" id="form_contact_nickname" />
       </div>
     </div>
   </div>

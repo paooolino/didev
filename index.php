@@ -1111,6 +1111,19 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_ONLIST"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
 
+    if (isset($_POST["form_onlist"]["nickname"]) && $_POST["form_onlist"]["nickname"] != "")
+      die("Sorry, You have been identified as spam.");
+    
+    if (
+      stripos($_POST["form_onlist"]["info"], "http://") !== false
+      || stripos($_POST["form_onlist"]["info"], "https://") !== false
+    ) {
+      die("Sorry, the message can not contain links.");
+    }
+    
+    if (strlen($_POST["form_onlist"]["info"]) > 600)
+      die("Sorry, the message is too long.");
+    
     $machine->plugin("DiscosForms")->send(
       "Mettiti in lista",
       $_POST["form_onlist"],
@@ -1130,6 +1143,19 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_LOCATION_SUGGEST"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
 
+    if (isset($_POST["form_location_suggest"]["nickname"]) && $_POST["form_location_suggest"]["nickname"] != "")
+      die("Sorry, You have been identified as spam.");
+    
+    if (
+      stripos($_POST["form_location_suggest"]["info"], "http://") !== false
+      || stripos($_POST["form_location_suggest"]["info"], "https://") !== false
+    ) {
+      die("Sorry, the message can not contain links.");
+    }
+    
+    if (strlen($_POST["form_location_suggest"]["info"]) > 600)
+      die("Sorry, the message is too long.");
+    
     $machine->plugin("DiscosForms")->send(
       "Inserisci locale",
       $_POST["form_location_suggest"],
@@ -1158,6 +1184,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     ) {
       die("Sorry, the message can not contain links.");
     }
+    
+    if (strlen($_POST["form_contact"]["info"]) > 600)
+      die("Sorry, the message is too long.");
 
     $machine->plugin("DiscosForms")->send(
       "Contatti",
@@ -1178,6 +1207,19 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_PARTY"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
     
+    if (isset($_POST["form_party"]["nickname"]) && $_POST["form_party"]["nickname"] != "")
+      die("Sorry, You have been identified as spam.");
+    
+    if (
+      stripos($_POST["form_party"]["info"], "http://") !== false
+      || stripos($_POST["form_party"]["info"], "https://") !== false
+    ) {
+      die("Sorry, the message can not contain links.");
+    }
+    
+    if (strlen($_POST["form_party"]["info"]) > 600)
+      die("Sorry, the message is too long.");
+    
     $machine->plugin("DiscosForms")->send(
       "Organizza festa",
       $_POST["form_party"],
@@ -1197,6 +1239,9 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $machine->addAction($Link->getRoute("FORM_NEWSLETTER"), "POST", function($machine) {
     $machine->plugin("DB")->disable_cache = true;
     
+    if (isset($_POST["form_newsletter_subscription"]["nickname"]) && $_POST["form_newsletter_subscription"]["nickname"] != "")
+      die("Sorry, You have been identified as spam.");
+    
     $machine->plugin("DiscosForms")->send(
       "Iscrizione alla Newsletter",
       $_POST["form_newsletter_subscription"],
@@ -1207,7 +1252,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $_POST["form_newsletter_subscription"]["name"], 
       $_POST["form_newsletter_subscription"]["surname"], 
       "form_newsletter_subscription", 
-      json_encode($_POST["form_party"]), 
+      json_encode($_POST["form_newsletter_subscription"]), 
       true
     );
     $machine->redirect($machine->plugin("Link")->Get("SEND_OK"));
