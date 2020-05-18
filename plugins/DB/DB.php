@@ -81,6 +81,11 @@ class DB {
     return $this->_site;
   } 
   
+  private function _getData_nocache($query, $data) {
+    $result = $this->select($query, $data);
+    return $result;
+  }
+  
   private function _getData($query, $data) {
     //$query = str_replace("\t", "", $query);
     //$query = str_replace("\r\n", " ", $query);
@@ -1005,7 +1010,6 @@ class DB {
     // ancora presenti nella tabella location_visibilities, e in caso li
     // inserisco
     
-    /*
     $query = "
       SELECT
         typo_btw_locations.*,
@@ -1023,7 +1027,7 @@ class DB {
         typo_btw_locations.site_id = ?
         AND typo_btw_locations.typo_id = ?
       ";
-    $result2 = $this->_getData($query, [
+    $result2 = $this->_getData_nocache($query, [
       $this->_site,
       $typo_id
     ]);
@@ -1052,7 +1056,7 @@ class DB {
         $this->insert($query, $data);
       }
     }
-    */
+
     $limitcond = '';
     if (!$nopagination) {
       $items_per_page = 10;
@@ -1153,7 +1157,6 @@ class DB {
     // inserisco
     
     $cat = $this->getCatBySlug($slug_categoria); 
-    /*
     $query = "
       SELECT
         typo_btw_locations.*,
@@ -1176,7 +1179,7 @@ class DB {
         AND typo_btw_locations.typo_id = ?
         AND zone_btw_locations.zone_id = ?
       ";
-    $result2 = $this->_getData($query, [
+    $result2 = $this->_getData_nocache($query, [
       $this->_site,
       $cat["id"],
       $zona
@@ -1208,7 +1211,7 @@ class DB {
         $this->insert($query, $data);
       }
     }
-    */
+    
     $query = '
       SELECT
         location_visibilities.id as main_id,
