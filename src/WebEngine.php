@@ -444,7 +444,8 @@ class WebEngine
               $data
             );
             if ($this->append_debug_infos) {
-              $this->_response["body"] .= $this->_getDebugInfos();
+              if (isset($_GET["DBG"]))
+                $this->_response["body"] .= $this->_getDebugInfos();
             }
             $item->expiresAt(new \DateTime("tomorrow"));
             $this->pool->save($item->set($this->_response["body"]));

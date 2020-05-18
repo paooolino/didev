@@ -1004,6 +1004,8 @@ class DB {
     // prima controllo se ci sono dei locali associati a categoria che non sono
     // ancora presenti nella tabella location_visibilities, e in caso li
     // inserisco
+    
+    /*
     $query = "
       SELECT
         typo_btw_locations.*,
@@ -1050,7 +1052,7 @@ class DB {
         $this->insert($query, $data);
       }
     }
-    
+    */
     $limitcond = '';
     if (!$nopagination) {
       $items_per_page = 10;
@@ -1149,7 +1151,9 @@ class DB {
     // prima controllo se ci sono dei locali associati a zona che non sono
     // ancora presenti nella tabella location_visibilities, e in caso li
     // inserisco
+    
     $cat = $this->getCatBySlug($slug_categoria); 
+    /*
     $query = "
       SELECT
         typo_btw_locations.*,
@@ -1204,7 +1208,7 @@ class DB {
         $this->insert($query, $data);
       }
     }
-    
+    */
     $query = '
       SELECT
         location_visibilities.id as main_id,
@@ -1514,7 +1518,7 @@ class DB {
       '%' . $phrase . '%'
     ]);
     
-    $eventi = $this->_getData("
+    $eventi = $this->_getData("       
       SELECT
         *
       FROM
@@ -1525,6 +1529,8 @@ class DB {
           seo_title LIKE ?
           OR description LIKE ?
         )
+		GROUP BY IFNULL(recurrent_id, id)
+		ORDER BY time_to DESC
     ", [
       $this->_site,
       '%' . $phrase . '%',
