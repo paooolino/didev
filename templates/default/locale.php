@@ -22,7 +22,10 @@
         <?php foreach($showcase as $k => $slide) { ?>
         <div>
           <?php 
-            $img = $App->img("location_showcases", $slide["id"], 1335, 516, $slide["image_fingerprint"] . "-" . $slide["image_file_name"]);
+            if ($slide["image_fingerprint"] != null)
+              $img = $App->img("location_showcases", $slide["id"], 1335, 516, $slide["image_fingerprint"] . "-" . $slide["image_file_name"]);
+            else
+              $img = $App->img("location_showcases", $slide["id"], 1335, 516, $slide["image_file_name"]);
           ?>
           <div class="slide">
             <img alt="Convento, lago di Garda" data-interchange="

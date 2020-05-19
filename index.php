@@ -898,7 +898,11 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $showcase = $DB->getShowcase($locale["id"]);
     $img = "";
     if (count($showcase) > 0) {
-      $img = $App->img("location_showcases", $showcase[0]["id"], 1335, 516, $showcase[0]["image_fingerprint"] . "-" . $showcase[0]["image_file_name"]);
+      if ($showcase[0]["image_fingerprint"] != null) {
+        $img = $App->img("location_showcases", $showcase[0]["id"], 1335, 516, $showcase[0]["image_fingerprint"] . "-" . $showcase[0]["image_file_name"]);
+      } else {
+        $img = $App->img("location_showcases", $showcase[0]["id"], 1335, 516, $showcase[0]["image_file_name"]);
+      }
     }
     
     $locale_events = $DB->getEventsForLocale($locale["id"]);
