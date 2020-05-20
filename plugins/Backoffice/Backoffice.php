@@ -750,7 +750,7 @@ class Backoffice {
         $photos = $DB->getLocalePhotos($id);
       
       if ($table == "events")
-        $photos = []; // to do    
+        $photos = $DB->getEventPhotos($id);   
       
       $html .= '<div>';
       $html .= '<b>Galleria immagini</b><br>';

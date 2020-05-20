@@ -1566,6 +1566,26 @@ class DB {
     return $result;
   }
   
+  public function getEventPhotos($id_evento)
+  {
+    $query = "
+      SELECT
+        *
+      FROM
+        photos
+      WHERE
+        site_id = ?
+        AND photoable_type = 'Event'
+        AND photoable_id = ?
+        ORDER BY position, id
+    ";
+    $result = $this->_getData($query, [
+      $this->_site,
+      $id_evento
+    ]);
+    return $result;
+  }
+  
   public function getLocalizzazioni($type, $id) {
     $query = "
       SELECT

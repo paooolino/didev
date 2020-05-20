@@ -2186,7 +2186,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       
       $DB->savePhoto(
         $id_location,
-        "Location",
+        $original_table == "events" ? "Event" : "Location",
         $r["POST"]["title"],
         $r["POST"]["position"]
       );
