@@ -11,4 +11,7 @@
           </div>
         </section>
 
+        <script>
+          var ajax_save_endpoint = '<?php echo $Link->Get("AJAX_SAVE"); ?>';
+        </script>
 <?php include("partials/footer_admin.php"); ?>
