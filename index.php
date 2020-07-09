@@ -681,6 +681,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
           "logo_img" => $logo_img,
           "event_image" => $event_image,
           "evento" => $evento,
+          "photos" => $DB->getEventPhotos($evento["id"]),
           "h3" => $evento["seo_footer"],
           "seoDescription" => $evento["seo_description"],
           "seoKeywords" => $evento["seo_keyword"],

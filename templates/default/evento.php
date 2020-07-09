@@ -131,7 +131,30 @@
             ?>
             
           </article>
-          
+              
+          <?php if (count($photos) > 0) { ?>
+          <section class="photos_wrap sheet" id="gallery">
+            <h3 class="toggle">
+              Photogallery <?php echo $locale["title"]; ?>
+              <i class="fa fa-angle-down"></i>
+            </h3>
+            <div class="contentToggle">
+              <div class="pgallery">
+                <?php foreach ($photos as $photo) { ?>
+                  <?php 
+                    $photourl = $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]);
+                    $photothumb = $App->img("photos", $photo["id"], 84, 56, $photo["image_file_name"]); 
+                  ?>              
+                  <a title="<?php echo $photo["title"]; ?>" rel="gallery" class="th" 
+                    href="<?php echo $photourl; ?>">
+                    <img alt="<?php echo $photo["title"]; ?>" title="<?php echo $photo["title"]; ?>" 
+                      src="<?php echo $photothumb; ?>"></a>
+                <?php } ?>
+              </div>
+            </div>
+          </section>
+          <?php } ?>
+      
           <?php if (count($map) == 1) { ?>
           <section class="sheet" id="map">
             <h3>
