@@ -1086,7 +1086,7 @@ class DB {
         locations
         ON location_visibilities.location_id = locations.id
       WHERE
-        location_visibilities.site_id = ?
+        locations.site_id = ?
         AND location_visibilities.type = "LocationVisibilityTypo"
         ' . $visibility_condition . '
         AND location_visibilities.typo_id = ?
