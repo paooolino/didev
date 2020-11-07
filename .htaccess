@@ -10,6 +10,7 @@ RewriteCond %{HTTP_HOST} !^didev\.cr
 RewriteCond %{HTTP_HOST} !^didev\.bs
 RewriteCond %{HTTP_HOST} !^didev\.bg
 RewriteCond %{HTTP_HOST} !^didev\.mi
+RewriteCond %{HTTP_HOST} !^didev\.vr
 
 # Redirect to https version
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

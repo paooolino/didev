@@ -1091,6 +1091,7 @@ class DB {
         ' . $visibility_condition . '
         AND location_visibilities.typo_id = ?
         AND locations.active = 1
+      GROUP BY locations.id
       ORDER BY
         location_visibilities.order ASC,
         
@@ -1099,12 +1100,17 @@ class DB {
         location_visibilities.id ASC
       ' . $limitcond;
 
-    /*echo $query;
+    // il group by locations.id nella query sopra elimina eventuali doppioni
+    // dati dall'inserimento probabilmente errato nella tabella location_visibilities
+    // che sarebbero da eliminare
+    /*
+    echo $query;
     print_r([
       $this->_site,
       $typo_id
     ]);
-    die();*/
+    die();
+    */
     $result = $this->_getData($query, [
       $this->_site,
       $typo_id
