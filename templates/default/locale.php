@@ -4,11 +4,11 @@
       "@context": "https://schema.org",
       "@type": "Organization",
 	  "logo": "<?php echo $logo_img; ?>",
-      "image": [
+      "photo": [
 		<?php
 		$photos_img = []; // <<<< qui 
 		foreach ($photos as $ph) { // <<<< qui è giusto che rimanga photos, metterei anche ph come variabile interna più breve
-		$photos_img[] = '"https:'. $App->img("photos", $ph["id"], 800, "H", $ph["image_file_name"]).'"';
+		$photos_img[] = ''. $App->img("photos", $ph["id"], 800, "H", $ph["image_file_name"]).'';
 		}
 		echo implode(',',$photos_img)
 		?>

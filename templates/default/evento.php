@@ -23,7 +23,7 @@
 	<?php
 	$photos_img = [];  
 	foreach ($photos as $ph) { 
-	$photos_img[] = '"https:'. $App->img("photos", $ph["id"], 800, "H", $ph["image_file_name"]).'"';
+	$photos_img[] = ''. $App->img("photos", $ph["id"], 800, "H", $ph["image_file_name"]).'';
 	}
 	echo implode(',',$photos_img)
 	?>
