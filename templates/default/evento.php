@@ -1,6 +1,42 @@
 <?php include("partials/header.php"); ?>
-<div class="row">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "<?php echo $evento["title"]; ?>",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+	"@type": "Place",
+	"name": "<?php echo $evento["locations_title"]; ?>",
+	"address": {
+	  "@type": "PostalAddress",
+	  "streetAddress": "<?php echo $evento["locations_address_way"]; ?> <?php echo $evento["locations_address_number"]; ?>",
+	  "addressLocality": "<?php echo $evento["locations_address_city"]; ?>",
+	  "postalCode": "<?php echo $evento["locations_address_zip"]; ?>",
+	  "addressRegion": "<?php echo $evento["address_province"]; ?>",
+	  "addressCountry": "IT"
+	}
+  },
+  "image": [
+	<?php 
+	$photos = [];
+	foreach ($photos as $photo) { 
+	$photos[] = '"'. $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]).'"';	
+	} 
+	echo implode(',',$photos)
+	?>
+   ],
+  "description": "{{seoDescription}}",
 
+  "organizer": {
+	"@type": "Organization",
+	"name": "{{Link|Get|LOCALE|<?php echo $evento["locations_title"]; ?>}}",
+	"url": "{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"
+  }
+}
+</script>
+<div class="row">
   <div class="small-12 large-9 columns">
     <section class="row" id="content">
       <div class="small-12 columns">
@@ -41,7 +77,7 @@
                 <span>presso</span>
                 <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
                 <?php } ?>
-              </span>
+              </span>>
               <h1 class="mainsummary"><?php echo $evento["title"]; ?></h1>
               <span class="address">
                 <i class="fa fa-map-marker color"></i>
