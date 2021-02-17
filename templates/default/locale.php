@@ -60,7 +60,7 @@
               $img = $App->img("location_showcases", $slide["id"], 1335, 516, $slide["image_file_name"]);
           ?>
           <div class="slide">
-            <img alt="Convento, lago di Garda" data-interchange="
+            <img alt="<?php echo $slide["title"]; ?>" data-interchange="
                 [<?php echo $img; ?>, (default)], 
                 [<?php echo $img; ?>, (small)], 
                 [<?php echo $img; ?>, (medium)], 
@@ -75,30 +75,30 @@
         <?php } ?>
       </div>
       <img id="logos" class="hide-for-large-up" src="<?php echo $logo_img; ?>" alt="Df6c727551ad634b0a77a003d1970e02 convento  dinner and dance music restaurantlonatodelgardalagogardalogo">
-      <div class="infos vcard h-card" itemscope="" itemtype="http://schema.org/Restaurant">
+      <div class="infos vcard h-card" >
         <img id="logos" class="show-for-large-up" src="<?php echo $logo_img; ?>" alt="Df6c727551ad634b0a77a003d1970e02 convento  dinner and dance music restaurantlonatodelgardalagogardalogo">
-        <h1 class="main_summary fn org p-name" itemprop="name"><?php echo $locale["title"]; ?></h1>
+        <h1 class="main_summary fn org p-name" ><?php echo $locale["title"]; ?></h1>
         <div class="show-for-large-up large">
-          <span class="bt rounded phones" itemprop="ContactPoint" itemscope="" itemtype="http://schema.org/ContactPoint">
+          <span class="bt rounded phones" >
             <i class="fa fa-phone"></i>
-            <span itemprop="contactType">INFO E PRENOTAZIONI:</span>
-            <span class="phone" itemprop="servicePhone"><?php echo $locale["phone"]; ?></span>
+            <span>INFO E PRENOTAZIONI:</span>
+            <span class="phone" ><?php echo $locale["phone"]; ?></span>
             <?php if ($locale["mobile"] != "") { ?>
               - 
-            <span class="phone" itemprop="servicePhone"><?php echo $locale["mobile"]; ?></span>
+            <span class="phone" ><?php echo $locale["mobile"]; ?></span>
             <?php } ?>
           </span>
           <?php if ($locale["email"] != "") { ?>
           <span>
-            <a aria-haspopup="" class="has-tip bt white rounded email u-email" data-galabel="Link_MAIL" data-gavalue="<?php echo $locale["title"]; ?>" data-tooltip="" href="mailto:<?php echo $locale["email"]; ?>" itemprop="email" data-selector="tooltip-jc2h9dut0" aria-describedby="tooltip-jc2h9dut0" title="">
+            <a aria-haspopup="" class="has-tip bt white rounded email u-email" data-galabel="Link_MAIL" data-gavalue="<?php echo $locale["title"]; ?>" data-tooltip="" href="mailto:<?php echo $locale["email"]; ?>" data-selector="tooltip-jc2h9dut0" aria-describedby="tooltip-jc2h9dut0" title="">
             <i class="fa fa-paper-plane"></i>
             email
             </a>
           </span>
           <?php } ?>
           <?php if ($locale["url"] != "") { ?>
-          <span itemscope="" itemtype="http://schema.org/Thing">
-            <a class="bt gray rounded website url u-url" data-galabel="Link_WEB" data-gavalue="<?php echo $locale["title"]; ?>" href="<?php echo $locale["url"]; ?>" itemprop="url" rel="nofollow" title="sito web, blog, ecc...">
+          <span >
+            <a class="bt gray rounded website url u-url" data-galabel="Link_WEB" data-gavalue="<?php echo $locale["title"]; ?>" href="<?php echo $locale["url"]; ?>" rel="nofollow" title="sito web, blog, ecc...">
             <i class="fa fa-globe"></i>
             Sito web
             </a>
@@ -118,41 +118,32 @@
           <?php } ?>
         </div>
         <div class="address">
-          <span class="adr" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+          <span class="adr" >
             <i class="fa fa-map-marker color"></i>
-            <span class="street-address" itemprop="streetAddress"><?php echo $locale["address_way"]; ?>, <?php echo $locale["address_number"]; ?> - </span>
-            <span class="postal-code" itemprop="postalCode"><?php echo $locale["address_zip"]; ?> - </span>
-            <span class="locality" itemprop="addressLocality"><?php echo $locale["address_city"]; ?>, </span>
-            <span class="region" itemprop="addressRegion">(<?php echo $locale["address_province"]; ?>)</span>
-            <span class="country-name" itemprop="addressCountry">, IT</span>
+            <span class="street-address" i><?php echo $locale["address_way"]; ?>, <?php echo $locale["address_number"]; ?> - </span>
+            <span class="postal-code" ><?php echo $locale["address_zip"]; ?> - </span>
+            <span class="locality" ><?php echo $locale["address_city"]; ?>, </span>
+            <span class="region" >(<?php echo $locale["address_province"]; ?>)</span>
+            <span class="country-name" >, IT</span>
           </span>
            - 
           <a title="" class="show-map" href="#" onclick="jQuery('html,body').animate({scrollTop: $('#maps').offset().top},'slow');">vedi mappa</a>
         </div>
         <div class="hide-for-large-up not-large">
           <?php if ($locale["email"] != "") { ?>
-          <a aria-haspopup="" class="has-tip bt white rounded email u-email" data-galabel="Link_MAIL" data-gavalue="<?php echo $locale["title"]; ?>" data-tooltip="" href="mailto:<?php echo $locale["email"]; ?>" itemprop="email" data-selector="tooltip-jc2h9dut1" aria-describedby="tooltip-jc2h9dut1" title="">
+          <a aria-haspopup="" class="has-tip bt white rounded email u-email" data-galabel="Link_MAIL" data-gavalue="<?php echo $locale["title"]; ?>" data-tooltip="" href="mailto:<?php echo $locale["email"]; ?>" data-selector="tooltip-jc2h9dut1" aria-describedby="tooltip-jc2h9dut1" title="">
             <i class="fa fa-paper-plane"></i>
             email
           </a>
           <?php } ?>
           <?php if ($locale["url"] != "") { ?>
-          <a class="bt gray rounded website url u-url" data-galabel="Link_WEB" data-gavalue="<?php echo $locale["title"]; ?>" href="<?php echo $locale["url"]; ?>" itemprop="url" rel="nofollow" title="sito web, blog, ecc...">
+          <a class="bt gray rounded website url u-url" data-galabel="Link_WEB" data-gavalue="<?php echo $locale["title"]; ?>" href="<?php echo $locale["url"]; ?>" rel="nofollow" title="sito web, blog, ecc...">
             <i class="fa fa-globe"></i>
             Sito web
           </a>
           <?php } ?>
         </div>
-        <span class="geo" itemprop="geo" itemscope="" itemtype="http://schema.org/GeoCoordinates">
-          <meta content="45.4604" itemprop="latitude">
-          <meta content="10.4944" itemprop="longitude">
-          <span class="latitude">
-            <span class="value-title" title="45.4604"></span>
-          </span>
-          <span class="longitude">
-            <span class="value-title" title="10.4944"></span>
-          </span>
-        </span>
+        
       </div>
     </div>
   </div>
