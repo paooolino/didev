@@ -4,7 +4,7 @@
       "@context": "https://schema.org",
       "@type": "Organization",
 	  "logo": "<?php echo $logo_img; ?>",
-      "image": [
+      "photo": [
 		<?php
 		$photos_img = [];  
 		foreach ($photos as $ph) { 
