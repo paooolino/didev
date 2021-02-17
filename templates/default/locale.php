@@ -3,16 +3,16 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-	  "logo": "https:<?php echo $logo_img; ?>",
+	  "logo": "<?php echo $logo_img; ?>",
       "image": [
-	<?php
-	$photos_img = [];  
-	foreach ($photos as $ph) { 
-	$photos_img[] = '"https:'. $App->img("photos_img", $ph["id"], 800, "H", $ph["image_file_name"]).'"';
-	}
-	echo implode(',',$photos_img)
-	?>
-   ],
+		<?php
+		$photos_img = []; // <<<< qui 
+		foreach ($photos as $ph) { // <<<< qui è giusto che rimanga photos, metterei anche ph come variabile interna più breve
+		$photos_img[] = '"https:'. $App->img("photos", $ph["id"], 800, "H", $ph["image_file_name"]).'"';
+		}
+		echo implode(',',$photos_img)
+		?>
+   	],
       "name": "<?php echo $locale["title"]; ?>",
       "address": {
 		"@type": "PostalAddress",
