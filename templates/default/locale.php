@@ -1,4 +1,36 @@
 <?php include("partials/header.php"); ?>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+	  "logo": "https:<?php echo $logo_img; ?>",
+      "image": [
+		<?php 
+		$photos = [];
+		foreach ($photos as $photo) { 
+		$photos[] = '"https:'. $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]).'"';	
+		} 
+		echo implode(',',$photos)
+		?>
+	   ],
+      "name": "<?php echo $locale["title"]; ?>",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "<?php echo $locale["address_way"]; ?> <?php echo $locale["address_number"]; ?>",
+	  "addressLocality": "<?php echo $locale["address_city"]; ?>",
+	  "postalCode": "<?php echo $locale["address_zip"]; ?>",
+	  "addressRegion": "<?php echo $locale["province"]; ?>",
+	  "addressCountry": "IT"
+      },
+      <?php /*?>"geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 37.293058,
+        "longitude": -121.988331
+      },<?php */?>
+      "url": "<?php echo $locale["seo_url"]; ?>",
+      "telephone": "<?php echo $locale["phone"]; ?>"
+    }
+    </script>
 
 <section class="row headbox">
   <div class="small-12 columns">
