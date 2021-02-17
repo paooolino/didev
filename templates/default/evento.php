@@ -9,6 +9,7 @@
   "location": {
 	"@type": "Place",
 	"name": "<?php echo $evento["locations_title"]; ?>",
+	"telephone": "<?php echo $evento["locations_phone"]; ?>",
 	"address": {
 	  "@type": "PostalAddress",
 	  "streetAddress": "<?php echo $evento["locations_address_way"]; ?> <?php echo $evento["locations_address_number"]; ?>",
@@ -77,7 +78,7 @@
                 <span>presso</span>
                 <a title="<?php echo $evento["locations_title"]; ?>" href="{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"><?php echo $evento["locations_title"]; ?></a>
                 <?php } ?>
-              </span>>
+              </span>
               <h1 class="mainsummary"><?php echo $evento["title"]; ?></h1>
               <span class="address">
                 <i class="fa fa-map-marker color"></i>
@@ -194,7 +195,7 @@
           <?php if (count($map) == 1) { ?>
           <section class="sheet" id="map">
             <h3>
-              Mappa
+              <?php echo $evento["locations_title"]; ?>: come arrivare.
             </h3>
             <div class="contentToggle">
               <p><?php echo $map[0]["address"]; ?></p>
