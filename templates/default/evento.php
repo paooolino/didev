@@ -22,7 +22,7 @@
 	<?php 
 	$photos = [];
 	foreach ($photos as $photo) { 
-	$photos[] = '"'. $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]).'"';	
+	$photos[] = '"https:'. $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]).'"';	
 	} 
 	echo implode(',',$photos)
 	?>
@@ -31,8 +31,8 @@
 
   "organizer": {
 	"@type": "Organization",
-	"name": "{{Link|Get|LOCALE|<?php echo $evento["locations_title"]; ?>}}",
-	"url": "{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"
+	"name": "https:{{Link|Get|LOCALE|<?php echo $evento["locations_title"]; ?>}}",
+	"url": "https:{{Link|Get|LOCALE|<?php echo $evento["locations_seo_url"]; ?>}}"
   }
 }
 </script>
