@@ -15,12 +15,12 @@
 	   ],
       "name": "<?php echo $locale["title"]; ?>",
       "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "<?php echo $locale["address_way"]; ?> <?php echo $locale["address_number"]; ?>",
-	  "addressLocality": "<?php echo $locale["address_city"]; ?>",
-	  "postalCode": "<?php echo $locale["address_zip"]; ?>",
-	  "addressRegion": "<?php echo $locale["province"]; ?>",
-	  "addressCountry": "IT"
+		"@type": "PostalAddress",
+		"streetAddress": "<?php echo $locale["address_way"]; ?> <?php echo $locale["address_number"]; ?>",
+		"addressLocality": "<?php echo $locale["address_city"]; ?>",
+		"postalCode": "<?php echo $locale["address_zip"]; ?>",
+		"addressRegion": "<?php echo $locale["address_province"]; ?>",
+		"addressCountry": "IT"
       },
       <?php /*?>"geo": {
         "@type": "GeoCoordinates",
@@ -30,6 +30,7 @@
       "url": "https:<?php echo $locale["seo_url"]; ?>",
 	  "email": "<?php echo $locale["email"]; ?>",
       "telephone": "<?php echo $locale["phone"]; ?>"
+	  "tel": "<?php echo $locale["mobile"]; ?>"
     }
     </script>
 
