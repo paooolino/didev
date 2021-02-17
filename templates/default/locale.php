@@ -5,14 +5,14 @@
       "@type": "Organization",
 	  "logo": "https:<?php echo $logo_img; ?>",
       "image": [
-		<?php 
-		$photos = [];
-		foreach ($photos as $photo) { 
-		$photos[] = '"https:'. $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]).'"';	
-		} 
-		echo implode(',',$photos)
-		?>
-	   ],
+	<?php
+	$photos_img = [];  
+	foreach ($photos as $ph) { 
+	$photos_img[] = '"https:'. $App->img("photos_img", $ph["id"], 800, "H", $ph["image_file_name"]).'"';
+	}
+	echo implode(',',$photos_img)
+	?>
+   ],
       "name": "<?php echo $locale["title"]; ?>",
       "address": {
 		"@type": "PostalAddress",
@@ -27,7 +27,7 @@
         "latitude": 37.293058,
         "longitude": -121.988331
       },<?php */?>
-      "url": "https:<?php echo $locale["seo_url"]; ?>",
+      "url": "https:{{Link|Get|LOCALE|<?php echo $locale["seo_url"]; ?>}}",
 	  "email": "<?php echo $locale["email"]; ?>",
       "telephone": "<?php echo $locale["phone"]; ?>",
 	  "tel": "<?php echo $locale["mobile"]; ?>"

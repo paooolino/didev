@@ -20,12 +20,12 @@
 	}
   },
   "image": [
-	<?php 
-	$photos = [];
-	foreach ($photos as $photo) { 
-	$photos[] = '"https:'. $App->img("photos", $photo["id"], 800, "H", $photo["image_file_name"]).'"';	
-	} 
-	echo implode(',',$photos)
+	<?php
+	$photos_img = [];  
+	foreach ($photos as $ph) { 
+	$photos_img[] = '"https:'. $App->img("photos_img", $ph["id"], 800, "H", $ph["image_file_name"]).'"';
+	}
+	echo implode(',',$photos_img)
 	?>
    ],
   "description": "{{seoDescription}}",
