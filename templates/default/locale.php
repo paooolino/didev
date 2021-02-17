@@ -29,7 +29,7 @@
       },<?php */?>
       "url": "https:<?php echo $locale["seo_url"]; ?>",
 	  "email": "<?php echo $locale["email"]; ?>",
-      "telephone": "<?php echo $locale["phone"]; ?>"
+      "telephone": "<?php echo $locale["phone"]; ?>",
 	  "tel": "<?php echo $locale["mobile"]; ?>"
     }
     </script>
