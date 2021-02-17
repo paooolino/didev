@@ -27,7 +27,8 @@
         "latitude": 37.293058,
         "longitude": -121.988331
       },<?php */?>
-      "url": "<?php echo $locale["seo_url"]; ?>",
+      "url": "https:<?php echo $locale["seo_url"]; ?>",
+	  "email": "<?php echo $locale["email"]; ?>",
       "telephone": "<?php echo $locale["phone"]; ?>"
     }
     </script>
@@ -166,6 +167,7 @@
           <h2 class="subsummary text-justify sub_summary">
             <?php echo $locale["sub_title"]; ?>
           </h2>
+			<p>Date le numerose e frequenti modifiche alle <strong>restrizioni imposte per il COVID (coronavirus)</strong> ti preghiamo di contattare il locale prima di organizzare la tua serata.</p>
           <?php echo $locale["description"]; ?>
 
 <?php if (isset($locale["ads"]) && $locale["ads"] == 0) {} else { ?>
