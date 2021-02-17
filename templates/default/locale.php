@@ -22,11 +22,13 @@
 		"addressRegion": "<?php echo $locale["address_province"]; ?>",
 		"addressCountry": "IT"
       },
-      <?php /*?>"geo": {
+      <?php if(isset($map[0])) { ?>
+      "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 37.293058,
-        "longitude": -121.988331
-      },<?php */?>
+        "latitude": <?php echo $map[0]["lat"]; ?>,
+        "longitude": <?php echo $map[0]["lng"]; ?>
+      },
+      <?php } ?>
       "url": "https:{{Link|Get|LOCALE|<?php echo $locale["seo_url"]; ?>}}",
 	  "email": "<?php echo $locale["email"]; ?>",
       "telephone": "<?php echo $locale["phone"]; ?>",
