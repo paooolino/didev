@@ -1455,7 +1455,7 @@ class DB {
       WHERE L.site_id = ?
       AND L.location_id = ?
       AND time_to > NOW()
-      AND events.active = 1
+      AND E.active = 1
       ORDER BY time_from
     ";
     $result = $this->_getData($query, [
