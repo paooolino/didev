@@ -691,6 +691,7 @@ class DB {
       WHERE
         events.site_id = ?
         AND (events.recurrent_id IS NULL OR (events.recurrent_id IS NOT NULL AND recurrents.id IS NOT NULL AND recurrents.active = 1))
+        AND events.active = 1
         $wherecond
         $timecond
       GROUP BY id
@@ -1454,6 +1455,7 @@ class DB {
       WHERE L.site_id = ?
       AND L.location_id = ?
       AND time_to > NOW()
+      AND events.active = 1
       ORDER BY time_from
     ";
     $result = $this->_getData($query, [
@@ -1535,6 +1537,7 @@ class DB {
         events
       WHERE
         events.site_id = ?
+        AND events.active = 1
         AND (
           seo_title LIKE ?
           OR description LIKE ?
@@ -1803,6 +1806,7 @@ class DB {
         events.site_id = ?
         AND time_to > NOW()
         AND locations.active = 1
+        AND events.active = 1
         
         AND cat_btw_events.cat_id = ?
         
@@ -1846,6 +1850,7 @@ class DB {
         events.site_id = ?
         $timecond
         AND locations.active = 1
+        AND events.active = 1
         
         AND holiday_btw_events.holiday_id = ?
         

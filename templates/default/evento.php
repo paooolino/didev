@@ -104,7 +104,9 @@
             <?php if ($evento["expired"]) { ?>
             <div class="expired">
               <span class="notice bt gray rounded">! questo evento è scaduto !</span>
+              <?php if ($evento["locations_seo_url"]) { ?>
               <a class="next_events bt rounded" href="<?php echo $Link->Get(["LOCALE", $evento["locations_seo_url"]]); ?>">Guarda gli eventi aggiornati</a>
+              <?php } ?>
             </div>
             <?php } ?>
             
