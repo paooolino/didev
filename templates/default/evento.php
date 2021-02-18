@@ -7,7 +7,7 @@
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "eventStatus": "https://schema.org/EventScheduled",
   "startDate": "<?php echo explode(" " , $evento["time_from"])[0]; ?>",
-  "endDate": "<?php echo explode(" " , $evento["time_to"])[0]; ?>",
+  "endDate": "<?php echo explode(" " , $evento["time_from"])[0]; ?>",
   "location": {
 	"@type": "Place",
 	"name": "<?php echo $evento["locations_title"]; ?>",
