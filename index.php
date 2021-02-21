@@ -1,6 +1,6 @@
 <?php
 //error_reporting(E_ALL);
-ini_set("display_errors", 0);
+ini_set("display_errors", 1);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
 //var_dump($result);
@@ -825,7 +825,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     $DB = $machine->plugin("DB");
     $cat = $DB->getCategoriaLocali($slug_categoria);
     list($z1, $z2) = $DB->getZonesListForCategoriaLocaliLettera($slug_categoria, $lettera);
-    $tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
+    //$tutti = $DB->getListCategoriaLocali($slug_categoria, false, 1, true);
+    $tutti = $DB->getListCategoriaLocaliByTypoId($cat["id"], false, 1, true);
     $empty_letters = $App->getEmptyLetters(array_map(function($item) {
       return $item["title"];
     }, $tutti));

@@ -1069,8 +1069,53 @@ class DB {
     if (!$all) {
       $visibility_condition = ' AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) ';
     }
+    // estraggo i locali partendo dalla query precedente e non da location_visibilities.
+    // in questo modo escludo a monte i locali inseriti in location_visibilities
+    // che però non hanno più la tipologia associata.
     $query = '
       SELECT
+        location_visibilities.id as main_id,
+        location_visibilities.level as level,
+        location_visibilities.expire_at as expire_at,
+        location_visibilities.location_id,
+        typo_btw_sites.title as typo_title,
+        location_visibilities.expire_at <= NOW() as scaduto,
+        locations.*
+      FROM
+        typo_btw_locations
+      LEFT JOIN 
+		  location_visibilities
+        ON location_visibilities.typo_id = typo_btw_locations.typo_id 
+		  AND location_visibilities.location_id = typo_btw_locations.location_id
+      LEFT JOIN
+        typo_btw_sites 
+        ON location_visibilities.typo_id = typo_btw_sites.id
+      LEFT JOIN
+        locations
+        ON location_visibilities.location_id = locations.id
+      WHERE
+        locations.site_id = ?
+        AND location_visibilities.type = "LocationVisibilityTypo"
+        ' . $visibility_condition . '
+        AND location_visibilities.typo_id = ?
+        AND locations.active = 1
+      GROUP BY locations.id
+      ORDER BY
+        location_visibilities.order ASC,
+        
+        location_visibilities.level DESC,
+        location_visibilities.expire_at DESC,
+        location_visibilities.id ASC
+    ' . $limitcond;
+    
+    // il problema con la query precedente (qui sotto) è che se un locale
+    // veniva inserito in location_visibilities (dalla query iniziale) e poi
+    // disassociato dalla tipologia, il record in location_visibilities non
+    // viene cancellato per cui risultava nell'elenco anche se non apparteneva
+    // più alla tipologia.
+    
+    /*
+    '  SELECT
         location_visibilities.id as main_id,
         location_visibilities.level as level,
         location_visibilities.expire_at as expire_at,
@@ -1100,7 +1145,8 @@ class DB {
         location_visibilities.expire_at DESC,
         location_visibilities.id ASC
       ' . $limitcond;
-
+    */
+    
     // il group by locations.id nella query sopra elimina eventuali doppioni
     // dati dall'inserimento probabilmente errato nella tabella location_visibilities
     // che sarebbero da eliminare
@@ -1133,7 +1179,11 @@ class DB {
         typo_btw_sites.title as typo_title,
         locations.*
       FROM
+        typo_btw_locations
+      LEFT JOIN 
         location_visibilities
+          ON location_visibilities.typo_id = typo_btw_locations.typo_id 
+          AND location_visibilities.location_id = typo_btw_locations.location_id
       LEFT JOIN 
         typo_btw_sites
         ON location_visibilities.typo_id = typo_btw_sites.id
@@ -1225,9 +1275,13 @@ class DB {
         location_visibilities.id as main_id,
         location_visibilities.level as level,
         location_visibilities.*,
-		  locations.*
+        locations.*
       FROM
+        typo_btw_locations
+      LEFT JOIN 
         location_visibilities
+        ON location_visibilities.typo_id = typo_btw_locations.typo_id 
+        AND location_visibilities.location_id = typo_btw_locations.location_id
       LEFT JOIN 
         typo_btw_sites
         ON location_visibilities.typo_id = typo_btw_sites.id
