@@ -717,7 +717,7 @@ footer {
   border: 1px solid #fff;
   z-index: 1000; }
 
-#heading .infos.card {
+#heading .infos.card{
   font-size: 0.85rem;
   position: relative;
   background: #303030 url("../images/front/bg-infos.jpg") repeat-x 0 0;

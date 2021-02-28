@@ -79,7 +79,7 @@
         <?php } ?>
       </div>
       <img id="logos" class="hide-for-large-up" src="<?php echo $logo_img; ?>" alt="Df6c727551ad634b0a77a003d1970e02 convento  dinner and dance music restaurantlonatodelgardalagogardalogo">
-      <div class="infos card" >
+      <div class="infos card">
         <img id="logos" class="show-for-large-up" src="<?php echo $logo_img; ?>" alt="Df6c727551ad634b0a77a003d1970e02 convento  dinner and dance music restaurantlonatodelgardalagogardalogo">
         <h1 class="main_summary fn org p-name" ><?php echo $locale["title"]; ?></h1>
         <div class="show-for-large-up large">
