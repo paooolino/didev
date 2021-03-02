@@ -663,6 +663,12 @@ class DB {
     return $items;
   }
   
+  public function getGoogleAnalyticsCode() {
+    $sql = "SELECT * FROM site_services WHERE site_id = ? AND title='google_analytics_id'";
+    $result = $this->select($sql, [$this->_site]);
+    return $result[0]["code"];
+  }
+  
   public function getEventsFromDB($wherecond="", $limitcond="", $past=false, $forcedordcond="") {
     $ordcond = 'time_to ASC';
     $timecond = 'AND time_to > NOW()';

@@ -7,7 +7,7 @@
               <?php if ($disable_new == false) { ?>
               <a class="btn button" href="{{Link|Get|ADMIN_NEWTABLE|<?php echo $table; ?>}}">Nuovo</a>
               <?php } ?>
-              <div class="tablecontainer" style="overflow:scroll;">
+              <div class="tablecontainer" style="min-height:600px;overflow:scroll;">
                 {{tableHtml}}
               </div>
             </div>

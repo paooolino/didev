@@ -124,6 +124,8 @@ class App {
       "imageUrl" => $topBanner["id"] != "" ? $this->img("banners", $topBanner["id"], 728, 90, $topBanner["image_file_name"]) : "",
       "currentCity" => $currentCity[0]["name"],
       "cities" => $cities,
+      "google_analytics_code" => $DB->getGoogleAnalyticsCode(),
+      "domain" => $currentCity[0]["url"],
       "codeCustomHeader" => $DB->getCodeCustomHeader(),
       "codeCustomFooter" => $DB->getCodeCustomFooter()
     ];
@@ -561,26 +563,29 @@ class App {
   {
     $items = [];
     
-    $items[] = [
-      "url" => "http://www.facebook.com/discotechebrescia",
-      "class" => "facebook",
-      "classicon" => "fa-facebook",
-      "title" => "collegamento esterno: Facebook"
-    ];
+    // facebook
+    $sql = "SELECT * FROM site_services WHERE site_id = ? AND title='facebook_id'";
+    $result = $this->DB->select($sql, [$this->DB->getSite()]);
+    if (count($result) == 1 && $result[0]["code"] != "") {
+      $items[] = [
+        "url" => "http://www.facebook.com/" . $result[0]["code"],
+        "class" => "facebook",
+        "classicon" => "fa-facebook",
+        "title" => "collegamento esterno: Facebook"
+      ];
+    }
     
-    $items[] = [
-      "url" => "https://twitter.com/#!/DiscotecheBS",
-      "class" => "twitter",
-      "classicon" => "fa-twitter",
-      "title" => "collegamento esterno: Twitter"
-    ];
-    
-    $items[] = [
-      "url" => "https://plus.google.com/+discotechebrescia",
-      "class" => "google_plus",
-      "classicon" => "fa-google-plus",
-      "title" => "collegamento esterno: Google +"
-    ];
+    // facebook
+    $sql = "SELECT * FROM site_services WHERE site_id = ? AND title='twitter_id'";
+    $result = $this->DB->select($sql, [$this->DB->getSite()]);
+    if (count($result) == 1 && $result[0]["code"] != "") {
+      $items[] = [
+        "url" => "https://twitter.com/#!/" . $result[0]["code"],
+        "class" => "twitter",
+        "classicon" => "fa-twitter",
+        "title" => "collegamento esterno: Twitter"
+      ];
+    }
     
     $items[] = [
       "url" => "/rss/prossimi-eventi.xml",
@@ -890,6 +895,12 @@ class App {
         "label" => "Opzioni Siti",
         "url" => $this->_machine->plugin("Link")->Get("/admin/sites"),
         "title" => "Opzioni Siti",
+        "iconclass" => "fa fa-table"
+      ],
+      [
+        "label" => "Servizi Siti",
+        "url" => $this->_machine->plugin("Link")->Get("/admin/site_services"),
+        "title" => "Servizi Siti",
         "iconclass" => "fa fa-table"
       ]
     ]);

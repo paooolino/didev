@@ -1600,5 +1600,34 @@
         "label": "Visibile"
       }
     ]
+  },
+  "site_services": {
+    "field_id": "id",
+    "featured": [],
+    "sitefield": "site_id",
+    "featured": ["id", "title", "code"],
+    "fields": [
+      {
+        "name": "title",
+        "label": "servizio",
+        "type": "select",
+        "options": {
+          "facebook_id": "facebook_id",
+          "google_analytics_id": "google_analytics_id",
+          "shinystat_id": "shinystat_id",
+          "twitter_id": "twitter_id",
+          "google_plus_id": "google_plus_id",
+          "facebook_app_id": "facebook_app_id",
+          "twitter_api_consumer_key": "twitter_api_consumer_key",
+          "twitter_api_consumer_secret": "twitter_api_consumer_secret",
+          "twitter_api_access_token": "twitter_api_access_token",
+          "twitter_api_access_token_secret": "twitter_api_access_token_secret"
+        }
+      },
+      {
+        "name": "code",
+        "label": "contenuto"
+      }
+    ]
   }
 }

@@ -203,7 +203,43 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   $Link->setRoute("SEND_OK", "/form/send-ok");
   
   
-   
+  $machine->addPage("/rss/prossimi-eventi.xml", function($machine) {
+    $DB = $machine->plugin("DB");
+    $events = $DB->getEventsFromDB("AND events.active = 1");
+    $currentCity = $DB->getCurrentCity();  
+    
+    $rss_items = '';
+    foreach ($events as $ev) {
+      $rss_items .= '
+<item>
+  <title>' . $ev["title"] . '</title>
+  <link>https://www.' . $currentCity[0]["url"] . $ev["seo_url"] . '</link>
+  <description>' . substr($description, 0, 120) . '</description>
+  <guid>' . $currentCity[0]["url"] . $ev["seo_url"] . '</guid>
+</item>
+      ';
+    }
+    
+    $title = count($events) . " eventi a " . $currentCity[0]["name"] . " - www." . $currentCity[0]["url"];
+    $link = 'https://www.' . $currentCity[0]["url"];
+    $description = "";
+    $rss = '
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>' . $title . '</title>
+    <link>' . $link . '</link>
+    <description>' . $description . '</description>
+    ' . trim($rss_items) . '
+  </channel>
+</rss>
+    ';
+    
+    header('Content-Type: application/rss+xml; charset=utf-8');
+    echo trim($rss);
+    die();
+  });
+  
   /**
    *  Home page
    */
