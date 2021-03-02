@@ -214,7 +214,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 <item>
   <title>' . $ev["title"] . '</title>
   <link>https://www.' . $currentCity[0]["url"] . $ev["seo_url"] . '</link>
-  <description>' . substr($description, 0, 120) . '</description>
+  <description><![CDATA[' . substr($ev["description"], 0, 120) . ']]></description>
   <guid>' . $currentCity[0]["url"] . $ev["seo_url"] . '</guid>
 </item>
       ';

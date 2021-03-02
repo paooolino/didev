@@ -70,7 +70,7 @@
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap" data-equalizer>
     <div class="tab-bar show-for-small small_logo" data-equalizer>
-      <a title="Discoteche Brescia" href="{{Link|Get|HOME}}"><img alt="Discoteche Brescia" src="{{templatePath}}images/front/small/logo-discoteche-italia.png" /></a>
+      <a title="Discoteche <?php echo $currentCity; ?>" href="{{Link|Get|HOME}}"><img alt="Discoteche <?php echo $currentCity; ?>" src="{{templatePath}}images/front/small/logo-discoteche-italia.png" /></a>
       <section class="right-small">
         <a class="right-off-canvas-toggle menu-icon" href="#">
           <span></span>
