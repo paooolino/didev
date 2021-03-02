@@ -1,5 +1,5 @@
     <div class="show-for-medium-up" data-equalizer-watch id="sidebar">
-      <a title="Discoteche Brescia" href="{{Link|Get|HOME}}"><img alt="Discoteche Brescia" src="{{templatePath}}images/front/logo-discoteche-italia.png" /></a>
+      <a title="Discoteche <?php echo $currentCity; ?>" href="{{Link|Get|HOME}}"><img alt="Discoteche <?php echo $currentCity; ?>" src="{{templatePath}}images/front/logo-discoteche-italia.png" /></a>
       <nav class="mainMenu">
         <div class="row">
           <div class="large-12 columns">
