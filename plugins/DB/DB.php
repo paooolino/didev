@@ -1055,7 +1055,7 @@ class DB {
           $this->_site,
           $r["location_id"],
           $typo_id,
-          0,
+          1,  // di default: silver (mail di Ale del 3/3/21)
           date("Y-m-d H:i:s"),
           date("Y-m-d H:i:s"),
           'LocationVisibilityTypo',
