@@ -914,7 +914,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       "data" => array_merge($App->getCommonData(), [
         "cat" => $cat,
         "zona" => $zona,
-        "list" => $DB->getListCategoriaLocaliZona($slug_categoria, $zona["id"]),
+        "list" => $DB->getListCategoriaLocaliZona($slug_categoria, false, $zona["id"]),
         "bodyclass" => "locations typology_locations",
         "seoTitle" => $cat["seo_title"],
         "h3" => $cat["seo_footer"],
@@ -2253,7 +2253,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
       $endpoint = $Link->Get(["CATEGORIA_LOCALI_ORDERACTION", $id_cat]);
       $extern_table = "location_visibilities";
       $field_id = "id";
-      $list = $DB->getListCategoriaLocaliZona($cat["seo_url"], $id_zone);
+      $list = $DB->getListCategoriaLocaliZona($cat["seo_url"], true, $id_zone);
       $html = '<br><a href="' . $Link->Get(["ADMIN_RECORD", "typo_btw_sites", $id_cat]) . '"><<< Torna a ' . $cat["title"] . '</a>'
         . '<br><br>' . $Backoffice->getHtmlOrderList($endpoint, $extern_table, $field_id, $list);
       return [

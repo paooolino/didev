@@ -1215,11 +1215,10 @@ class DB {
   }
   
   // lato front le zone sono filtrate per categoria
-  public function getListCategoriaLocaliZona($slug_categoria, $zona) {
+  public function getListCategoriaLocaliZona($slug_categoria, $all=false, $zona) {  
     // prima controllo se ci sono dei locali associati a zona che non sono
     // ancora presenti nella tabella location_visibilities, e in caso li
     // inserisco
-    
     $cat = $this->getCatBySlug($slug_categoria); 
     $query = "
       SELECT
@@ -1266,7 +1265,7 @@ class DB {
           $r["location_id"],
           $cat["id"],
           $zona,
-          0,
+          1,
           date("Y-m-d H:i:s"),
           date("Y-m-d H:i:s"),
           'LocationVisibilityTypoZone',
@@ -1276,6 +1275,10 @@ class DB {
       }
     }
     
+    $visibility_condition = "";
+    if (!$all) {
+      $visibility_condition = ' AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0) ';
+    }  
     $query = '
       SELECT
         location_visibilities.id as main_id,
@@ -1294,11 +1297,12 @@ class DB {
       LEFT JOIN
         locations
         ON location_visibilities.location_id = locations.id
+      LEFT JOIN zone_btw_locations ON zone_btw_locations.location_id = typo_btw_locations.location_id
 		WHERE
         location_visibilities.site_id = ?
         AND location_visibilities.type = "LocationVisibilityTypoZone"
-        AND zone_id = ?
-        AND (location_visibilities.expire_at > NOW() || location_visibilities.level = 0)
+        AND zone_btw_locations.zone_id = ?
+        ' . $visibility_condition . '
         AND typo_btw_sites.seo_url = ?
         AND locations.active = 1
       ORDER BY
