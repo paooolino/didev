@@ -1,6 +1,7 @@
 <?php
 //error_reporting(E_ALL);
 ini_set("display_errors", 1);
+set_time_limit(300);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
 //var_dump($result);

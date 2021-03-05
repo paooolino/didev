@@ -648,6 +648,7 @@
     "featured": ["id", "typo_id", "title", "address_city", "on_home", "ads"],
     "orderBy": "title",
     "sitefield": "site_id",
+    "activeCondition": "active = 1",
     "fields": [
       {
         "type": "openbox",
