@@ -850,7 +850,8 @@ class Backoffice {
           $row[$f["name"]] = date("Y-m-d 22:00:00");
         }
         if ($f["name"] == "time_to") {
-          $row[$f["name"]] = date("Y-m-d 23:59:00", strtotime("+2 month"));
+          //$row[$f["name"]] = date("Y-m-d 23:59:00", strtotime("+2 month"));
+          $row[$f["name"]] = date("Y-m-d 23:59:00");
         }
       }
     }
