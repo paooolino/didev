@@ -1305,6 +1305,7 @@ class DB {
         ' . $visibility_condition . '
         AND typo_btw_sites.seo_url = ?
         AND locations.active = 1
+      GROUP BY locations.id
       ORDER BY
         location_visibilities.order ASC,
         
