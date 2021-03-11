@@ -1507,7 +1507,7 @@
   },
   "typo_btw_sites": {
     "field_id": "id",
-    "featured": ["id", "title", "menu", "active"],
+    "featured": ["id", "title", "menu", "active", "position"],
     "orderBy": "position",
     "sitefield": "site_id",
     "activeCondition": "active = 1",
@@ -1599,6 +1599,10 @@
         "name": "active",
         "type": "checkbox",
         "label": "Visibile"
+      },
+      {
+        "name": "position",
+        "label": "posizione"
       }
     ]
   },
