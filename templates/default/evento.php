@@ -177,7 +177,7 @@
           <?php if (count($photos) > 0) { ?>
           <section class="photos_wrap sheet" id="gallery">
             <h3 class="toggle">
-              Photogallery <?php echo $locale["title"]; ?>
+              Photogallery <?php $evento["locations_title"]; ?>
               <i class="fa fa-angle-down"></i>
             </h3>
             <div class="contentToggle">
