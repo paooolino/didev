@@ -1,0 +1,82 @@
+/* @group TAGS    ############################# */
+body {margin:0;padding:0;font-family: Arial, Verdana, sans-serif;font-size: 12px; line-height:18px;color: #fff; background:#000 url(../images/bg-body.jpg) no-repeat center top;}
+* { margin:0px; padding:0px;}
+h1, h2, h3, h4, h5, h6, p {font-size: 12px;}
+p{ padding-bottom:10px; color:#828282; text-align: justify;}
+a img, map {border:none;}
+a {color: #0054fe;text-decoration: none;}
+a:hover {color:#0054fe;text-decoration:underline;}
+ul, ol, li {}
+ul{ list-style:inside; padding:0 0 0 15px;}
+ul li{ list-style-type:square; padding:5px 0 5px 0px;}
+ol{ list-style:inside;}
+ol li{ padding:5px 0 5px 10px;}
+table {width:100%;border-collapse: collapse;}
+form {}
+fieldset {border: none;}
+input, textarea, select {font-family: Arial, Verdana, sans-serif;border: 1px solid #dcdcdc;padding: 3px 6px;color: #444444;background: #fff;}
+select {padding: 3px 2px;}
+input:focus, textarea:focus, select:focus {border-color: #0054fe;}
+option {}
+textarea, select {font-size: 100%;font-family: inherit;}
+button {font-size: 100%;font-family: inherit;cursor:pointer;color: #fff;background: #e2007a;padding: 3px 6px ;border:none;margin: 0 10px 0 0; text-transform:uppercase;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;}
+button.reset {color: #629aa9;}
+button:hover {background: #ed2e95;border:none;}
+input[type="checkbox"]{ background:#fff; border:none;  width:25px !important;}
+/* @end */
+
+/* @group TYPOGRAPHY    ############################ */
+h1{ padding:10px 0; font-size:18px;}
+/* @end */
+
+/* @group CLASSI GENERICHE    ############################ */
+.jst {text-align:justify;}
+.aLeft {float:left;margin:0 10px 5px 0;}
+.aRight {float:right;margin:0 0 5px 10px;}
+.noBrd {border: none;}
+.close {clear:both;}
+/* @end */
+
+
+
+/* @group ELEMENTI STRUTTURALI    ############################ */
+#container { width:600px; background:url(../images/bg-black.png) repeat 0 0; border:1px solid #2c2520; margin:30px auto 25px auto; padding:30px; }
+#logo{ text-align:center; margin:10px 0 20px 0;}
+nav{ width:280px; margin:0 auto 30px auto;}
+nav ul{ margin:30px 0 0 0; padding:0; list-style:none; font-size:14px;}
+nav ul li{ color:#828282; margin:0; padding:0; list-style:none;  margin-bottom:1px; line-height:30px; text-align:center;}
+nav ul li span{text-transform:uppercase; display:block; background:#000 url(../images/bg-nav-li.jpg) repeat-x 0 0; color:#fff; padding:0 10px;}
+nav ul li a{text-transform:uppercase; display:block; background:#f6741d url(../images/bg-nav-li-a.jpg) repeat-x 0 0; color:#000; padding:0 10px;}
+nav ul li a:hover{ background:#f68d1d; color:#000; text-decoration:none;}
+footer { text-align:center; margin:20px 0 0 0;border-top:1px solid #2c2520; padding:20px 0 0 0;}
+footer p{ text-align:center; font-size:11px; padding:0;}
+/* @end */
+
+/* @group FORM   ############################ */
+/* @end */
+
+/*		Tablet Layout: 768px. */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+}
+
+/*		Mobile Layout: 320px. */
+@media only screen and (max-width: 480px) {
+}
+
+
+/*		Wide Mobile Layout: 480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+}
+	
+	/*	Retina media query.
+	Overrides styles for devices with a 
+	device-pixel-ratio of 2+, such as iPhone 4.
+-----------------------------------------------    */
+@media 
+	only screen and (-webkit-min-device-pixel-ratio: 2),
+	only screen and (min-device-pixel-ratio: 2) {	
+}
+/* @end */
+
+/*		Eccezzione per sfondo superiore a 992. */
+@media only screen and (min-width: 992px) {body{ background-attachment:fixed;}}
