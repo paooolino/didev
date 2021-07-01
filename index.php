@@ -1,5 +1,5 @@
 <?php
-header("location:index.html");
+header("location:/index.html");
 die();
 
 //error_reporting(E_ALL);
