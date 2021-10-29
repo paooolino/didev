@@ -170,8 +170,7 @@
           <h2 class="subsummary text-justify sub_summary">
             <?php echo $locale["sub_title"]; ?>
           </h2>
-			<p>Date le numerose e frequenti modifiche alle <strong>restrizioni imposte per il COVID (coronavirus)</strong> ti preghiamo di contattare il locale prima di organizzare la tua serata.</p>
-          <?php echo $locale["description"]; ?>
+			    <?php echo $locale["description"]; ?>
 
 <?php if (isset($locale["ads"]) && $locale["ads"] == 0) {} else { ?>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
