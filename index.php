@@ -56,6 +56,7 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   // DB plugin: BEFORE App
   //$dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
   $dbopts = parse_url(getenv('PRODUCTION_DATABASE_URL'));
+  //$dbopts = parse_url(getenv('LOCAL_DATABASE_URL'));
   $conn = $DB->setupMySql(
     // host
     $dbopts["host"],

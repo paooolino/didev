@@ -1017,7 +1017,8 @@ class DB {
     // prima controllo se ci sono dei locali associati a categoria che non sono
     // ancora presenti nella tabella location_visibilities, e in caso li
     // inserisco
-    
+    // 17/06/2022 ho eliminato la condizione WHERE typo_btw_locations.site_id = ?
+    //   in questo modo posso includere anche categorie associate da siti diversi
     $query = "
       SELECT
         typo_btw_locations.*,
@@ -1032,11 +1033,10 @@ class DB {
 			AND location_visibilities.location_id = typo_btw_locations.location_id
 			AND location_visibilities.type = 'LocationVisibilityTypo'
       WHERE
-        typo_btw_locations.site_id = ?
-        AND typo_btw_locations.typo_id = ?
+        typo_btw_locations.typo_id = ?
       ";
     $result2 = $this->_getData_nocache($query, [
-      $this->_site,
+      //$this->_site,
       $typo_id
     ]);
     foreach ($result2 as $r) {
@@ -1078,6 +1078,7 @@ class DB {
     // estraggo i locali partendo dalla query precedente e non da location_visibilities.
     // in questo modo escludo a monte i locali inseriti in location_visibilities
     // che però non hanno più la tipologia associata.
+    // 17/06/2022 ho tolto la condizione WHERE locations.site_id = ? (vedi comm. sopra)
     $query = '
       SELECT
         location_visibilities.id as main_id,
@@ -1100,8 +1101,7 @@ class DB {
         locations
         ON location_visibilities.location_id = locations.id
       WHERE
-        locations.site_id = ?
-        AND location_visibilities.type = "LocationVisibilityTypo"
+        location_visibilities.type = "LocationVisibilityTypo"
         ' . $visibility_condition . '
         AND location_visibilities.typo_id = ?
         AND locations.active = 1
@@ -1165,7 +1165,6 @@ class DB {
     die();
     */
     $result = $this->_getData($query, [
-      $this->_site,
       $typo_id
     ]);
     return $result;

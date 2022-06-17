@@ -519,6 +519,11 @@ class Backoffice {
   private function _getSelectOptions($table, $fieldname) {
     $fo = $this->getFieldOptions($table, $fieldname);
     
+    /*
+    if ($fieldname == "typo_ids[]") {
+      print_r($fo);die();
+    }
+    */
     if (isset($fo["options"])) {
       return $fo["options"];
     }    
@@ -527,12 +532,13 @@ class Backoffice {
       && isset($fo["select_key"])
       && isset($fo["select_value"])
     ) {
-      
       $options = [];
       $query = $fo["query"];
       $select_key = $fo["select_key"];
       $select_value = $fo["select_value"];
       $params = [$this->_machine->plugin("DB")->getSite()];
+      if (isset($fo["exclude_siteparam"]))
+        $params = [];
       $results = $this->_machine->plugin("DB")->select($query, $params);
       foreach ($results as $r) {
         $options[$r[$select_key]] = $r[$select_value];

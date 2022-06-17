@@ -736,10 +736,12 @@
           "name": "typo_ids[]",
           "label": "tipologie",
           "type": "manytomany",
-          "query": "SELECT * FROM typo_btw_sites WHERE site_id = ?",
+          "oldquery": "SELECT * FROM typo_btw_sites WHERE site_id = ?",
+          "query": "SELECT typo_btw_sites.id, CONCAT(sites.title_small, ' - ', typo_btw_sites.title) AS title FROM typo_btw_sites LEFT JOIN sites ON site_id = sites.id WHERE typo_btw_sites.active = 1 ORDER BY typo_btw_sites.site_id",
           "queryvalues": "SELECT typo_id FROM typo_btw_locations WHERE location_id = ?",
           "select_key": "id",
-          "select_value": "title"
+          "select_value": "title",
+          "exclude_siteparam": true
         },
         {
           "name": "music_ids[]",
