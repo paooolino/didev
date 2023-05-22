@@ -2,7 +2,7 @@
     <footer class="row">
       <h3>{{h3}}</h3>
       <ul class="navFooter inline-list text-center">
-        <li>
+        <li style="margin-right:20px;">
         <a href="{{Link|Get|PAGINA|staff}}" title="Chi siamo &amp; staff">
         Chi siamo
         </a>
