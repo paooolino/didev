@@ -15,7 +15,13 @@
         </li>
         <?php } ?>
       </ul>
-      <p>ARS di Alberto Ragnoli - Via X Giornate 14, Castel Mella 25030 - BRESCIA ITALY - P.IVA 03304640984 <br /> Iscrizione presso la Camera di Commercio di Brescia, REA 52265<br />Copyright 2006-<?php echo date("Y"); ?> - Ogni riproduzione, anche parziale, è vietata</p>
+      <p>
+        ARS di Alberto Ragnoli - Via X Giornate 14, Castel Mella 25030 - BRESCIA ITALY - P.IVA 03304640984 <br /> 
+        Iscrizione presso la Camera di Commercio di Brescia, REA 52265<br />
+        <a href="https://www.iubenda.com/privacy-policy/77450896" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe " title="Privacy Policy ">Privacy Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script> -
+        <a href="https://www.iubenda.com/privacy-policy/77450896/cookie-policy" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe " title="Cookie Policy ">Cookie Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script><br>
+        Copyright 2006-<?php echo date("Y"); ?> - Ogni riproduzione, anche parziale, è vietata
+      </p>
     </footer>
     <span class="rounded" id="totop">
       <i class="fa fa-angle-up fa-lg"></i>
