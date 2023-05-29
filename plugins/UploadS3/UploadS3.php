@@ -36,17 +36,19 @@ class UploadS3 {
   private $bucketOld;
 	private $IAM_KEY;
 	private $IAM_SECRET;
+  private $cloudfront_domain_name;
   private $s3;
   public $add_date_to_uploadpath;
   public $UPLOADS_HOST;
   
   public function __construct($engine) {
-    $this->UPLOADS_HOST = getenv("UPLOADS_HOST");
+    $this->UPLOADS_HOST = getenv("UPLOADS_HOST"); // s3.amazonaws.com/storage2.discotecheitalia.it/
     $this->_engine = $engine;
     $this->_uploadpath = "uploads/";
     $this->add_date_to_uploadpath = true;
-    
-    $this->bucketName = getenv('S3_BUCKET_NAME');
+    $this->cloudfront_domain_name = 'd1skd1casehdj2.cloudfront.net';
+
+    $this->bucketName = getenv('S3_BUCKET_NAME'); // storage2.discotecheitalia.it
     $this->bucketOld = getenv('S3_BUCKET_OLD');
     $this->IAM_KEY = getenv('S3_IAM_KEY');
     $this->IAM_SECRET = getenv('S3_IAM_SECRET');
@@ -88,7 +90,8 @@ class UploadS3 {
   
   public function get($path) {
     //return "http://s3.amazonaws.com/" . $this->bucketName . "/" . $path;
-    return "https://" . $this->UPLOADS_HOST . $path;
+    return "https://" . $this->cloudfront_domain_name . "/" . $path;
+    //return "https://" . $this->UPLOADS_HOST . $path;
   }
 
   public function getObject($key) {
