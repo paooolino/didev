@@ -49,6 +49,8 @@
 
 <link rel="shortcut icon" type="image/x-icon" href="{{templatePath}}images/front/favicon.ico" />
 <?php echo $codeCustomHeader; ?>
+<!-- analytics -->
+<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_code; ?>"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '<?php echo $google_analytics_code; ?>'); </script>
 </head>
 <body class="front tenant-bs <?php echo $bodyclass; ?>">
 <?php if (isset($locale) && isset($locale["ads"]) && $locale["ads"] == 0) {} else { ?>
@@ -60,8 +62,6 @@
     enable_page_level_ads: true
   });
 </script>
-<!-- analytics -->
-<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_code; ?>"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '<?php echo $google_analytics_code; ?>'); </script>
 <?php } ?>
 
 <div class="off-canvas-wrap" data-offcanvas>
