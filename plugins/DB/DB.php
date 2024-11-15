@@ -35,6 +35,7 @@ class DB {
       );
       
       // Esegui SET GLOBAL separatamente
+      // questo non funziona ma lo lascio. L'ssl l'ho disabilitato da pannello heroku
       $this->_conn->exec('SET GLOBAL require_secure_transport=OFF');
       
       return $this->_conn;
