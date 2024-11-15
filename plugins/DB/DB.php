@@ -35,7 +35,7 @@ class DB {
       );
       
       // Esegui SET GLOBAL separatamente
-      $this->_conn->exec('SET GLOBAL require_secure_transport="OFF"');
+      $this->_conn->exec('SET GLOBAL require_secure_transport=OFF');
       
       return $this->_conn;
     } catch (PDOException $e) {
