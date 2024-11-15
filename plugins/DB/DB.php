@@ -30,7 +30,7 @@ class DB {
         $db_pass,
         array(PDO::MYSQL_ATTR_INIT_COMMAND => '
           SET NAMES utf8,
-          sql_mode="NO_ZERO_IN_DATE,​NO_ZERO_DATE,​ERROR_FOR_DIVISION_BY_ZERO,​NO_ENGINE_SUBSTITUTION"
+          sql_mode=""
         ')
       );
       
