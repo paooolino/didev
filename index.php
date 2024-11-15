@@ -1,6 +1,6 @@
 <?php
 //error_reporting(E_ALL);
-ini_set("display_errors", 0);
+//ini_set("display_errors", 0);
 set_time_limit(300);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
@@ -55,7 +55,6 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   // DB plugin: BEFORE App
   //$dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
-  //$dbopts = parse_url(getenv('LOCAL_DATABASE_URL'));
   $dbopts = parse_url(getenv('PRODUCTION_DATABASE_URL'));
   $conn = $DB->setupMySql(
     // host
