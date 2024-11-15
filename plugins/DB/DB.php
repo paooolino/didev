@@ -29,11 +29,14 @@ class DB {
         $db_user, 
         $db_pass,
         array(PDO::MYSQL_ATTR_INIT_COMMAND => '
-          SET NAMES utf8, 
-          require_secure_transport="OFF",
+          SET NAMES utf8,
           sql_mode="NO_ZERO_IN_DATE,​NO_ZERO_DATE,​ERROR_FOR_DIVISION_BY_ZERO,​NO_ENGINE_SUBSTITUTION"
         ')
       );
+      
+      // Esegui SET GLOBAL separatamente
+      $this->_conn->exec('SET GLOBAL require_secure_transport="OFF"');
+      
       return $this->_conn;
     } catch (PDOException $e) {
       echo $e->getMessage();
