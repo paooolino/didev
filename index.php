@@ -1,6 +1,6 @@
 <?php
 //error_reporting(E_ALL);
-//ini_set("display_errors", 1);
+ini_set("display_errors", 0);
 set_time_limit(300);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
 //$result = setlocale(LC_ALL, 0);
@@ -55,8 +55,10 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
   
   // DB plugin: BEFORE App
   //$dbopts = parse_url(getenv('VHOSTING_DATABASE_URL'));
-  $dbopts = parse_url(getenv('PRODUCTION_DATABASE_URL'));
+  //$dbopts = parse_url("mysql://b8c687af90f0d3:8a9736f9@us-cdbr-east-06.cleardb.net/heroku_fe4025b10f6b406");
+  //$dbopts = parse_url("mysql://root:tYmxYbNj1fnzSI7hiqq4w02Y7sxT8FpG@1fpu64.stackhero-network.com:3579/discos");
   //$dbopts = parse_url(getenv('LOCAL_DATABASE_URL'));
+  $dbopts = parse_url(getenv('PRODUCTION_DATABASE_URL'));
   $conn = $DB->setupMySql(
     // host
     $dbopts["host"],
@@ -65,7 +67,8 @@ setlocale(LC_TIME, "ita.UTF-8", "it_IT");
     // password
     $dbopts["pass"],
     // db name
-    ltrim($dbopts["path"],'/')
+    ltrim($dbopts["path"],'/'),
+    $dbopts["port"]
   );
   if (!is_object($conn)) { die("db connection error"); };
 
