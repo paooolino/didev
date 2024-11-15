@@ -28,7 +28,7 @@ class DB {
         'mysql:host=' . $db_host . ';dbname=' . $db_name, 
         $db_user, 
         $db_pass,
-        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8; SET sql_mode='NO_ZERO_IN_DATE,​NO_ZERO_DATE,​ERROR_FOR_DIVISION_BY_ZERO,​NO_ENGINE_SUBSTITUTION'")
+        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
       );
       return $this->_conn;
     } catch (PDOException $e) {
