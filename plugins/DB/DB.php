@@ -22,10 +22,10 @@ class DB {
     $this->pool = new \Stash\Pool($driver);
   }
   
-  public function setupMySql($db_host, $db_user, $db_pass, $db_name) {
+  public function setupMySql($db_host, $db_user, $db_pass, $db_name, $db_port=3306) {
     try {
       $this->_conn = new PDO(
-        'mysql:host=' . $db_host . ';dbname=' . $db_name, 
+        'mysql:host=' . $db_host . ';port=' . $db_port . ';dbname=' . $db_name, 
         $db_user, 
         $db_pass,
         array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
