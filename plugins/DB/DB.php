@@ -28,10 +28,15 @@ class DB {
         'mysql:host=' . $db_host . ';port=' . $db_port . ';dbname=' . $db_name, 
         $db_user, 
         $db_pass,
-        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+        array(PDO::MYSQL_ATTR_INIT_COMMAND => '
+          SET NAMES utf8, 
+          require_secure_transport="OFF"
+          sql_mode="NO_ZERO_IN_DATE,​NO_ZERO_DATE,​ERROR_FOR_DIVISION_BY_ZERO,​NO_ENGINE_SUBSTITUTION"
+        ')
       );
       return $this->_conn;
     } catch (PDOException $e) {
+      echo $e->getMessage();
       return false;
       //die("db connection error");
     }
