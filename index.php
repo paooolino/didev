@@ -1,5 +1,7 @@
 <?php
-//error_reporting(E_ALL);
+if (isset($_GET["debuggg"])) {
+  error_reporting(E_ALL);
+}
 //ini_set("display_errors", 0);
 set_time_limit(300);
 setlocale(LC_TIME, "ita.UTF-8", "it_IT");
