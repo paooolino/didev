@@ -428,10 +428,18 @@ class WebEngine
         }
         $this->add_debug_info("route callback defined in: " . $reflFunc->getFileName() . ':' . $reflFunc->getStartLine());
         // execute route callback.
-        $result = call_user_func_array(
-          $route_matchinfo["callback"], 
-          $route_matchinfo["params"]
-        );
+        // try..catch aggiunto il 25/11/2026 per evitare questo problema
+        // Fatal error: Uncaught Error: Unknown named parameter $slug_evento in /app/src/WebEngine.php:431 Stack trace: #0 /app/src/WebEngine.php(431): call_user_func_array() #1 /app/index.php(2686): WebEngine\WebEngine->run() #2 {main} thrown in /app/src/WebEngine.php on line 431
+        try {
+          $result = call_user_func_array(
+            $route_matchinfo["callback"], 
+            $route_matchinfo["params"]
+          );
+        } catch (\Throwable $e) {
+          print_r($route_matchinfo["params"]);
+          die();
+        }
+
         // the callback may set some response. if not, look for the template.
         if ($this->_response["code"] == "") {
           if (isset($result["data"]) && $result["template"]) {
