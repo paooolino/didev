@@ -438,9 +438,9 @@ class WebEngine
         } catch (\Throwable $e) {
           echo $e->getMessage();
 
-          header('Content-Type: text/plain; charset=utf-8');
-          var_dump(gettype($route_matchinfo["params"]), $route_matchinfo["params"]);
-          exit;
+          //header('Content-Type: text/plain; charset=utf-8');
+          //var_dump(gettype($route_matchinfo["params"]), $route_matchinfo["params"]);
+          //exit;
 
           //print_r($route_matchinfo["params"]);
           //die();
