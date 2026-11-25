@@ -436,8 +436,14 @@ class WebEngine
             $route_matchinfo["params"]
           );
         } catch (\Throwable $e) {
-          print_r($route_matchinfo["params"]);
-          die();
+          echo $e->getMessage();
+
+          header('Content-Type: text/plain; charset=utf-8');
+          var_dump(gettype($route_matchinfo["params"]), $route_matchinfo["params"]);
+          exit;
+
+          //print_r($route_matchinfo["params"]);
+          //die();
         }
 
         // the callback may set some response. if not, look for the template.
