@@ -217,7 +217,11 @@ class DB {
   public function select($query, $data)
   {
     $sth = $this->_conn->prepare($query);
-    $sth->execute($data);
+    try {
+      $sth->execute($data);
+    } catch (PDOException $e) {
+      echo "ERROR executing query " . $query . " with data " . json_encode($data) . ": " . $e->getMessage();die();  
+    }
     return $sth->fetchAll(\PDO::FETCH_ASSOC);
   }
   
