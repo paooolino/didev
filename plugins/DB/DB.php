@@ -217,6 +217,19 @@ class DB {
   public function select($query, $data)
   {
     $sth = $this->_conn->prepare($query);
+
+    // controllo aggiunto il 25/11/2026: il numero di ? nella query deve essere uguale al numero di elementi in $data
+    $num_placeholders = substr_count($query, '?');
+    // questo succede sulla query delle nazioni 
+    // ERROR executing query SELECT * FROM nations with data [1]: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+    if ($num_placeholders == 0) {
+      $data = [];
+    }
+    // questa è una protezione nel caso in cui ci fossero altre query interessate dal problema
+    if ($num_placeholders !== count($data)) {
+      echo "ERROR: Number of placeholders in query does not match number of data elements. Query: " . $query . ", Data: " . json_encode($data);die();
+    }
+
     try {
       $sth->execute($data);
     } catch (PDOException $e) {
