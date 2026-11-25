@@ -430,21 +430,29 @@ class WebEngine
         // execute route callback.
         // try..catch aggiunto il 25/11/2026 per evitare questo problema
         // Fatal error: Uncaught Error: Unknown named parameter $slug_evento in /app/src/WebEngine.php:431 Stack trace: #0 /app/src/WebEngine.php(431): call_user_func_array() #1 /app/index.php(2686): WebEngine\WebEngine->run() #2 {main} thrown in /app/src/WebEngine.php on line 431
-        try {
+        if (isset($_GET["debuggg"])) {
+          try {
+            $result = call_user_func_array(
+              $route_matchinfo["callback"], 
+              $route_matchinfo["params"]
+            );
+          } catch (\Throwable $e) {
+            echo $e->getMessage();
+
+            //header('Content-Type: text/plain; charset=utf-8');
+            //var_dump(gettype($route_matchinfo["params"]), $route_matchinfo["params"]);
+            //exit;
+
+            //print_r($route_matchinfo["params"]);
+            //die();
+          }
+        } else {
           $result = call_user_func_array(
             $route_matchinfo["callback"], 
             $route_matchinfo["params"]
           );
-        } catch (\Throwable $e) {
-          echo $e->getMessage();
-
-          //header('Content-Type: text/plain; charset=utf-8');
-          //var_dump(gettype($route_matchinfo["params"]), $route_matchinfo["params"]);
-          //exit;
-
-          //print_r($route_matchinfo["params"]);
-          //die();
         }
+
 
         // the callback may set some response. if not, look for the template.
         if ($this->_response["code"] == "") {
